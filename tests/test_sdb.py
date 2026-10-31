@@ -176,12 +176,20 @@ def test_push_rejects_sdb_error_with_zero_exit(monkeypatch) -> None:
         client.push(Path("probe"), Path("/invalid/probe"))
 
 
-def test_capture_stages_oversized_command(monkeypatch) -> None:
+@pytest.mark.parametrize("default_newline", [None, "\r\n"], ids=["native", "windows"])
+def test_capture_stages_oversized_command(monkeypatch, default_newline) -> None:
     client = SdbClient(Path("sdb"), "192.0.2.50")
     staged: dict[str, object] = {}
+    path_write_text = Path.write_text
+
+    def write_text(path: Path, data: str, **kwargs) -> int:
+        kwargs.setdefault("newline", default_newline)
+        return path_write_text(path, data, **kwargs)
 
     def push(local_path: Path, remote_path: Path) -> None:
-        staged["script"] = local_path.read_text(encoding="utf-8")
+        script = local_path.read_bytes()
+        staged["script_bytes"] = script
+        staged["script"] = script.decode("utf-8")
         staged["remote_path"] = remote_path
 
     def inject(command: str, **kwargs) -> subprocess.CompletedProcess[str]:
@@ -195,9 +203,11 @@ def test_capture_stages_oversized_command(monkeypatch) -> None:
 
     monkeypatch.setattr(client, "push", push)
     monkeypatch.setattr(client, "inject", inject)
+    monkeypatch.setattr(Path, "write_text", write_text)
 
+    command = "set -eu\nprintf '" + ("x" * 1000) + "'"
     result = client.capture(
-        "printf '" + ("x" * 1000) + "'",
+        command,
         callback_host="127.0.0.1",
         bind_host="127.0.0.1",
         timeout=1.0,
@@ -213,6 +223,8 @@ def test_capture_stages_oversized_command(monkeypatch) -> None:
     assert str(staged["script"]).startswith(
         f"/bin/rm -f {staged['remote_path']}\n"
     )
+    assert b"\r" not in staged["script_bytes"]
+    assert command.encode("utf-8") in staged["script_bytes"]
 
 
 def test_capture_timeout_reports_active_listener_and_injection_exit(monkeypatch) -> None:
