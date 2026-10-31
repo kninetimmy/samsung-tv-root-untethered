@@ -41,6 +41,19 @@ On Windows, use `py -3.12` and `.venv\Scripts\python.exe`. When running from a
 source checkout, preflight needs only Python and `sdb`; root commands also
 require the .NET 6 SDK and one `make payloads` build. Building the archive route
 for TVs with only a .NET 3.1 runtime also requires a .NET 3.1 targeting pack.
+The archive route needs OpenSSL on the host's `PATH` for per-session signing.
+
+To build only its two .NET 3.1 payloads on Windows, run these commands from
+the repository root with a .NET SDK installed:
+
+```powershell
+dotnet build payloads/common/SamsungTvArchiveRoot.csproj -p:TargetFramework=netcoreapp3.1 --configuration Release --output payloads/common31/out
+dotnet build payloads/common/SamsungTvRootAgent.csproj -p:TargetFramework=netcoreapp3.1 --configuration Release --output payloads/common31/out
+```
+
+The SDK restores the required reference packages. These builds do not require
+installing the .NET 3.1 runtime on the PC; the controller generates the TV runtime
+configuration when it stages a session.
 
 ## 4. Save the TV profile
 
@@ -110,6 +123,9 @@ until the authenticated UID 0 callback succeeds:
 This route was live-tested on QN90B and QN90F. It does not yet provide an
 interactive shell, disable UEP, or replace the controller's root method. It
 cleans its per-run TV staging files after a normal session.
+Both `archive-root probe` and `archive-root root` stage and execute a root
+payload. `probe` checks authenticated root acquisition without running a user
+command; it is not a read-only preflight.
 
 ## 6. Keep root available
 

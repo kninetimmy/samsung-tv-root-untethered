@@ -5,6 +5,21 @@
 > source-checkout-specific procedures. Start with the
 > [quick start](../../QUICKSTART.md) for normal use.
 
+## Additional firmware observations
+
+On 2026-10-31, a `QN55QN90BAFXZA` running
+`T-PTMAKUC-REL-202602250225` passed preflight as `compatible-untested`:
+Tizen6/TV 6.5.0 (arm), Linux 5.4.77, ARMv7, with the expected FDET device and
+PontusM memory layout. SDK metadata checks also confirmed the archive route's
+effective capabilities, tar `--to-command` support, and an active .NET 3.1.3
+runtime at `/usr/share/dotnet.tizen/netcoreapp`. Samsung's `dotnet` rejects
+`--list-runtimes` on this firmware, so detection must resolve that active runtime
+and check its runtime files.
+
+These observations verify prerequisites only. Root acquisition, cleanup after
+a root session, UEP changes, and untethered startup have not been tested on this
+firmware. The tested root and UEP boundaries below refer to the older build.
+
 ## Target
 
 - Samsung `QN55QN90BAFXZA`
