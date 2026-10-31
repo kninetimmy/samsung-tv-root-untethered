@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import re
 import subprocess
 import sys
@@ -7,6 +8,11 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+DOCUMENTATION_IMAGES = {
+    "docs/assets/boot-agent-v4-on-tv.png": (
+        "7c1dfabfb569835d2633b32144bfc6ba960c5e0ac8bc028c14cd49475fd72618"
+    ),
+}
 IGNORED_DIRECTORIES = {
     ".git",
     ".pytest_cache",
@@ -105,6 +111,11 @@ def audit() -> list[str]:
         for magic, description in FORBIDDEN_MAGIC.items():
             if data.startswith(magic):
                 failures.append(f"{description} content is not allowed: {relative}")
+        image_hash = DOCUMENTATION_IMAGES.get(relative.as_posix())
+        if image_hash is not None:
+            if hashlib.sha256(data).hexdigest() != image_hash:
+                failures.append(f"documentation image changed; review required: {relative}")
+            continue
         try:
             text = data.decode("utf-8")
         except UnicodeDecodeError:

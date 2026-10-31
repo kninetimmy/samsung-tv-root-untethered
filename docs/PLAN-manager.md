@@ -4,6 +4,9 @@
 **Upstream:** `chris-ritsen/samsung-tv-root` · **Working issue:** https://github.com/chris-ritsen/samsung-tv-root/issues/1
 **Inspiration:** https://github.com/GLinnik21/plx-native (LG webOS native Plex client; this project's "step in that direction" is a native, self-rooting, module-managed Tizen TV)
 
+Network addresses below are documentation examples. Substitute the TV's and
+controller's actual LAN addresses when running commands.
+
 **Live checkpoint (2026-10-09):** M1 bridge, M2 boot agent, and M3 module runner
 are working on the TV. M4 v5.2 was deployed locally (not committed or pushed),
 then cold-booted with Developer Mode `Host PC IP=127.0.0.1`. The TV returned in
@@ -47,8 +50,8 @@ Everything else in this doc hangs off those two.
 | Model | QN55Q60BAFXZC (Samsung Q60B 55"), platform `22_NIKEL_UHD` |
 | OS | Tizen 6.5.0 (`Tizen6/TV`), kernel `Linux Samsung 5.4.77 armv7l` |
 | Build | `T-NKLBAKUC-REL-202602250226`, software `T-NKLBAKUC-1720.7` |
-| LAN | TV at `192.168.68.60`, owner's Mac at `192.168.68.59` (DHCP — assume both may change) |
-| Dev mode | ON, survives reboots. Enable via `Apps → Settings gear → 12345`. Host PC IP currently `192.168.68.59` |
+| LAN examples | TV at `192.0.2.50`, controller at `192.0.2.10`; substitute actual DHCP addresses |
+| Dev mode | ON, survives reboots. Enable via `Apps → Settings gear → 12345`. Host PC IP must be the controller's actual LAN address (`192.0.2.10` in examples) |
 | Auto-update | OFF (keep it that way) |
 
 ### 1.2 What is deployed on the TV right now
@@ -101,7 +104,7 @@ gid=0`, CapEff full, bind-mounted passwd view visible inside the namespace).**
 ### 1.4 How to get a root shell on the TV today (maintenance access)
 
 With devIP set to the Mac's IP (as now): `~/samsung-tv-root/.venv/bin/python -m
-samsung_tv_root --sdb ~/tizen-studio/tools/sdb archive-root root 192.168.68.60 --command '<sh>'`
+samsung_tv_root --sdb ~/tizen-studio/tools/sdb archive-root root 192.0.2.50 --command '<sh>'`
 (prints JSON incl. uid/euid 0). The helper script pattern used all session:
 `python3 /tmp/rj.py '<command>'` (same thing, human-readable). **After any TV reboot,
 run `sdb kill-server && sdb start-server` on the Mac before connecting** (§2.9).
@@ -535,14 +538,14 @@ Keep both updated as work proceeds; the MANIFEST.md there is the running lab not
 
 ```sh
 # discovery / status (works no matter devIP):
-curl -m 5 -s http://192.168.68.60:8001/api/v2/          # devMode, developerIP, model…
+curl -m 5 -s http://192.0.2.50:8001/api/v2/          # devMode, developerIP, model…
 
 # sdb connect (Mac), after TV reboot: kill-server/start-server first
-~/tizen-studio/tools/sdb connect 192.168.68.60:26101
+~/tizen-studio/tools/sdb connect 192.0.2.50:26101
 
 # root shell as JSON (when devIP = Mac's IP):
 ~/samsung-tv-root/.venv/bin/python -m samsung_tv_root \
-  --sdb ~/tizen-studio/tools/sdb archive-root root 192.168.68.60 --command 'id'
+  --sdb ~/tizen-studio/tools/sdb archive-root root 192.0.2.50 --command 'id'
 
 # payload build (Mac, SDK 10): see §2.10 recipe; outputs payloads/common31/out/
 # agent build: TV_FRAMEWORK_DIR=…/dotnet.tizen/framework dotnet build boot-agent -c Release

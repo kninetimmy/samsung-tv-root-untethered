@@ -45,6 +45,25 @@ def test_archive_route_accepts_an_unlisted_tv_without_a_model_name() -> None:
             "6.0",
         ),
         (
+            "Microsoft.NETCore.App 3.1.3 [/usr/share/dotnet/shared/Microsoft.NETCore.App]\n"
+            "Microsoft.NETCore.App 6.0.0 [/usr/share/dotnet/shared/Microsoft.NETCore.App]",
+            "6.0",
+        ),
+        (None, "3.1"),
+        (
+            "Microsoft.NETCore.App 3.0.0 [/usr/share/dotnet/shared/Microsoft.NETCore.App]",
+            None,
+        ),
+        (
+            "Microsoft.NETCore.App 3.2.0 [/usr/share/dotnet/shared/Microsoft.NETCore.App]",
+            None,
+        ),
+        (
+            "Microsoft.NETCore.App 5.0.0 [/usr/share/dotnet/shared/Microsoft.NETCore.App]",
+            None,
+        ),
+        ("", None),
+        (
             "Microsoft.AspNetCore.App 8.0.1 [/usr/share/dotnet/shared/Microsoft.AspNetCore.App]",
             None,
         ),
@@ -71,7 +90,11 @@ def test_archive_route_selects_payload_from_target_runtime(runtimes, expected) -
                     "/usr/sbin/sdbd-tarlauncher cap_setgid,cap_setuid=eip"
                 )
             elif "--list-runtimes" in command:
+                if runtimes is None:
+                    return CaptureResult("Unknown option --list-runtimes.\n[exit:255]\n", 1)
                 output = runtimes
+            elif command == "readlink -f /usr/share/dotnet.tizen/netcoreapp":
+                output = "/usr/share/dotnet/shared/Microsoft.NETCore.App/3.1.3"
             elif "tar --help" in command:
                 output = "--to-command"
             else:
@@ -84,6 +107,43 @@ def test_archive_route_selects_payload_from_target_runtime(runtimes, expected) -
     else:
         assessment = _check_target(Client())
         assert assessment.runtime == expected
+
+
+@pytest.mark.parametrize(
+    ("runtime_path", "readable"),
+    (
+        ("/usr/share/dotnet/shared/Microsoft.NETCore.App/3.0.0", True),
+        ("/usr/share/dotnet.tizen/netcoreapp", True),
+        ("/usr/share/dotnet/shared/Microsoft.NETCore.App/3.1.3", False),
+    ),
+)
+def test_archive_route_rejects_unusable_active_runtime(runtime_path, readable) -> None:
+    from samsung_tv_root.archive_root import ArchiveRootError, _runtime
+    from samsung_tv_root.sdb import CaptureResult
+
+    class Client:
+        def capture(self, command, timeout=15):
+            if "--list-runtimes" in command:
+                return CaptureResult("Unknown option --list-runtimes.\n[exit:255]\n", 1)
+            if command.startswith("readlink"):
+                return CaptureResult(runtime_path + "\n[exit:0]\n", 0)
+            return CaptureResult(f"\n[exit:{0 if readable else 1}]\n", 0)
+
+    with pytest.raises(ArchiveRootError):
+        _runtime(Client())
+
+
+def test_archive_route_preserves_runtime_command_failure() -> None:
+    from samsung_tv_root.archive_root import ArchiveRootError, _runtime
+    from samsung_tv_root.sdb import CaptureResult
+
+    class Client:
+        def capture(self, command):
+            assert command == "/usr/bin/dotnet --list-runtimes"
+            return CaptureResult("Permission denied\n[exit:1]\n", 1)
+
+    with pytest.raises(ArchiveRootError, match="Permission denied"):
+        _runtime(Client())
 
 
 @pytest.mark.parametrize(
