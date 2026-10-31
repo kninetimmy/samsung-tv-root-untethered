@@ -47,11 +47,14 @@ To build only its two .NET 3.1 payloads on Windows, run these commands from
 the repository root with a .NET SDK installed:
 
 ```powershell
-dotnet build payloads/common/SamsungTvArchiveRoot.csproj -p:TargetFramework=netcoreapp3.1 --configuration Release --output payloads/common31/out
-dotnet build payloads/common/SamsungTvRootAgent.csproj -p:TargetFramework=netcoreapp3.1 --configuration Release --output payloads/common31/out
+dotnet restore payloads/common/SamsungTvArchiveRoot.csproj -p:TargetFramework=netcoreapp3.1
+dotnet build payloads/common/SamsungTvArchiveRoot.csproj -p:TargetFramework=netcoreapp3.1 --configuration Release --output payloads/common31/out --no-restore
+dotnet restore payloads/common/SamsungTvRootAgent.csproj -p:TargetFramework=netcoreapp3.1
+dotnet build payloads/common/SamsungTvRootAgent.csproj -p:TargetFramework=netcoreapp3.1 --configuration Release --output payloads/common31/out --no-restore
 ```
 
-The SDK restores the required reference packages. These builds do not require
+Explicit restore selects the 3.1 reference packages even after a .NET 6 build.
+These builds do not require
 installing the .NET 3.1 runtime on the PC; the controller generates the TV runtime
 configuration when it stages a session.
 
