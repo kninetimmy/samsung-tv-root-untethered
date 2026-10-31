@@ -38,7 +38,7 @@ internal static class SamsungTvArchiveRoot
             Console.Error.WriteLine("usage: SamsungTvArchiveRoot.dll archive-root-HEX [staging on-demand]");
             return 2;
         }
-        string logPath = "/tmp/archive-root-" + package + ".log";
+        string logPath = staging + "/launcher.log";
         bool keyMounted = false;
         bool passwdMounted = false;
         try
