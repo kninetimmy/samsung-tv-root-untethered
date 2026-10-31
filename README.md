@@ -4,8 +4,72 @@ This fork adds **untethered root** on top of upstream's host-driven toolkit:
 a boot-launched .NET agent that re-acquires root **on the TV, at every boot,
 with no host computer involved**, a token-gated **sdb bridge** so the host CLI
 keeps working while Developer Mode Host PC IP stays at `127.0.0.1`, and a
-Magisk/Cydia-style **module system** for debloat/telemetry kills. Proven
-end-to-end on QN55Q60BAFXZC / T-NKLBAKUC-1720.7 (Tizen 6.5.0, armv7l).
+Magisk/Cydia-style **module system** for debloat/telemetry kills. The inherited
+fork reports end-to-end boot-root on QN55Q60BAFXZC / T-NKLBAKUC-1720.7
+(Tizen 6.5.0, armv7l). Current QN90B verification is recorded below.
+
+## Current compatibility and status — 2026-10-31
+
+| Item | Verified device |
+| --- | --- |
+| Exact model | Samsung `QN55QN90BAFXZA` (QN90B) |
+| On-device firmware build | `T-PTMAKUC-REL-202602250225` |
+| OS / kernel / architecture | `Tizen6/TV 6.5.0 (arm)` / Linux `5.4.77` / `armv7l` |
+| Active .NET runtime | `3.1.3`; root payload targets .NET Core 3.1 |
+
+The firmware identifier above is the observed build fingerprint. The separate
+numeric software version displayed in TV Settings has not been recorded; the
+older upstream `1602.3` result below does not identify this firmware.
+
+| Capability | Result on this model/build |
+| --- | --- |
+| SDB foothold and platform preflight | Verified; preflight reports `compatible-untested` for this newer build |
+| Host-initiated `archive-root` | Verified: authenticated UID/EUID/GID/EGID 0 and successful `id` command |
+| Root-session integrity and cleanup | Three system-file SHA-256 hashes unchanged; temporary staging removed and root processes exited |
+| Gaming Hub-based boot-root installation | Installed and verified, **not activated** |
+| Automatic boot-root, local SDB and on-TV bridge | Pending activation and real-reboot testing |
+| FDET root, UEP changes, privacy/debloat and rollback | Not validated on this build |
+| Native HDMI gaming after activation | Pending 4K120, HDR, VRR/FreeSync, Game Mode, picture and audio checks |
+
+The verified root route is `archive-root`; the separate QN90B FDET route has
+only passed prerequisite checks on this firmware. The root agent retains
+Samsung's `User` SMACK label, so UID 0 does not establish unrestricted access
+through every security boundary. Preflight's `compatible-untested` result is
+unchanged by the successful archive-root test.
+
+Installation repurposed `com.samsung.tv.ghservice` (the Gaming Hub app/service)
+for the boot agent and bridge-service module. Stock app files, metadata and the
+package database were backed up. All 13 deployed file hashes, eight untouched
+stock file hashes, original ownership/modes/SMACK labels and three system-file
+hashes were verified. The package database changed only the three intended
+startup fields in the Gaming Hub row.
+
+Developer Mode still points to the desktop. No manager launch, bridge start or
+reboot has been performed for this installation. Activation requires setting
+Host PC IP to `127.0.0.1` and a real reboot, then capturing fresh boot proof
+**before any host-initiated root**. Bridge authentication, access after closing
+the manager or switching HDMI, repeated reboot/standby-wake, native gaming and
+actual rollback remain to be tested. The installed bundle contains only root
+and bridge support; privacy/debloat modules have not been installed or enabled
+on this TV.
+
+### Recent changes in this fork
+
+- Accept the QN90B `Tizen6/TV 6.5.0` release-label variant while retaining the
+  platform and capability checks ([PR #2](https://github.com/kninetimmy/samsung-tv-root-untethered/pull/2)).
+- Backport upstream runtime detection for Samsung `dotnet` builds that reject
+  `--list-runtimes`, keep archive-launcher diagnostics inside session staging,
+  repair .NET 3.1 output-directory/restore handling, and fix release-audit
+  failures with a hash-pinned documentation-image exception
+  ([PR #3](https://github.com/kninetimmy/samsung-tv-root-untethered/pull/3)).
+- Write staged SDB capture scripts with LF line endings on Windows so long
+  diagnostic commands execute correctly
+  ([PR #4](https://github.com/kninetimmy/samsung-tv-root-untethered/pull/4)).
+
+## Inherited Q60B results
+
+The screenshot and milestones below describe the inherited fork's Q60B work;
+they are separate from the QN90B results above.
 
 ![Boot agent v4 status screen](docs/assets/boot-agent-v4-on-tv.png)
 
@@ -30,11 +94,15 @@ Key results:
 | sdb bridge — devIP stays `127.0.0.1`, host CLI through `TVROOT_BRIDGE_TOKEN` | shipped (M1) |
 | Agent v4 — UI freeze fix, single-shot chain, safe mode | shipped (M2) |
 | On-TV screenshot via Samsung's own capture API | proven (PoC above) |
-| Module system + telemetry debloat modules | next (M3) |
+| Module runner, manager UI, telemetry modules and headless bridge service | present in source; not validated on this QN90B build |
 
 ---
 
 # Upstream README
+
+The material below preserves upstream's tested models and capabilities. Its
+first-person reports and older firmware results belong to upstream; use the
+current compatibility section above for this fork's latest QN90B validation.
 
 ## Samsung TV root
 
