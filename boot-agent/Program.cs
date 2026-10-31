@@ -889,7 +889,7 @@ public static class GhUIAgent
                     .Append("  echo payload-exit=$?\n")
                     .Append("  sleep 3\n")
                     .Append("  cp /tmp/selfroot-proof.txt \"$EV/selfroot-proof.txt\" 2>/dev/null\n")
-                    .Append("  cp /tmp/archive-root-").Append(Pkg).Append(".log \"$EV/payload.log\" 2>/dev/null\n")
+                    .Append("  cp ").Append(Staging).Append("/launcher.log \"$EV/payload.log\" 2>/dev/null\n")
                     .Append("  cp ").Append(Mark).Append("/sdb-client.log \"$EV/sdb-client.log\" 2>/dev/null\n")
                     .Append("  echo \"--- evidence ---\"\n")
                     .Append("  ls -la \"$EV\"\n")
