@@ -57,6 +57,10 @@ jobs:
       - name: Install ARM linker
         run: sudo apt-get update && sudo apt-get install --yes clang lld
       - run: make payloads swu-preloads
+      - name: Compile experimental QN90B reboot helper
+        run: dotnet build tools/reboot-helper/LinuxRebootHelper.csproj --configuration Release
+      - name: Verify reboot guards without native power calls
+        run: dotnet run --project tools/reboot-helper/selftest/PowerGateSelfTest.csproj --configuration Release
       - name: Verify payload types
         run: |
           for assembly in \
