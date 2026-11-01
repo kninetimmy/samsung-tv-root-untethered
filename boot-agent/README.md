@@ -92,6 +92,24 @@ TV_FRAMEWORK_DIR=/path/to/dotnet.tizen/framework \
   dotnet build boot-agent/boot-agent.csproj -c Release
 ```
 
+The default target is .NET Core 3.1 for the earlier Tizen 6.5 TVs. Match the
+target to the actual TV runtime. The U8000's Tizen 9 framework builds with:
+
+```console
+python3 boot-agent/staging/build.py --output .memhub/boot-chain
+TV_FRAMEWORK_DIR=/path/to/tv/framework \
+  dotnet build boot-agent/boot-agent.csproj -c Release -p:TvTargetFramework=net6.0
+dotnet build boot-agent/bridge-relay/bridge-relay.csproj \
+  -c Release -p:TvTargetFramework=net6.0
+```
+
+Use the generated .NET 6 runtime configurations for the manager and relay,
+and the shared .NET 6 archive payload and runtime configuration. Keep the TV
+framework assemblies, signing private keys, bridge token, backups and live
+evidence local; they are not release source. The staging builder pins its key
+inside the selected output directory and restricts private key files to mode
+`0600` on POSIX hosts.
+
 ## Deploy (one time)
 
 The agent squats a real preinstalled service app, `com.samsung.tv.ghservice`
@@ -128,7 +146,7 @@ SDB="$HOME/tizen-studio/tools/sdb"
 # In the TV root shell, install the staged token:
 mkdir -p /opt/usr/share/selfroot
 chmod 755 /opt/usr/share/selfroot
-chsmack -a _ /opt/usr/share/selfroot
+chsmack -a 'User::App::Shared' /opt/usr/share/selfroot
 cp /home/owner/share/tmp/sdk_tools/bridge.conf /opt/usr/share/selfroot/bridge.conf
 chmod 644 /opt/usr/share/selfroot/bridge.conf
 chsmack -a _ /opt/usr/share/selfroot/bridge.conf
@@ -141,6 +159,42 @@ chsmack -a _ /opt/usr/share/selfroot/bridge.conf
 # Back on the host, keep the token in a private password manager or environment.
 printf 'Save this token on the manager: %s\n' "$BRIDGE_TOKEN"
 ```
+
+Inspect the original manifest first. On the U8000 its service has
+`on-boot="false"` and `nodisplay="true"`; explicitly change those attributes to
+`on-boot="true"` and `nodisplay="false"` when converting it to a UI app. Preserve
+the original file ownership, modes and SMACK labels, and change only the three
+startup columns shown above. Back up the complete original application with
+metadata and use SQLite's online backup for the package database before any
+replacement. Keep a verified host copy and a stock restore script as well.
+Preserve the existing SDB `on-demand` upload directory's ownership and shared
+SMACK label. Relabeling it to `_` blocked later SDB uploads during the U8000
+installation, even though TCP/SDB connectivity remained healthy.
+
+On the U8000, also pre-create the fixed SDK staging files as root so SDK copies
+retain labels readable by the capped runtime. Run this after populating
+`$APP/res/selfroot` and before the first localhost reboot:
+
+```sh
+ROOT_PKG=archive-root-00b0000000000001
+ROOT_STAGE=/home/owner/share/tmp/sdk_tools/$ROOT_PKG
+mkdir -p "$ROOT_STAGE"
+chmod 777 "$ROOT_STAGE"
+chsmack -a 'User::App::Shared' "$ROOT_STAGE"
+for name in SamsungTvArchiveRoot.dll SamsungTvArchiveRoot.runtimeconfig.json public.pem passwd; do
+  cp "$APP/res/selfroot/$name" "$ROOT_STAGE/$name"
+  chown 901:901 "$ROOT_STAGE/$name"
+  chmod 666 "$ROOT_STAGE/$name"
+  chsmack -a 'User::App::Shared' "$ROOT_STAGE/$name"
+done
+touch "$ROOT_STAGE/launcher.log"
+chown 901:901 "$ROOT_STAGE/launcher.log"
+chmod 666 "$ROOT_STAGE/launcher.log"
+chsmack -a 'User::App::Shared' "$ROOT_STAGE/launcher.log"
+```
+
+Verify SDK-side loading with `dotnet <staged-assembly> --help`: the expected
+usage response establishes payload visibility without running the root chain.
 
 Then set **Developer Mode Host PC IP to `127.0.0.1`** (Apps → Settings →
 `12345`) and reboot. The agent boots, self-roots, and shows its green status
@@ -163,6 +217,15 @@ the selected callback port through the desktop firewall as usual.
 
 ## Operating model
 
+The v5.13 manager also provides a token-authenticated SDK diagnostic relay on
+port `26104` while its window/process is running (`26105` if the main bridge
+is configured on `26104`). It uses the same bridge token. Pass
+`--bridge-port 26104` to inspect a failed startup through it. The diagnostic
+listener is independent of root success and must not be treated as root proof.
+The root-started headless bridge still uses port `26103` by default and remains
+independent of the manager's lifetime. Shared evidence-directory labels let
+the app read the outer/payload logs and append its diagnostic log on Tizen 9.
+
 | Developer Mode Host PC IP **at boot** | Result |
 | --- | --- |
 | `127.0.0.1` | agent boots → self-roots → green status screen, evidence written |
@@ -170,6 +233,29 @@ the selected callback port through the desktop firewall as usual.
 
 The flip **in the Dev Mode menu + a reboot** is the only toggle. The agent
 runs its chain once at boot; there is no steady-state polling.
+
+### Verify a fresh reboot
+
+Record `/proc/sys/kernel/random/boot_id` before rebooting. After reboot, first
+connect through the authenticated bridge and read the new boot ID and
+`selfroot-evidence/selfroot-proof.txt` as the SDK user. Do this **before** running
+another host-initiated root command. New staging archives put `BOOT_ID=` in the
+root proof alongside the complete UID/GID status fields:
+
+```console
+python tools/verify_boot_proof.py /path/to/selfroot-proof.txt \
+  --previous-boot-id "$BOOT_ID_BEFORE" --current-boot-id "$BOOT_ID_AFTER"
+```
+
+The verifier rejects an unchanged boot ID, a proof from another boot, a missing
+identity field, or any nonzero real/effective/saved/filesystem UID or GID.
+File timestamps alone do not establish a fresh boot-root result.
+
+If startup or bridge access fails, restore Host PC IP to the controller's LAN
+address and fully reboot to recover direct SDB. Use the archive-root route to
+run the prepared stock restore script through stdin (`cat rollback.sh | bash`),
+then verify the original app hashes and startup fields. A prepared rollback is
+not the same as a live-tested rollback.
 
 ## Platform gotchas (each cost a debug cycle)
 
@@ -240,9 +326,10 @@ push the PNG later — `ImageView` is available).
 Reopening the manager from the launcher (`TVRoot` tile — the squatted
 `com.samsung.tv.ghservice` manifest label was renamed from GHService) is
 instant: if this boot already has fresh proof the agent skips the injection
-entirely, goes green, and restarts the bridge (reopen fast-path). A full
+entirely, goes green, and checks the bridge (reopen fast-path). A full
 chain only runs at boot. Closing the manager stops its process and with it
-the bridge; reopening restores both in seconds.
+its window. The headless relay is owned by `tvroot-bridge.service`, independently
+of the manager process; closing the manager does not own its service lifecycle.
 
 Module toggles apply on the next boot because the root runner snapshots
 overrides before executing any module. The UI writes overrides under

@@ -79,6 +79,17 @@ installation can be saved as a top-level `sdb = "C:/path/to/sdb.exe"` value.
 
 ## 5. Verify and root the TV
 
+For the verified `UN50U8000FFXZA` Tizen 9 / ARMv7 target, use the generic
+archive route instead of a QN90F kernel profile:
+
+```console
+./samsung-tv-root archive-root probe TV_IP
+./samsung-tv-root archive-root root TV_IP --command 'id'
+```
+
+Its .NET 6 boot-root setup and tested boundaries are recorded in the
+[U8000 observations](docs/research-notes/U8000_REPRODUCTION.md).
+
 Using the saved profile:
 
 ```console
