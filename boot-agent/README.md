@@ -171,6 +171,31 @@ Preserve the existing SDB `on-demand` upload directory's ownership and shared
 SMACK label. Relabeling it to `_` blocked later SDB uploads during the U8000
 installation, even though TCP/SDB connectivity remained healthy.
 
+Before starting the manager or the first localhost boot, prepare its persistent
+evidence directory as root. The manager runs as UID 5001, but its injected
+launcher runs as SDK UID 901. If the diagnostic bridge creates this directory
+first, it is owned by 5001 with mode `0755`; SDK cannot open `outer.log`, so the
+root-launch block never runs. The shared directory must belong to SDK so the
+launcher's existing permission and SMACK setup can also succeed.
+
+Inspect an existing directory before changing it; preserve its logs and refuse
+symlinks or an unexpected canonical path. Then prepare only this directory:
+
+```sh
+EVIDENCE=/home/owner/share/tmp/sdk_tools/selfroot-evidence
+(
+  test "$(readlink -f /home/owner/share/tmp/sdk_tools)" = /opt/usr/home/owner/share/tmp/sdk_tools &&
+    test ! -L "$EVIDENCE" && mkdir -p "$EVIDENCE" && cd -P "$EVIDENCE" &&
+    test "$(readlink -f .)" = /opt/usr/home/owner/share/tmp/sdk_tools/selfroot-evidence &&
+    chown 901:901 . && chmod 777 . && chsmack -a 'User::App::Shared' .
+) || exit 1
+```
+
+Before reboot, verify mode `777`, UID/GID `901:901`, and the shared SMACK label.
+Through the SDK connection, exclusively create a temporary file there, read it
+back, and remove only that file. A diagnostic bridge connection alone does not
+verify that the boot launcher can write its evidence.
+
 On the U8000, also pre-create the fixed SDK staging files as root so SDK copies
 retain labels readable by the capped runtime. Run this after populating
 `$APP/res/selfroot` and before the first localhost reboot:
