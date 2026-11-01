@@ -327,9 +327,10 @@ also requires GNU Make and the .NET SDK. A standalone release avoids these build
 requirements.
 
 The archive route additionally needs the host's `openssl` command
-on `PATH`. For TVs with .NET 3.1, build `make common31-payload` using SDK
-6.0.428, as selected by `payloads/common31/global.json`. The build restores the
-.NET 3.1 reference packages from NuGet; installing a .NET 3.1 SDK is not required.
+on `PATH`. For TVs with .NET 3.1, build `make common31-payload`. Upstream uses
+SDK 6.0.428; this fork also builds with SDK 10.0.114 and does not pin the SDK.
+The separate projects restore .NET 3.1 reference packages from NuGet;
+installing a .NET 3.1 SDK is not required.
 
 `uv sync --locked` followed by `uv run samsung-tv-root ...` is the equivalent
 developer workflow.

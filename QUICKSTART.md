@@ -49,8 +49,8 @@ source checkout, preflight needs only Python and `sdb`; root commands also
 require GNU Make, the .NET 6 SDK, and built TV payloads. Run
 `make common-payload qn90b-payload qn90f-payload` for the model-specific routes.
 The archive route needs OpenSSL on the host's `PATH`; for a TV with .NET 3.1,
-also run `make common31-payload` with SDK 6.0.428 installed. That build restores
-the .NET 3.1 reference packages from NuGet. See the
+also run `make common31-payload`. The separate projects restore the .NET 3.1
+reference packages from NuGet. See the
 [source instructions](README.md#run-from-source).
 
 To build only the archive route's two .NET 3.1 payloads on Windows, run these
