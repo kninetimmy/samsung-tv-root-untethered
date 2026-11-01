@@ -48,3 +48,42 @@ and `sync()` do not establish application/database consistency or exclude a new
 writer. The staging pathname checks also assume no hostile concurrent swaps in
 the shared SDK parent. Hardware reboot behavior and these risks remain
 unresolved; using the TV remote when physically present is the fallback.
+
+## Separate experimental cutover helper
+
+`cutover/LinuxCutoverHelper.csproj` prepares a two-acknowledgement developer-host
+transition without changing the qualified reboot-only helper. It is not installed
+or hardware-qualified. Its exact configuration, controller, baseline, private
+credentials and execution records belong in a new private packet.
+
+The helper validates its own code, configuration, boot, root context and original
+desktop IP before publishing `cutover-ready`. The first acknowledgement binds
+that readiness and configuration before one localhost write. A separate
+`cutover-ip-ready` record contains the typed readback and actual caller context.
+The desktop must save it durably before acknowledging power. Both waits expire;
+acknowledgements are bound to their phase and consumed exclusively.
+
+Before accepting power, failure or expiry may restore the original desktop IP
+once, only after checking the same boot, code, configuration, root context and
+one of the two expected IP values. An unreadable or unexpected state refuses
+restoration. From acceptance of the power acknowledgement onward, every failure,
+native return or channel loss forbids automatic restoration and power retry.
+Independent boot proof is still required. This deliberately leaves physical
+menu recovery necessary for some failures.
+
+`mode=rehearse` follows both acknowledgements at the original desktop IP, with
+zero setting writes, global sync calls or reboot calls. It does not simulate a
+successful live localhost write or prove callback survival across that write.
+`mode=cutover` is a distinct, separately approved experiment. No persistent
+rollback timer or service is installed. The existing shared-directory pathname
+race limitation also applies to this helper.
+
+```sh
+dotnet build tools/reboot-helper/cutover/LinuxCutoverHelper.csproj --configuration Release
+dotnet run --project tools/reboot-helper/cutover/selftest/CutoverSelfTest.csproj --configuration Release
+```
+
+The self-check uses fake settings, clocks and native delegates. It tests phase
+ordering, expired and mismatched acknowledgements, write/readback failures,
+guarded pre-power restoration and refusal to restore after power commitment.
+It never enters the TV helper's native or settings APIs.
