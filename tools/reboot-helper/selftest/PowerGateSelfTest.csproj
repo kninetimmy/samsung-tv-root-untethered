@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseAppHost>false</UseAppHost>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <StartupObject>PowerGateSelfTest</StartupObject>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="PowerGateSelfTest.cs" />
+    <Compile Include="../LinuxRebootHelper.cs" Link="LinuxRebootHelper.cs" />
+    <EmbeddedResource Include="../snapshot.sh" LogicalName="snapshot.sh" />
+  </ItemGroup>
+</Project>
