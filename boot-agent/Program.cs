@@ -32,6 +32,7 @@ public static class GhUIAgent
     private const string UiEnabledRoot = UiModuleRoot + "/enabled";
     private const string UiSafeMode = "/home/owner/share/tmp/sdk_tools/selfroot-ui/safe-mode";
     private const string AgentLogPath = Evidence + "/agent.log";
+    private const string KeyDebugFlag = "/opt/usr/share/selfroot/key-debug";
     private const int SessionAttempts = 18;          // 18 x 10s = 3 min for sdbd to come up
     private const string BridgeConfig = "/opt/usr/share/selfroot/bridge.conf";
     private const string BridgePortConfig = "/opt/usr/share/selfroot/bridge-port.conf";
@@ -64,6 +65,9 @@ public static class GhUIAgent
     private static int DisplayLineCount;
     private static int ScrollOffset;          // v5: 0 = tail, >0 = scrolled up
     private static bool UiDirty = true;        // v5: force refresh on scroll
+    private static bool IsAppActive = true;    // true when foreground, false when paused/background
+    private static bool KeyDebug;               // opt-in remote-key recon (see KeyDebugFlag)
+    private static int LastBarWidth = -1;
 
     private sealed class ModuleEntry
     {
@@ -123,7 +127,15 @@ public static class GhUIAgent
         protected override void OnResume()
         {
             base.OnResume();
-            lock (Gate) UiDirty = true;
+            lock (Gate) { UiDirty = true; IsAppActive = true; }
+            _uiTimer.Start();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+            lock (Gate) IsAppActive = false;
+            _uiTimer.Stop();
         }
     }
 
@@ -237,6 +249,11 @@ public static class GhUIAgent
 
         w.KeyEvent += OnUiKey;
 
+        // Remote-key recon is off unless the user explicitly asks for it.
+        // The old unconditional File.AppendAllText() on every key press was
+        // disk I/O in the input path (worst case: rapid YouTube navigation).
+        try { KeyDebug = File.Exists(KeyDebugFlag); } catch { KeyDebug = false; }
+
         _uiTimer = new Tizen.NUI.Timer(300);
         _uiTimer.Tick += OnTick;
         _uiTimer.Start();
@@ -246,14 +263,18 @@ public static class GhUIAgent
     {
         var name = e.Key != null ? e.Key.KeyPressedName : null;
         if (string.IsNullOrEmpty(name)) return;
-        // v5.7: log every physical key name (remote recon: which names do
-        // dedicated buttons like TVPlus deliver, and do they reach apps?).
-        try
+        // v5.13: remote-key recon is opt-in (touch the flag file, reboot).
+        // Logging every press to disk sat in the input path; with the flag
+        // absent this is a single bool test.
+        if (KeyDebug)
         {
-            Directory.CreateDirectory(Evidence);
-            File.AppendAllText(AgentLogPath, "[" + DateTime.UtcNow.ToString("o") + "] [key] " + name + "\n");
+            try
+            {
+                Directory.CreateDirectory(Evidence);
+                File.AppendAllText(AgentLogPath, "[" + DateTime.UtcNow.ToString("o") + "] [key] " + name + "\n");
+            }
+            catch { }
         }
-        catch { }
         // M4: one remote press delivers down+up; acting on both jumped two
         // pages (or toggled twice) per press. Ignore the release phase.
         // Deliberately only filters "up" so an unknown vocabulary can't
@@ -403,7 +424,13 @@ public static class GhUIAgent
         if (BannerLabel.Text != banner) BannerLabel.Text = banner;
         if (bannerColor != BannerLabel.TextColor) BannerLabel.TextColor = bannerColor;
         var width = (int)(1680 * progress);
-        Bar.Size2D = new Size2D(width, 22);
+        // Only touch the native bar when its width actually changes. The old
+        // unconditional assignment re-laid-out a view on every 300 ms tick.
+        if (width != LastBarWidth)
+        {
+            Bar.Size2D = new Size2D(width, 22);
+            LastBarWidth = width;
+        }
         if (CloseRequested)
         {
             RequestExit();
@@ -422,6 +449,11 @@ public static class GhUIAgent
 
     private static void RefreshModuleSnapshot()
     {
+        // Skip polling entirely when backgrounded to reduce I/O during YouTube playback
+        bool isActive = false;
+        lock (Gate) isActive = IsAppActive;
+        if (!isActive) return;
+
         if ((DateTime.UtcNow - LastUiRefreshUtc).TotalSeconds < 1.0) return;
         LastUiRefreshUtc = DateTime.UtcNow;
         List<ModuleEntry> modules;
