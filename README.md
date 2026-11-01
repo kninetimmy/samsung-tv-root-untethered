@@ -6,9 +6,42 @@ with no host computer involved**, a token-gated **sdb bridge** so the host CLI
 keeps working while Developer Mode Host PC IP stays at `127.0.0.1`, and a
 Magisk/Cydia-style **module system** for debloat/telemetry kills. The inherited
 fork reports end-to-end boot-root on QN55Q60BAFXZC / T-NKLBAKUC-1720.7
-(Tizen 6.5.0, armv7l). Current QN90B verification is recorded below.
+(Tizen 6.5.0, armv7l). This fork has also verified untethered boot-root on
+the U8000 below; current QN90B verification is recorded separately.
 
-## Current compatibility and status — 2026-10-31
+## U8000: verified untethered boot-root — 2026-11-01
+
+Samsung `UN50U8000FFXZA`, build `T-X22UDFAKUC-0090-REL-202607141244`, has
+**verified automatic root after a full reboot, without a host initiating the
+root chain**. It runs Tizen 9.0.0, Linux 5.4.261, 32-bit ARM and .NET 6.0.9,
+using the model-independent `archive-root` route and manager v5.13. This is a
+different firmware/CPU target from the QN90F kernel exploit.
+
+The .NET 6 boot manager and headless bridge are installed with stock backups,
+14 deployed hashes verified and only three package startup fields changed.
+Boot-root is now verified with manager v5.13: after a full reboot, fresh proof
+matched the new kernel boot ID and confirmed all UID/GID fields as zero. It
+was retrieved through the authenticated bridge as UID 901 before any new
+host-initiated root. Root commands and bridge access after closing the manager
+also passed, with all three checked global system hashes unchanged.
+Privacy/debloat modules were not installed. See the
+[U8000 observations](docs/research-notes/U8000_REPRODUCTION.md) for boundaries
+and recovery details.
+
+A later live check confirmed the root bridge service was still active with
+all UID/GID fields zero on the same boot. An authenticated root session also
+displayed a custom text overlay for 30 seconds and cleared it automatically.
+Temporary files were removed and checked system-file hashes stayed unchanged.
+Keep Developer Mode Host PC IP at `127.0.0.1`; the desktop connects through the
+token-gated headless bridge on port `26103`.
+
+**Tested boundary:** one full reboot with fresh boot-root proof, followed by
+live root and bridge checks. Repeated cold power cycles, standby/wake, HDMI
+gaming and actual rollback remain untested. This result applies to the exact
+model/build above. Build and deployment instructions, including the required
+.NET 6 target and shared staging labels, are in [boot-agent/](boot-agent/README.md).
+
+## QN90B compatibility and status — 2026-10-31
 
 | Item | Verified device |
 | --- | --- |
@@ -102,7 +135,8 @@ Key results:
 
 The material below preserves upstream's tested models and capabilities. Its
 first-person reports and older firmware results belong to upstream; use the
-current compatibility section above for this fork's latest QN90B validation.
+current compatibility sections above for this fork's latest U8000 and QN90B
+validation.
 
 ## Samsung TV root
 
@@ -135,11 +169,12 @@ source.
 
 ## Tested TVs
 
-| Profile | Exact model      | Installed firmware | Internal build                     | Platform                                           |
+| Profile / route | Exact model      | Installed firmware | Internal build                     | Platform                                           |
 | ------- | ---------------- | ------------------ | ---------------------------------- | -------------------------------------------------- |
 | `qn90b` | `QN55QN90BAFXZA` | `T-PTMAKUC-1602.3` | `T-PTMAKUC-REL-202310071804`       | Tizen 6.5, Linux 5.4.77, ARMv7                     |
 | `qn90f` | `QN75QN90FAFXZA` | `1203.0`           | `T-RSMFAKUC-0090-REL-202512092052` | Tizen 9.0, Linux 5.4.261, AArch64, Mali-G510 r48p0 |
 | `qn90f` | `QA55QN90FAUXEG` | `1301.0`           | `T-RSMFUABC-0090-REL-202607141954` | Tizen 9.0, Linux 5.4.261, AArch64, Mali-G510 r48p0 |
+| `archive-root` | `UN50U8000FFXZA` | numeric version not recorded | `T-X22UDFAKUC-0090-REL-202607141244` | Tizen 9.0, Linux 5.4.261, ARMv7, .NET 6.0.9 |
 
 The QN90F root path was live-tested on firmware 1203.0 and 1301.0. The 1301.0
 validation used the public v0.0.3 Windows x86-64 release on `QA55QN90FAUXEG` and

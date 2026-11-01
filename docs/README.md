@@ -20,4 +20,5 @@ firmware.
 - [Exploit chain](research-notes/EXPLOIT_CHAIN.md)
 - [QN90B reproduction](research-notes/QN90B_REPRODUCTION.md)
 - [QN90F reproduction](research-notes/QN90F_REPRODUCTION.md)
+- [U8000 root observations](research-notes/U8000_REPRODUCTION.md)
 - [SWU AES extraction](research-notes/AES_EXTRACTION.md)

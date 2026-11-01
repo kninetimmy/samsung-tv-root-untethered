@@ -6,20 +6,32 @@ Generates the RSA keypair for the signed launch script archive (pinned to
 signatures), the passwd bind view, and the signed launch.sh tarball that
 sdbd-tarlauncher executes at boot.
 
-All artifacts land in ./out/ — nothing is written outside this directory.
+All artifacts land in the selected output directory (./out/ by default).
 """
-import io, os, subprocess, tarfile, tempfile
+import argparse
+import io
+import os
+import subprocess
+import tarfile
+import tempfile
 
 PKG = "archive-root-00b0000000000001"  # 16 hex chars after the prefix
 assert len(PKG) == len("archive-root-") + 16
 assert all(c in "0123456789abcdef" for c in PKG[len("archive-root-"):])
 
-OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "out")
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument(
+    "--output",
+    default=os.path.join(os.path.dirname(os.path.abspath(__file__)), "out"),
+    help="directory for the pinned signing key and generated artifacts",
+)
+OUT = os.path.abspath(parser.parse_args().output)
 os.makedirs(OUT, exist_ok=True)
 
 LAUNCH_SH = """exec 2>&1
 {
   echo "SELFROOT-PROOF uid=$(id -u) gid=$(id -g)"
+  echo "BOOT_ID=$(cat /proc/sys/kernel/random/boot_id)"
   echo "---STATUS---"
   cat /proc/self/status
   echo "---PASSWD-VIEW---"
@@ -42,7 +54,8 @@ chmod 666 "$EV/agent.log" 2>/dev/null
 chsmack -a 'User::App::Shared' "$EV/agent.log" 2>/dev/null
 cp /tmp/selfroot-proof.txt "$EV/selfroot-proof.txt" 2>/dev/null
 chmod 666 "$EV/selfroot-proof.txt" 2>/dev/null
-chsmack -a _ "$EV" "$EV/selfroot-proof.txt" 2>/dev/null
+chsmack -a 'User::App::Shared' "$EV" 2>/dev/null
+chsmack -a _ "$EV/selfroot-proof.txt" 2>/dev/null
 
 # module runner: persistent /opt modules, executed as root at every boot.
 MODS=/opt/usr/share/selfroot/modules
@@ -50,7 +63,7 @@ UI_MODS=/home/owner/share/tmp/sdk_tools/selfroot-ui/modules
 UI_STATE=/tmp/selfroot-module-state
 mkdir -p "$UI_MODS/enabled" "$UI_MODS/disabled" 2>/dev/null
 chmod 0777 "$UI_MODS" "$UI_MODS/enabled" "$UI_MODS/disabled" 2>/dev/null
-chsmack -r -a _ "$UI_MODS" 2>/dev/null
+chsmack -a 'User::App::Shared' "$UI_MODS" "$UI_MODS/enabled" "$UI_MODS/disabled" 2>/dev/null
 rm -rf "$UI_STATE"
 mkdir -p "$UI_STATE/enabled" "$UI_STATE/disabled"
 for state in enabled disabled; do
@@ -97,6 +110,7 @@ with tempfile.TemporaryDirectory() as td:
         openssl("genpkey", "-algorithm", "RSA", "-pkeyopt", "rsa_keygen_bits:2048",
                 "-out", priv)
         import shutil; shutil.copy(priv, pinned)
+    os.chmod(pinned, 0o600)
     openssl("pkey", "-in", priv, "-pubout", "-out", pub)
     import hashlib
     print("public.pem sha256:", hashlib.sha256(
@@ -127,5 +141,7 @@ with tempfile.TemporaryDirectory() as td:
         dst = os.path.join(OUT, name)
         with open(src, "rb") as f, open(dst, "wb") as g:
             g.write(f.read())
+        if name == "private.pem":
+            os.chmod(dst, 0o600)
         print("wrote", dst)
 print("PKG =", PKG)

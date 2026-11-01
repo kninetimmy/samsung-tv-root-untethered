@@ -14,7 +14,8 @@ using Tizen.NUI.BaseComponents;
 
 public static class GhUIAgent
 {
-    private const string BuildTime = "2026-10-10T12:30Z";
+    private const string Version = "5.13";
+    private const string BuildTime = "2026-11-01";
 
     private const string Res = "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot";
     private const string AppHome = "/tmp/selfroot-app";
@@ -34,12 +35,13 @@ public static class GhUIAgent
     private const int SessionAttempts = 18;          // 18 x 10s = 3 min for sdbd to come up
     private const string BridgeConfig = "/opt/usr/share/selfroot/bridge.conf";
     private const string BridgePortConfig = "/opt/usr/share/selfroot/bridge-port.conf";
+    private static bool BootstrapBridgeStarted;
     private const int DefaultBridgePort = 26103;
 
     private static readonly object Gate = new object();
     private static readonly List<string> Events = new List<string>();
     private static double Progress = 0.0;
-    private static string Banner = "TVROOT MANAGER v5.12";
+    private static string Banner = "TVROOT MANAGER v" + Version;
     private static Color BannerColor = new Color(1f, 0.8f, 0.2f, 1f);
     private static TextLabel BannerLabel;
     private static TextLabel VersionLabel;
@@ -114,6 +116,7 @@ public static class GhUIAgent
         {
             base.OnCreate();
             GhUIAgent.BuildUi();
+            GhUIAgent.StartBootstrapBridge();
             GhUIAgent.RunChain();
         }
 
@@ -122,6 +125,31 @@ public static class GhUIAgent
             base.OnResume();
             lock (Gate) UiDirty = true;
         }
+    }
+
+    // Keep authenticated SDK diagnostics available if the root chain fails.
+    // This listener belongs to the manager and uses a separate port from the
+    // supervised bridge, so it never claims to be proof of successful root.
+    private static void StartBootstrapBridge()
+    {
+        if (BootstrapBridgeStarted) return;
+        BootstrapBridgeStarted = true;
+        int port = BridgePort() == 26104 ? 26105 : 26104;
+        Task.Run(() =>
+        {
+            try
+            {
+                int result = BridgeRelay.Main(new[]
+                {
+                    port.ToString(), BridgeConfig, Evidence + "/bootstrap-bridge.log"
+                });
+                Persist("bootstrap bridge exited: " + result);
+            }
+            catch (Exception error)
+            {
+                Persist("bootstrap bridge failed: " + error.Message);
+            }
+        });
     }
 
     private static string SelfRev()
@@ -145,7 +173,7 @@ public static class GhUIAgent
     {
         var w = Window.Instance;
         w.BackgroundColor = new Color(0f, 0f, 0f, 1f);
-        w.Title = "TVRoot Manager v5.12";
+        w.Title = "TVRoot Manager v" + Version;
 
         BannerLabel = new TextLabel
         {
@@ -159,7 +187,7 @@ public static class GhUIAgent
 
         VersionLabel = new TextLabel
         {
-            Text = "v5.12 build " + BuildTime + " rev " + SelfRev(),
+            Text = "v" + Version + " build " + BuildTime + " rev " + SelfRev(),
             PointSize = 15,
             TextColor = new Color(0.45f, 0.45f, 0.5f, 1f),
             Position2D = new Position2D(120, 142),
@@ -648,6 +676,10 @@ public static class GhUIAgent
             }
             lines.Add("[bridge.log]");
             AppendTail(lines, Evidence + "/bridge.log", 8);
+            lines.Add("[bootstrap bridge - manager lifetime]");
+            AppendTail(lines, Evidence + "/bootstrap-bridge.log", 5);
+            AppendFileTail(lines, Evidence + "/outer.log", "outer.log", 12);
+            AppendFileTail(lines, Evidence + "/payload.log", "payload.log", 12);
             lines.Add("[agent.log - persistent]");
             var agentTail = ReadTailLines(AgentLogPath, 25);
             if (agentTail.Count == 0) lines.Add("(empty)");
@@ -850,7 +882,7 @@ public static class GhUIAgent
                         .Append(File.ReadAllText("/proc/self/attr/current").Trim()).Append(' ');
                 }
                 catch { }
-                Note("manager v5.12 boot - " + status, 0.02);
+                Note("manager v" + Version + " boot - " + status, 0.02);
 
                 foreach (var name in new[]
                 {
@@ -871,7 +903,7 @@ public static class GhUIAgent
                     .Append("EV=").Append(Evidence).Append("\n")
                     .Append("mkdir -p \"$EV\" 2>/dev/null\n")
                     .Append("chmod 0777 \"$EV\" 2>/dev/null\n")
-                    .Append("chsmack -a _ \"$EV\" 2>/dev/null\n")
+                    .Append("chsmack -a 'User::App::Shared' \"$EV\" 2>/dev/null\n")
                     .Append("{\n")
                     .Append("  date\n")
                     .Append("  id\n")
@@ -894,7 +926,7 @@ public static class GhUIAgent
                     .Append("  echo \"--- evidence ---\"\n")
                     .Append("  ls -la \"$EV\"\n")
                     .Append("} > \"$EV/outer.log\" 2>&1\n")
-                    .Append("chsmack -a _ \"$EV\"/* 2>/dev/null\n");
+                    .Append("chsmack -a 'User::App::Shared' \"$EV\" \"$EV/outer.log\" \"$EV/payload.log\" \"$EV/sdb-client.log\" 2>/dev/null\n");
                 File.WriteAllText(AppHome + "/selfroot-launch.sh", outer.ToString());
                 Note("outer script staged (cat|bash, UEP-safe)", 0.08);
 
@@ -1033,6 +1065,12 @@ public static class GhUIAgent
                         if (c == "OKAY" || c == "WRTE")
                         {
                             try { s.Send(Frame("OKAY", serviceId, fArg0, new byte[0])); } catch { }
+                        }
+                        if (c == "WRTE" && p.Length > 0)
+                        {
+                            string output = Encoding.UTF8.GetString(p).Replace("\0", "").Trim();
+                            if (output.Length > 500) output = output.Substring(0, 500);
+                            if (output.Length > 0) Note("SDB output: " + output, 0.62);
                         }
                         if (c == "CLSE") break;
                     }
