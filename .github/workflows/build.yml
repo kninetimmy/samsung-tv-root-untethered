@@ -181,4 +181,5 @@ jobs:
           gh release upload "${GITHUB_REF_NAME}" \
             dist/release-assets/*.tar.gz \
             dist/release-assets/*.zip \
+            dist/release-assets/*.sha256 \
             --clobber

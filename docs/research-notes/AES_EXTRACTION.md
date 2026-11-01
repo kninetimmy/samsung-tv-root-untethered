@@ -29,9 +29,13 @@ gist and Samsung's native command-3 client reject those items blobs. The
 not part of the normal extraction path and may block until the caller's
 deadline.
 
-The extraction path requires root access, `/usr/lib/libteec.so`, and the ARM
-Python runtime installed by this repository. The script is staged as data and
-invoked through the signed platform `env` binary:
+The extraction path requires root access, `/usr/lib/libteec.so`, and a separately
+installed ARM Python runtime on the TV. This repository does not install or
+redistribute that runtime. The historical setup used `/opt/python3` and a copy
+of the repository's `swu/` directory on the TV, with `PYTHONPATH` pointing to its
+parent. Unsigned native Python also requires a verified per-boot UEP bypass;
+invoking it through the signed `env` binary does not remove that requirement.
+The original runtime setup used:
 
 ```console
 /usr/bin/env LD_PRELOAD=/lib/libstdc++.so.6 \
@@ -58,7 +62,7 @@ from its constructor before the updater's `main()` function, so it does not
 acquire an updater D-Bus name or begin update work. The project does not install
 them as TV services.
 
-The build also produces `libswu-init-probe-preload.so`. This third probe makes
+Of those three libraries, `libswu-init-probe-preload.so` makes
 one command-0 initialization call with the values used by Samsung's MSDU11 path:
 decrypt, encrypted passphrase, SHA-256 derivation, AES-256, and CBC. It fills the
 client's three registered 64 KiB shared buffers with a canary first, then saves
@@ -75,8 +79,8 @@ context solely for observation.
 
 The following routes were checked and are closed on the tested retail QN90F:
 
-- Every currently published `MSD11` key in `theubusu/unixtract` fails against
-  `T-RSMFAKUC-0090`.
+- The `MSD11` keys in `theubusu/unixtract` checked during that investigation
+  failed against `T-RSMFAKUC-0090`.
 - The four compiled `*PassphraseDecrypted.txt` paths do not exist on the live
   TV. The corresponding encrypted files are present.
 - `db/menu/support/softwareupdate/isSubmodelKeyType` only selects the master or
@@ -127,8 +131,6 @@ The manually bounded invocation preloads the probe into Samsung's signed
 `TEEC_ERROR_TARGET_DEAD`, a new secure-world minidump, a `tzdaemon` restart, or
 TV-visible disruption invalidates the run. A TA-only minidump preserves the
 failure state for offline analysis.
-
-The integrity probe established the oracle with three requests:
 
 Three manually bounded invocations established a meaningful distinction:
 
@@ -191,7 +193,7 @@ kept the same `security-tzdaemon.service` PID with `NRestarts=0`, and no secure-
 world dump appeared during the run.
 
 The recovery produced the second AES-256 firmware key and stores it only in the
-private mode-0600 checkpoint. The live retail TV currently reports
+private mode-0600 checkpoint. During that validation, the retail TV reported
 `db/menu/support/softwareupdate/isSubmodelKeyType = False`, so it selects the
 master blob during normal updates. The downloaded `T-RSMFAKUC` and
 `TB-RSWF4AKUC` packages both validate with the recovered master key and reject

@@ -150,6 +150,33 @@ def test_require_shell_injection_rejects_missing_delay(monkeypatch) -> None:
         client.require_shell_injection()
 
 
+@pytest.mark.parametrize(
+    ("elapsed", "accepted"),
+    (
+        ((2.5, 2.1, 0.1, 2.1), True),
+        ((2.5, 0.1, 0.1, 0.1), False),
+    ),
+)
+def test_cold_shell_probe_retries_once_and_still_requires_delay(
+    monkeypatch, elapsed, accepted
+) -> None:
+    client = SdbClient(Path("sdb"), "192.0.2.50")
+    durations = iter(elapsed)
+    commands = []
+
+    def timed_injection(command, timeout):
+        commands.append(command)
+        return next(durations), subprocess.CompletedProcess(("sdb",), 1, "", "closed")
+
+    monkeypatch.setattr(client, "_timed_injection", timed_injection)
+    if accepted:
+        client.require_shell_injection()
+    else:
+        with pytest.raises(SdbError, match="shell execution was not confirmed"):
+            client.require_shell_injection()
+    assert commands == ["/bin/true", "/bin/sleep 2"] * 2
+
+
 def test_inject_rejects_oversized_appinstall_argument(monkeypatch) -> None:
     client = SdbClient(Path("sdb"), "192.0.2.50")
     monkeypatch.setattr(

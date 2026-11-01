@@ -3,6 +3,10 @@
 Start with the [quick start](../QUICKSTART.md) to install the host tool, create a
 TV profile, run preflight, and open a root shell.
 
+These guides describe v0.0.12 and the current source tree. `archive-root` requires
+v0.0.9 or newer, or a source checkout. For older standalone downloads, start with
+their bundled documentation or the [v0.0.8 README](https://github.com/chris-ritsen/samsung-tv-root/blob/v0.0.8/README.md).
+
 ## End-user guides
 
 - [Host controller](user/CONTROLLER.md): configuration, lifecycle, service, and

@@ -6,9 +6,11 @@ import asyncio
 import io
 import ipaddress
 import json
+import os
 import re
 import secrets
 import subprocess
+import sys
 import tarfile
 import tempfile
 from dataclasses import dataclass
@@ -48,6 +50,7 @@ class TargetAssessment:
     capabilities: str
     original_hashes: str
     runtime: str
+    runtime_source: str
 
 
 def _capture(client: SdbClient, command: str, timeout: float = 15.0) -> str:
@@ -108,7 +111,9 @@ def _runtime(client: SdbClient) -> str:
     raise ArchiveRootError("no supported Microsoft.NETCore.App runtime (3.1 or 6+)")
 
 
-def _check_target(client: SdbClient) -> TargetAssessment:
+def _check_target(client: SdbClient, runtime: str | None = None) -> TargetAssessment:
+    if runtime is not None and runtime not in ("3.1", "6.0"):
+        raise ArchiveRootError(f"unsupported explicit runtime: {runtime}")
     client.connect()
     client.require_device()
     client.require_shell_injection()
@@ -130,19 +135,37 @@ def _check_target(client: SdbClient) -> TargetAssessment:
         raise ArchiveRootError(
             "sdbd-tarlauncher lacks effective SETUID/SETGID capabilities"
         )
-    runtime = _runtime(client)
+    runtime_source = "explicit" if runtime is not None else "detected"
+    runtime = runtime or _runtime(client)
     tar_options = _capture(client, "/usr/bin/tar --help | grep -- --to-command")
     if "--to-command" not in tar_options:
         raise ArchiveRootError("TV tar does not support --to-command")
     return TargetAssessment(
-        capabilities, _capture(client, SYSTEM_HASH_COMMAND), runtime
+        capabilities, _capture(client, SYSTEM_HASH_COMMAND), runtime, runtime_source
     )
 
 
 def _openssl(*arguments: str) -> None:
-    result = subprocess.run(
-        ("openssl", *arguments), capture_output=True, text=True, check=False
-    )
+    environment = os.environ.copy()
+    # PyInstaller's bundled libraries must not override the system OpenSSL binary.
+    if getattr(sys, "frozen", False) and sys.platform.startswith("linux"):
+        original_path = environment.get("LD_LIBRARY_PATH_ORIG")
+        if original_path is None:
+            environment.pop("LD_LIBRARY_PATH", None)
+        else:
+            environment["LD_LIBRARY_PATH"] = original_path
+    try:
+        result = subprocess.run(
+            ("openssl", *arguments),
+            capture_output=True,
+            text=True,
+            check=False,
+            env=environment,
+        )
+    except FileNotFoundError as error:
+        raise ArchiveRootError(
+            "OpenSSL was not found; install it on the host and put openssl on PATH"
+        ) from error
     if result.returncode != 0:
         raise ArchiveRootError(
             f"openssl {arguments[0]} failed: {result.stderr.strip()}"
@@ -229,7 +252,7 @@ def _stage(client: SdbClient, directory: Path, payloads: Path, package: str) -> 
     for name in PAYLOAD_FILES:
         source = payloads / name
         if not source.is_file():
-            raise ArchiveRootError(f"missing payload {source}; run make common-payload")
+            raise ArchiveRootError(f"missing payload {source}")
         client.push(source, staging / name)
     for name in RUNTIME_CONFIG_FILES:
         client.push(directory / name, staging / name)
@@ -260,6 +283,7 @@ async def probe(
     tv_host: str,
     *,
     model: str | None = None,
+    runtime: str | None = None,
     callback_host: str | None = None,
     bind_host: str | None = None,
     sdb_timeout: float = 15.0,
@@ -282,13 +306,19 @@ async def probe(
         bridge_token=bridge_token,
         bridge_port=bridge_port,
     )
-    assessment = await asyncio.to_thread(_check_target, client)
+    assessment = await asyncio.to_thread(_check_target, client, runtime)
     payloads = payloads or payload_directory(
         "common31" if assessment.runtime == "3.1" else "common"
     )
     for name in PAYLOAD_FILES:
         if not (payloads / name).is_file():
-            raise ArchiveRootError(f"missing payload {payloads / name}")
+            build_target = (
+                "common31-payload" if assessment.runtime == "3.1" else "common-payload"
+            )
+            raise ArchiveRootError(
+                f"missing payload {payloads / name}; re-extract the release or "
+                f"run 'make {build_target}' in the source checkout"
+            )
     package = "archive-root-" + secrets.token_hex(8)
     staging_started = False
     launch_task: asyncio.Task[CaptureResult] | None = None
@@ -345,6 +375,7 @@ async def probe(
                     "model": model,
                     "host": tv_host,
                     "runtime": assessment.runtime,
+                    "runtime_source": assessment.runtime_source,
                     "authenticated": True,
                     "uid": identity.uid,
                     "euid": identity.euid,

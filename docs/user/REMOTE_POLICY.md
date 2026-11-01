@@ -4,6 +4,10 @@ Remote handling is disabled by default and has no implicit mappings. The host
 controller only touches an input device whose exact kernel name appears in the
 configuration.
 
+The commands below require the [host controller](CONTROLLER.md) to be running.
+From a source checkout, use `.venv/bin/samsung-tv-root`; from an extracted
+release, use `./samsung-tv-root` (Windows: `samsung-tv-root.exe`).
+
 ## Observe a remote
 
 First obtain the input-device names from a rooted TV:
@@ -34,7 +38,9 @@ Observe mode opens the evdev node read-only. It does not grab the device,
 create a virtual input device, suppress a key, or change normal TV behavior.
 Each event includes the configured TV name and model, physical device name and
 node, transport, remote model, raw key code and value, key name, action,
-scan code, TV source, and foreground application context supplied by the TV.
+and forwarding decision. Scan code, TV source, and foreground application
+context are included only when the TV supplies them; an omitted field is not
+evidence of an empty application or a particular source.
 
 ## Suppress or remap
 

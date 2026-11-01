@@ -502,6 +502,7 @@ def command_archive_root_probe(arguments: argparse.Namespace) -> int:
         probe_archive_root(
             host,
             model=arguments.host if arguments.legacy_host else None,
+            runtime=arguments.runtime,
             callback_host=arguments.callback_host,
             bind_host=arguments.bind_host,
             sdb_timeout=arguments.sdb_timeout,
@@ -521,6 +522,7 @@ def command_archive_root_root(arguments: argparse.Namespace) -> int:
         probe_archive_root(
             host,
             model=arguments.host if arguments.legacy_host else None,
+            runtime=arguments.runtime,
             callback_host=arguments.callback_host,
             bind_host=arguments.bind_host,
             sdb_timeout=arguments.sdb_timeout,
@@ -1063,6 +1065,10 @@ def build_parser() -> argparse.ArgumentParser:
         command.add_argument("host", help="TV IPv4 address")
         command.add_argument("legacy_host", nargs="?", help=argparse.SUPPRESS)
         command.set_defaults(model=None)
+        command.add_argument(
+            "--runtime", choices=("3.1", "6.0"),
+            help="explicit target runtime when automatic discovery is unavailable",
+        )
         command.add_argument("--callback-host")
         command.add_argument("--bind-host")
         command.add_argument("--sdb-timeout", type=float, default=15.0)
