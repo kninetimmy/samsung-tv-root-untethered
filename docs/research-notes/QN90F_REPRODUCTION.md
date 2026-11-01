@@ -38,7 +38,8 @@ payload runs.
 
 Samsung Developer Mode exposes SDB to one configured development computer:
 
-Use a Samsung `BN59-01199F` full-button IR remote for the number-key sequence.
+The tested setup used a Samsung `BN59-01199F` full-button IR remote for the
+number-key sequence.
 
 1. Open Smart Hub, Apps, and App Settings.
 2. Enter `12345` with App Settings focused.
@@ -57,10 +58,12 @@ export SDB=/absolute/path/to/tizen-studio/tools/sdb
 The tested retail firmware closes a normal `sdb shell`. Root acquisition uses
 the package-install command path instead.
 
-From a source checkout, build the QN90F and shared managed payloads:
+From a source checkout, install the .NET 6 SDK described in the
+[source instructions](../../README.md#run-from-source), then build the QN90F
+and shared managed payloads:
 
 ```console
-uv sync --all-groups
+uv sync --locked --all-groups
 make qn90f-payload
 ```
 

@@ -25,6 +25,13 @@ Release examples use `samsung-tv-root` as the command name. Use
 `samsung-tv-root.exe` on Windows and `./samsung-tv-root` when running directly
 from an extracted Linux or macOS archive.
 
+From a source checkout, use `.venv/bin/samsung-tv-root`, or
+`.venv\Scripts\samsung-tv-root.exe` on Windows, after the editable installation
+and payload build in the [source instructions](../../README.md#run-from-source).
+Global options such as `--config PATH`, `--control-file PATH`, `--sdb PATH`,
+and `--output json` go before the command. `SAMSUNG_TV_ROOT_CONFIG` can also
+select a configuration file.
+
 The minimal file is:
 
 ```toml
@@ -92,6 +99,10 @@ configuration. A new SSDP boot generation resets that bounded attempt state.
 There is no periodic root probe, polling loop, TV-side boot unit, or host
 service restart policy.
 
+Set `root_on_presence = false` for a profile when acquisition should happen only
+after an explicit `root acquire my-tv` command. After transient retries are
+exhausted, `root acquire my-tv` also starts a fresh manual attempt.
+
 ## Running it
 
 Run in the foreground on any supported host:
@@ -107,6 +118,24 @@ samsung-tv-root service install --enable --now
 samsung-tv-root service status
 ```
 
+For a source installation, pass the installed console executable explicitly
+when invoking the CLI through `python -m`:
+
+```console
+.venv/bin/python -m samsung_tv_root service install \
+  --executable .venv/bin/samsung-tv-root --enable --now
+```
+
+Keep the extracted release or source environment at its installed path: the
+unit records absolute executable and configuration paths. Stop a foreground
+`daemon run` before starting the service. After configuration edits, restart
+the host service with `systemctl --user restart samsung-tv-root.service`, or
+stop and rerun the foreground daemon. To stop and remove the host service:
+
+```console
+samsung-tv-root service uninstall --now
+```
+
 The generated unit uses `Type=notify`. It has no `Restart=` directive. Service
 installation for macOS and Windows is not implemented; their native service
 managers can run the same foreground command.
@@ -116,6 +145,11 @@ managers can run the same foreground command.
 CLI requests use a mode-0600 loopback endpoint file containing a random token.
 The endpoint accepts authenticated JSON requests and event subscriptions. It is
 not a LAN server.
+
+The commands in this section require a running `daemon run` on the same host.
+The direct `qn90b root`, `qn90f root`, and `archive-root` commands
+create their own sessions and do not start that daemon. Avoid running a direct
+root attempt alongside a controller that already owns the same TV.
 
 Useful commands:
 

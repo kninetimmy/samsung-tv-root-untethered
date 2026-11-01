@@ -331,6 +331,16 @@ chain only runs at boot. Closing the manager stops its process and with it
 its window. The headless relay is owned by `tvroot-bridge.service`, independently
 of the manager process; closing the manager does not own its service lifecycle.
 
+Upstream recommends a headless boot agent for daily use because the platform
+can surface the squatted Gaming Hub window during playback. This merge stops
+the manager's UI timer and module polling while backgrounded and makes remote
+key logging opt-in with `/opt/usr/share/selfroot/key-debug` (read at startup).
+Upstream describes changing the app to `svcapp` with
+`app_component='svcapp'` and `app_nodisplay='true'`; that migration is separate
+from this fork's verified U8000 UI-app installation and remains unverified on
+the QN90B. Verify the service entry point and recovery before changing the
+manifest or package database.
+
 Module toggles apply on the next boot because the root runner snapshots
 overrides before executing any module. The UI writes overrides under
 `/home/owner/share/tmp/sdk_tools/selfroot-ui/modules/{enabled,disabled}/`;

@@ -37,7 +37,8 @@ missing object or failed structural check aborts the attempt.
 ## Chain
 
 1. Using a Samsung `BN59-01199F` full-button IR remote, enter `12345` in App
-   Settings, enable Developer Mode, and configure the Linux host IPv4 address.
+   Settings, enable Developer Mode, and configure the development computer's
+   IPv4 address.
 2. Use `SVE-2025-50109` to execute a shell command as `sdk` through the package
    name passed to `0 appinstall tpk`.
 3. Build `FdetProbe.dll` locally and upload it as data.
@@ -58,9 +59,14 @@ across reboot.
 
 ## Commands
 
+From a source checkout, install the host dependencies and .NET 6 SDK described
+in the [source instructions](../../README.md#run-from-source). These commands
+use `uv`; standalone releases already contain the payloads.
+
 ```console
 export TV_IP=192.0.2.50
 export SDB=/absolute/path/to/tizen-studio/tools/sdb
+uv sync --locked --all-groups
 make qn90b-payload
 uv run samsung-tv-root preflight qn90b "$TV_IP"
 uv run samsung-tv-root qn90b root "$TV_IP" --command \

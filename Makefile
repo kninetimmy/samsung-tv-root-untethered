@@ -38,16 +38,12 @@ common-payload:
 common31-payload: common-payload
 	rm -rf "$(COMMON31_OUT)"
 	mkdir -p "$(COMMON31_OUT)"
-	cd payloads/common31 && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 $(DOTNET31) restore ../common/SamsungTvArchiveRoot.csproj \
-		-p:TargetFramework=netcoreapp3.1
-	cd payloads/common31 && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 $(DOTNET31) build ../common/SamsungTvArchiveRoot.csproj \
-		-p:TargetFramework=netcoreapp3.1 \
-		--configuration Release --output out --no-restore
-	cd payloads/common31 && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 $(DOTNET31) restore ../common/SamsungTvRootAgent.csproj \
-		-p:TargetFramework=netcoreapp3.1
-	cd payloads/common31 && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 $(DOTNET31) build ../common/SamsungTvRootAgent.csproj \
-		-p:TargetFramework=netcoreapp3.1 \
-		--configuration Release --output out --no-restore
+	cd payloads/common31 && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 $(DOTNET31) build SamsungTvArchiveRoot.csproj \
+		-p:BaseIntermediateOutputPath=$(abspath payloads/common31/obj/archive)/ \
+		--configuration Release --output out
+	cd payloads/common31 && DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1 $(DOTNET31) build SamsungTvRootAgent.csproj \
+		-p:BaseIntermediateOutputPath=$(abspath payloads/common31/obj/root-agent)/ \
+		--configuration Release --output out
 
 qn90b-payload: common-payload
 	rm -rf "$(QN90B_OUT)"

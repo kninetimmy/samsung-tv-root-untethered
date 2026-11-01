@@ -73,7 +73,7 @@ RELEASE_DOCUMENTS = (
     "QUICKSTART.md",
     "LICENSE",
 )
-RELEASE_DIRECTORIES: tuple[str, ...] = ()
+RELEASE_DIRECTORIES = ("docs",)
 SOURCE_IGNORED_DIRECTORIES = {
     ".git",
     ".pytest_cache",
@@ -130,6 +130,9 @@ def validate_inputs() -> None:
     )
     missing.extend(
         str(ROOT / name) for name in RELEASE_DOCUMENTS if not (ROOT / name).is_file()
+    )
+    missing.extend(
+        str(ROOT / name) for name in RELEASE_DIRECTORIES if not (ROOT / name).is_dir()
     )
     if missing:
         raise ReleaseError("missing release inputs:\n" + "\n".join(missing))

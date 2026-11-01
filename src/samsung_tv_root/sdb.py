@@ -384,6 +384,16 @@ class SdbClient:
             f"/bin/sleep {SHELL_INJECTION_DELAY_SECONDS:g}", timeout
         )
         delay_delta = delayed_elapsed - control_elapsed
+        # The first SDB shell call can include setup time unrelated to the payload.
+        if (
+            delay_delta < SHELL_INJECTION_MINIMUM_DELTA
+            and control_elapsed >= SHELL_INJECTION_MINIMUM_DELTA
+        ):
+            control_elapsed, control = self._timed_injection("/bin/true", timeout)
+            delayed_elapsed, delayed = self._timed_injection(
+                f"/bin/sleep {SHELL_INJECTION_DELAY_SECONDS:g}", timeout
+            )
+            delay_delta = delayed_elapsed - control_elapsed
         if delay_delta < SHELL_INJECTION_MINIMUM_DELTA:
             details = []
             for name, result in (("control", control), ("delayed", delayed)):
