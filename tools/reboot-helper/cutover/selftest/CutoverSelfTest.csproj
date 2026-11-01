@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseAppHost>false</UseAppHost>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <StartupObject>CutoverSelfTest</StartupObject>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="CutoverSelfTest.cs" />
+    <Compile Include="../LinuxCutoverHelper.cs" Link="LinuxCutoverHelper.cs" />
+    <Compile Include="../../LinuxRebootHelper.cs" Link="LinuxRebootHelper.cs" />
+    <EmbeddedResource Include="../../snapshot.sh" LogicalName="snapshot.sh" />
+  </ItemGroup>
+</Project>

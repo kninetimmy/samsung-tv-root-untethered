@@ -61,6 +61,10 @@ jobs:
         run: dotnet build tools/reboot-helper/LinuxRebootHelper.csproj --configuration Release
       - name: Verify reboot guards without native power calls
         run: dotnet run --project tools/reboot-helper/selftest/PowerGateSelfTest.csproj --configuration Release
+      - name: Compile experimental cutover helper
+        run: dotnet build tools/reboot-helper/cutover/LinuxCutoverHelper.csproj --configuration Release
+      - name: Verify cutover guards without settings or power calls
+        run: dotnet run --project tools/reboot-helper/cutover/selftest/CutoverSelfTest.csproj --configuration Release
       - name: Verify payload types
         run: |
           for assembly in \
