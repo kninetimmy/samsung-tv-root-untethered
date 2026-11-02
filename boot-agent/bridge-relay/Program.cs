@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 public static class BridgeRelay
 {
     private const int DefaultPort = 26103;
+    private const string DefaultPortPath = "/opt/usr/share/selfroot/bridge-port.conf";
     private const string DefaultTokenPath = "/opt/usr/share/selfroot/bridge.conf";
     private const string DefaultLogPath = "/home/owner/share/tmp/sdk_tools/selfroot-evidence/bridge.log";
     private const int SdbPort = 26101;
@@ -30,17 +31,13 @@ public static class BridgeRelay
 
     public static int Main(string[] args)
     {
-        int port = DefaultPort;
+        int port;
         string tokenPath = DefaultTokenPath;
-        if (args.Length > 0)
+        try { port = ReadPort(args, DefaultPortPath); }
+        catch (Exception error)
         {
-            int parsed;
-            if (!int.TryParse(args[0], out parsed) || parsed < 1024 || parsed > 65535)
-            {
-                Console.Error.WriteLine("usage: TvRootBridgeRelay [port] [tokenPath] [logPath]");
-                return 2;
-            }
-            port = parsed;
+            Console.Error.WriteLine("cannot configure bridge port: " + error.Message);
+            return 2;
         }
         if (args.Length > 1) tokenPath = args[1];
         if (args.Length > 2) LogPath = args[2];
@@ -83,6 +80,22 @@ public static class BridgeRelay
                 Thread.Sleep(1000);
             }
         }
+    }
+
+    internal static int ReadPort(string[] args, string configPath)
+    {
+        string value;
+        if (args.Length > 0) value = args[0];
+        else
+        {
+            try { value = File.ReadAllText(configPath); }
+            catch (FileNotFoundException) { return DefaultPort; }
+            catch (DirectoryNotFoundException) { return DefaultPort; }
+        }
+        int port;
+        if (!int.TryParse(value.Trim(), out port) || port < 1024 || port > 65535)
+            throw new ArgumentException("bridge port must be an integer from 1024 through 65535");
+        return port;
     }
 
     private static bool IsToken(string token)
