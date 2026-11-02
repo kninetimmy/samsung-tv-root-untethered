@@ -147,6 +147,30 @@ standby/wake or HDMI/gaming reliability.
   diagnostic commands execute correctly
   ([PR #4](https://github.com/kninetimmy/samsung-tv-root-untethered/pull/4)).
 
+## External Q70T / NIKEM research
+
+This fork also preserves useful findings from
+**[cfloinc/samsung-q70t-tizen-root](https://github.com/cfloinc/samsung-q70t-tizen-root)**
+in an [attributed research summary](docs/research-notes/Q70T_EXTERNAL_RESEARCH.md),
+with source links pinned to the reviewed revision and MIT license/provenance
+details. The reported target is QN65Q70TAFXZA, T-NKMAKUC-2743.0, Tizen 6.0;
+its results have not been reproduced by this fork.
+
+- Older managed launchers can lack the effective capabilities archive-root
+  needs even when .NET runtime directories exist.
+- The documented MSDU11 firmware has a 3984-byte encrypted TOC and a `0x108C`
+  section base; layout and CRC checks help distinguish extraction errors from
+  decryption failures. These values are specific to that firmware.
+- UEP restrictions remain distinct from root identity, and debloat mechanisms
+  differ in what survives a reboot or needs reapplying.
+- Home-routing keys differ across generations; the source's Q70T Home-button
+  result does not validate QN90B Home or power-on behavior.
+
+This is documentation-only consolidation. No upstream scripts, kernel offsets,
+raw-rootfs persistence patches or launcher are imported, and no new supported
+TV profile or CLI root route is added. Existing SWU/TEEC work is linked rather
+than duplicated; see the summary for the original authors and evidence limits.
+
 ## Inherited Q60B results
 
 The screenshot and milestones below describe the inherited fork's Q60B work;
@@ -734,3 +758,6 @@ Start with the [quick start](QUICKSTART.md). The
 implementation and reverse-engineering research notes.
 
 This project is released under the [Unlicense](LICENSE).
+Referenced external projects retain their own licenses; the
+[Q70T research summary](docs/research-notes/Q70T_EXTERNAL_RESEARCH.md#provenance-and-scope)
+records its source's MIT license and attribution.

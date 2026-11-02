@@ -26,3 +26,6 @@ firmware.
 - [QN90F reproduction](research-notes/QN90F_REPRODUCTION.md)
 - [U8000 root observations](research-notes/U8000_REPRODUCTION.md)
 - [SWU AES extraction](research-notes/AES_EXTRACTION.md)
+- [External Q70T / NIKEM research](research-notes/Q70T_EXTERNAL_RESEARCH.md):
+  attributed summaries of older-device capabilities, firmware layout, TEE/UEP,
+  debloat durability and Home routing; external results, not new CLI support.
