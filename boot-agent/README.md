@@ -120,6 +120,20 @@ inside the selected output directory and restricts private key files to mode
 
 ## Deploy (one time)
 
+Keep every deployed shell script LF-only. The root `.gitattributes` enforces
+this for Windows checkouts too; `core.autocrlf=true` must not turn module
+scripts into CRLF. On the QN90B, a CRLF `bridge-service/boot.sh` failed Bash
+parsing with `unexpected end of file` and never created the headless service.
+
+An existing checkout or TV copy may still contain CRLF. Preserve local edits
+before refreshing the host copy, and run `python -m pytest tests/test_shell_scripts.py`
+before staging it. Back up the installed script and its metadata, then replace
+only the affected module script with the checked LF bytes, retaining its
+ownership, mode and SMACK labels. Verify the deployed hash and parse the actual
+bytes without executing them: `cat /path/to/boot.sh | bash -n`. A module/service
+start is a separate live operation; changing the source does not repair an
+installed TV copy or establish bridge availability.
+
 The agent squats a real preinstalled service app, `com.samsung.tv.ghservice`
 (Gaming Hub service) — back it up first, and see **TODO** for the clean
 dedicated-appid design.
