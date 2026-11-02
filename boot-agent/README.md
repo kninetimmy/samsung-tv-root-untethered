@@ -14,8 +14,11 @@ This fork also verified one automatic-root boot on QN55QN90BAFXZA /
 `T-PTMAKUC-REL-202602250225` with manager v5.13 and .NET 3.1.3. Remote activation
 and kernel reboot required no TV interaction after initial setup. Fresh full
 UID/GID and boot-ID proof was retrieved twice as SDK before any post-boot host
-root. Its diagnostic bridge works; the headless bridge is still blocked by a
-deployed CRLF shell script. See the [current QN90B result and method](../README.md#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01)
+root. On 2026-11-02 the deployed CRLF bridge script was repaired and manager
+v5.14 was installed. Authenticated headless access survived manager auto-close,
+incorrect tokens were rejected, and the owner visually confirmed auto-close.
+HDMI switching, standby/wake and cold-boot auto-close remain untested. See the
+[current QN90B result and method](../README.md#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01)
 for the tested boundary; the inherited proof below is a separate device result.
 
 ## The chain
@@ -43,14 +46,21 @@ the agent once.
 
 After a fresh root proof, the boot chain starts an authenticated SDB TCP
 bridge as a supervised headless service (`tvroot-bridge.service`, running
-`TvRootBridgeRelay.dll` under the system dotnet — no window, no app
-lifecycle, so closing the manager or switching inputs can no longer kill
-management access). It reads a 32-character lowercase hex token from
+`TvRootBridgeRelay.dll` under the system dotnet, independently of the manager
+window's lifecycle). Manager-close survival is verified on the QN90B; HDMI
+switching and standby/wake still need device validation. It reads a
+32-character lowercase hex token from
 `/opt/usr/share/selfroot/bridge.conf`, requires those exact 32 bytes at the
 start of each connection, then relays to `127.0.0.1:26101`. The default port is
-`26103`; an optional `/opt/usr/share/selfroot/bridge-port.conf` selects another
-port from `1024` through `65535`. Connection attempts
-are recorded in
+`26103`. With the [port-configuration fix](https://github.com/kninetimmy/samsung-tv-root-untethered/pull/15),
+the relay reads optional `/opt/usr/share/selfroot/bridge-port.conf` at startup
+to select a port from `1024` through `65535`. A missing file uses `26103`;
+an empty, malformed, out-of-range or unreadable file stops startup with an
+error. An explicit first positional port argument overrides the file, as used
+by the manager's diagnostic relay. File changes require a service restart.
+The installed QN90B relay predates this fix and has been tested only on the
+default port; the fix has not been deployed or tested with a custom port on
+that TV. Connection attempts are recorded in
 `/home/owner/share/tmp/sdk_tools/selfroot-evidence/bridge.log`.
 The manager keeps only a port probe for its status page. (Before v5.12 the
 relay lived inside the manager process and died with it.)
@@ -69,6 +79,12 @@ The countdown policy can be checked without TV framework assemblies:
 
 ```console
 dotnet run --project boot-agent/selftest/AutoCloseSelfTest.csproj --configuration Release
+```
+
+The port-configuration fix also adds a host-only regression check:
+
+```console
+dotnet run --project boot-agent/selftest/BridgePortSelfTest.csproj --configuration Release
 ```
 
 The bridge token is sent in cleartext on the local network. Use a random token,
@@ -139,7 +155,8 @@ inside the selected output directory and restricts private key files to mode
 Keep every deployed shell script LF-only. The root `.gitattributes` enforces
 this for Windows checkouts too; `core.autocrlf=true` must not turn module
 scripts into CRLF. On the QN90B, a CRLF `bridge-service/boot.sh` failed Bash
-parsing with `unexpected end of file` and never created the headless service.
+parsing with `unexpected end of file` and never created the headless service;
+the installed script was repaired on 2026-11-02.
 
 An existing checkout or TV copy may still contain CRLF. Preserve local edits
 before refreshing the host copy, and run `python -m pytest tests/test_shell_scripts.py`
@@ -309,9 +326,10 @@ connect through the authenticated bridge and read the new boot ID and
 `selfroot-evidence/selfroot-proof.txt` as the SDK user. Do this **before** running
 another host-initiated root command.
 
-On the QN90B, use the manager's diagnostic SDK bridge on `26104` until its
-headless bridge is repaired. A connection to either port alone is not proof:
-verify the new boot and complete root identity from the evidence itself.
+On the QN90B, use the repaired headless SDK bridge on `26103`. The diagnostic
+bridge on `26104` is an alternative while the manager is running. A connection
+to either port alone is not proof: verify the new boot and complete root
+identity from the evidence itself.
 
 New staging archives put `BOOT_ID=` in the root proof alongside the complete
 UID/GID status fields. Check the collected proof with:
