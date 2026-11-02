@@ -10,6 +10,14 @@ requirement.
 Proven working on QN55Q60BAFXZC / `T-NKLBAKUC-REL-202602250226` (Tizen 6.5.0,
 kernel 5.4.77 armv7l) — see **Proof** below.
 
+This fork also verified one automatic-root boot on QN55QN90BAFXZA /
+`T-PTMAKUC-REL-202602250225` with manager v5.13 and .NET 3.1.3. Remote activation
+and kernel reboot required no TV interaction after initial setup. Fresh full
+UID/GID and boot-ID proof was retrieved twice as SDK before any post-boot host
+root. Its diagnostic bridge works; the headless bridge is still blocked by a
+deployed CRLF shell script. See the [current QN90B result and method](../README.md#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01)
+for the tested boundary; the inherited proof below is a separate device result.
+
 ## The chain
 
 ```
@@ -171,6 +179,31 @@ Preserve the existing SDB `on-demand` upload directory's ownership and shared
 SMACK label. Relabeling it to `_` blocked later SDB uploads during the U8000
 installation, even though TCP/SDB connectivity remained healthy.
 
+Before starting the manager or the first localhost boot, prepare its persistent
+evidence directory as root. The manager runs as UID 5001, but its injected
+launcher runs as SDK UID 901. If the diagnostic bridge creates this directory
+first, it is owned by 5001 with mode `0755`; SDK cannot open `outer.log`, so the
+root-launch block never runs. The shared directory must belong to SDK so the
+launcher's existing permission and SMACK setup can also succeed.
+
+Inspect an existing directory before changing it; preserve its logs and refuse
+symlinks or an unexpected canonical path. Then prepare only this directory:
+
+```sh
+EVIDENCE=/home/owner/share/tmp/sdk_tools/selfroot-evidence
+(
+  test "$(readlink -f /home/owner/share/tmp/sdk_tools)" = /opt/usr/home/owner/share/tmp/sdk_tools &&
+    test ! -L "$EVIDENCE" && mkdir -p "$EVIDENCE" && cd -P "$EVIDENCE" &&
+    test "$(readlink -f .)" = /opt/usr/home/owner/share/tmp/sdk_tools/selfroot-evidence &&
+    chown 901:901 . && chmod 777 . && chsmack -a 'User::App::Shared' .
+) || exit 1
+```
+
+Before reboot, verify mode `777`, UID/GID `901:901`, and the shared SMACK label.
+Through the SDK connection, exclusively create a temporary file there, read it
+back, and remove only that file. A diagnostic bridge connection alone does not
+verify that the boot launcher can write its evidence.
+
 On the U8000, also pre-create the fixed SDK staging files as root so SDK copies
 retain labels readable by the capped runtime. Run this after populating
 `$APP/res/selfroot` and before the first localhost reboot:
@@ -231,16 +264,27 @@ the app read the outer/payload logs and append its diagnostic log on Tizen 9.
 | `127.0.0.1` | agent boots → self-roots → green status screen, evidence written |
 | the host PC's address | agent boots → chain fails quietly → TV behaves stock, host has sdb access |
 
-The flip **in the Dev Mode menu + a reboot** is the only toggle. The agent
-runs its chain once at boot; there is no steady-state polling.
+The developer-host setting must take effect through a real reboot. The Dev Mode
+menu is one way to change it; the verified QN90B research controller instead
+used a guarded localhost write and detached kernel-reboot helper, with separate
+durable readiness/readback acknowledgements and no TV interaction. See the
+[experimental helper](../tools/reboot-helper/README.md) for its qualification
+and recovery limits. The agent runs its chain once at boot; there is no
+steady-state polling.
 
 ### Verify a fresh reboot
 
 Record `/proc/sys/kernel/random/boot_id` before rebooting. After reboot, first
 connect through the authenticated bridge and read the new boot ID and
 `selfroot-evidence/selfroot-proof.txt` as the SDK user. Do this **before** running
-another host-initiated root command. New staging archives put `BOOT_ID=` in the
-root proof alongside the complete UID/GID status fields:
+another host-initiated root command.
+
+On the QN90B, use the manager's diagnostic SDK bridge on `26104` until its
+headless bridge is repaired. A connection to either port alone is not proof:
+verify the new boot and complete root identity from the evidence itself.
+
+New staging archives put `BOOT_ID=` in the root proof alongside the complete
+UID/GID status fields. Check the collected proof with:
 
 ```console
 python tools/verify_boot_proof.py /path/to/selfroot-proof.txt \

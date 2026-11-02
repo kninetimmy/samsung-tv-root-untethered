@@ -7,8 +7,9 @@ in private local preparation directories.
 
 The helper checks its own code/configuration hashes, root identity, host PID/user
 namespaces, private mount namespace, reboot capability, boot ID and developer
-settings. The expected desktop developer host is bound into the hashed private
-configuration; this experiment does not change it to localhost.
+settings. The expected developer host, either the desktop or localhost, is
+bound into the hashed private configuration. This reboot-only helper does not
+change that setting.
 
 `--inspect` collects context without power calls. `--wait` requires its own
 session/process group, publishes readiness, then waits up to 30 seconds for an
@@ -41,20 +42,33 @@ Keep the first live rehearsal in `mode=rehearse`. Before any separately approved
 real reboot, verify the actual helper's context, archive readiness before arming,
 and establish current storage/update activity and recovery access. A real reboot
 must be proven by a new boot ID, reduced uptime and returning SDK access while
-the developer host remains the desktop's address. Do not retry an ambiguous attempt.
+the developer host remains at its configured value. Do not retry an ambiguous attempt.
+
+On 2026-11-01, the exact QN55QN90BAFXZA / `T-PTMAKUC-REL-202602250225` passed
+remote kernel reboots through this helper, including a localhost reboot followed
+by automatic TV-side root. SDK collected matching new-boot/full-zero UID/GID
+proof twice before any host-initiated root. The tested method and remaining
+headless-bridge limitation are in the [QN90B result](../../README.md#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01).
 
 Direct kernel reboot bypasses normal application shutdown. Storage measurements
 and `sync()` do not establish application/database consistency or exclude a new
 writer. The staging pathname checks also assume no hostile concurrent swaps in
-the shared SDK parent. Hardware reboot behavior and these risks remain
-unresolved; using the TV remote when physically present is the fallback.
+the shared SDK parent. Successful reboots on this one model/build do not resolve
+those risks or establish repeated-cycle reliability; physical TV-menu recovery
+may still be necessary.
 
 ## Separate experimental cutover helper
 
 `cutover/LinuxCutoverHelper.csproj` prepares a two-acknowledgement developer-host
 transition without changing the qualified reboot-only helper. It is not installed
-or hardware-qualified. Its exact configuration, controller, baseline, private
+as a persistent service. Its exact configuration, controller, baseline, private
 credentials and execution records belong in a new private packet.
+
+The QN90B passed detached no-power barrier/expiry rehearsals, followed by one
+guarded localhost write, typed readback and kernel reboot. That initial boot
+exposed an evidence-directory permission blocker; automatic root was verified
+on a subsequent reboot after that separate installation repair. This qualifies
+the observed transitions on the exact model/build, not arbitrary future inputs.
 
 The helper validates its own code, configuration, boot, root context and original
 desktop IP before publishing `cutover-ready`. The first acknowledgement binds
