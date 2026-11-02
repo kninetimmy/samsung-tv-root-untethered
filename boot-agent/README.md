@@ -55,6 +55,22 @@ are recorded in
 The manager keeps only a port probe for its status page. (Before v5.12 the
 relay lived inside the manager process and died with it.)
 
+Starting with v5.14, the manager closes automatically 10 seconds after root
+proof and a successful localhost headless-bridge port probe. It waits up to
+30 probes, one second apart, for the bridge to start. Root errors, safe mode,
+and an unavailable bridge leave the screen open for diagnostics. Back still
+closes it manually. The same rule applies when reopening an already-rooted
+manager. The countdown uses elapsed time and is not restarted by pause/resume;
+no wake trigger is added. Actual standby/wake behavior still needs TV validation.
+Closing also stops the manager-owned diagnostic bridge (normally port 26104);
+the supervised headless bridge (normally port 26103) remains independent.
+
+The countdown policy can be checked without TV framework assemblies:
+
+```console
+dotnet run --project boot-agent/selftest/AutoCloseSelfTest.csproj --configuration Release
+```
+
 The bridge token is sent in cleartext on the local network. Use a random token,
 keep it private, and use the bridge only on a trusted LAN.
 

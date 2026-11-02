@@ -57,6 +57,8 @@ jobs:
       - name: Install ARM linker
         run: sudo apt-get update && sudo apt-get install --yes clang lld
       - run: make payloads swu-preloads
+      - name: Verify boot manager auto-close timing
+        run: dotnet run --project boot-agent/selftest/AutoCloseSelfTest.csproj --configuration Release
       - name: Compile experimental QN90B reboot helper
         run: dotnet build tools/reboot-helper/LinuxRebootHelper.csproj --configuration Release
       - name: Verify reboot guards without native power calls

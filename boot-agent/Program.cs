@@ -14,8 +14,8 @@ using Tizen.NUI.BaseComponents;
 
 public static class GhUIAgent
 {
-    private const string Version = "5.13";
-    private const string BuildTime = "2026-11-01";
+    private const string Version = "5.14";
+    private const string BuildTime = "2026-11-02";
 
     private const string Res = "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot";
     private const string AppHome = "/tmp/selfroot-app";
@@ -68,6 +68,9 @@ public static class GhUIAgent
     private static bool IsAppActive = true;    // true when foreground, false when paused/background
     private static bool KeyDebug;               // opt-in remote-key recon (see KeyDebugFlag)
     private static int LastBarWidth = -1;
+    private static readonly System.Diagnostics.Stopwatch UiLifetime = System.Diagnostics.Stopwatch.StartNew();
+    private static readonly SuccessAutoClose AutoClose = new SuccessAutoClose();
+    private static bool RootAndBridgeReady;
 
     private sealed class ModuleEntry
     {
@@ -396,6 +399,8 @@ public static class GhUIAgent
             bridgeStatus = BridgeStatus;
             uiMessage = UiMessage;
             uiMessageUntil = UiMessageUntilUtc;
+            if (AutoClose.ShouldClose(UiLifetime.ElapsedMilliseconds, RootAndBridgeReady))
+                CloseRequested = true;
             UiDirty = false;
         }
         // M4: transient confirmations live 5s, then are consumed so the UI
@@ -993,7 +998,7 @@ public static class GhUIAgent
                         BannerColor = new Color(0.2f, 1f, 0.3f, 1f);
                         Progress = 1.0;
                     }
-                    ProbeBridgeStatus();
+                    WaitForBridgeAndAutoClose();
                     return;
                 }
 
@@ -1157,7 +1162,7 @@ public static class GhUIAgent
                             BannerColor = new Color(0.2f, 1f, 0.3f, 1f);
                             Progress = 1.0;
                         }
-                        ProbeBridgeStatus();
+                        WaitForBridgeAndAutoClose();
                         return;
                     }
                 }
@@ -1187,7 +1192,23 @@ public static class GhUIAgent
     // v5.12: the relay is owned by tvroot-bridge.service (supervised root
     // shell running managed IL - no window, no app lifecycle to kill it).
     // The agent only probes the port for its status page.
-    private static void ProbeBridgeStatus()
+    private static void WaitForBridgeAndAutoClose()
+    {
+        // Root proof can arrive before the module has started its headless bridge.
+        for (int attempt = 0; attempt < 30; attempt++)
+        {
+            if (ProbeBridgeStatus())
+            {
+                lock (Gate) { RootAndBridgeReady = true; }
+                AddUiEvent("Root and headless bridge ready - closing in 10 seconds");
+                return;
+            }
+            Thread.Sleep(1000);
+        }
+        AddUiEvent("Headless bridge unavailable - keeping manager open for diagnostics");
+    }
+
+    private static bool ProbeBridgeStatus()
     {
         try
         {
@@ -1198,10 +1219,12 @@ public static class GhUIAgent
                 probe.Connect("127.0.0.1", BridgePort());
             }
             lock (Gate) { BridgeStatus = "up (tvroot-bridge.service)"; UiDirty = true; }
+            return true;
         }
         catch
         {
             lock (Gate) { BridgeStatus = "down - tvroot-bridge.service not listening"; UiDirty = true; }
+            return false;
         }
     }
 
