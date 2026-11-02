@@ -58,9 +58,12 @@ to select a port from `1024` through `65535`. A missing file uses `26103`;
 an empty, malformed, out-of-range or unreadable file stops startup with an
 error. An explicit first positional port argument overrides the file, as used
 by the manager's diagnostic relay. File changes require a service restart.
-The installed QN90B relay predates this fix and has been tested only on the
-default port; the fix has not been deployed or tested with a custom port on
-that TV. Connection attempts are recorded in
+The QN90B relay was updated with this fix on 2026-11-02, preserving its
+ownership, mode and SMACK label, with verified host and TV backups. After
+temporary root closed, authenticated SDK access on `26103` and incorrect-token
+rejection passed; the temporary recovery relay and staging were removed.
+Changing the port file and using a custom port remain untested on that TV.
+Connection attempts are recorded in
 `/home/owner/share/tmp/sdk_tools/selfroot-evidence/bridge.log`.
 The manager keeps only a port probe for its status page. (Before v5.12 the
 relay lived inside the manager process and died with it.)
@@ -294,6 +297,12 @@ TVROOT_BRIDGE_TOKEN=<32-character-token> \
 Use `--bridge-port` if the TV has a `bridge-port.conf` with a different port.
 The TV callback still connects directly to the desktop over the LAN, so allow
 the selected callback port through the desktop firewall as usual.
+
+On the QN90B, SDK reconnects and command requests stalled during a temporary
+archive-root operation and worked after it closed. Finish the temporary root
+session before final SDK verification. The relay update kept an independent,
+authenticated recovery relay available during the primary service restart,
+then removed it after validating the updated primary bridge.
 
 ## Operating model
 
