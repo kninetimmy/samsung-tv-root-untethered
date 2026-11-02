@@ -10,6 +10,14 @@ requirement.
 Proven working on QN55Q60BAFXZC / `T-NKLBAKUC-REL-202602250226` (Tizen 6.5.0,
 kernel 5.4.77 armv7l) — see **Proof** below.
 
+This fork also verified one automatic-root boot on QN55QN90BAFXZA /
+`T-PTMAKUC-REL-202602250225` with manager v5.13 and .NET 3.1.3. Remote activation
+and kernel reboot required no TV interaction after initial setup. Fresh full
+UID/GID and boot-ID proof was retrieved twice as SDK before any post-boot host
+root. Its diagnostic bridge works; the headless bridge is still blocked by a
+deployed CRLF shell script. See the [current QN90B result and method](../README.md#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01)
+for the tested boundary; the inherited proof below is a separate device result.
+
 ## The chain
 
 ```
@@ -256,16 +264,27 @@ the app read the outer/payload logs and append its diagnostic log on Tizen 9.
 | `127.0.0.1` | agent boots → self-roots → green status screen, evidence written |
 | the host PC's address | agent boots → chain fails quietly → TV behaves stock, host has sdb access |
 
-The flip **in the Dev Mode menu + a reboot** is the only toggle. The agent
-runs its chain once at boot; there is no steady-state polling.
+The developer-host setting must take effect through a real reboot. The Dev Mode
+menu is one way to change it; the verified QN90B research controller instead
+used a guarded localhost write and detached kernel-reboot helper, with separate
+durable readiness/readback acknowledgements and no TV interaction. See the
+[experimental helper](../tools/reboot-helper/README.md) for its qualification
+and recovery limits. The agent runs its chain once at boot; there is no
+steady-state polling.
 
 ### Verify a fresh reboot
 
 Record `/proc/sys/kernel/random/boot_id` before rebooting. After reboot, first
 connect through the authenticated bridge and read the new boot ID and
 `selfroot-evidence/selfroot-proof.txt` as the SDK user. Do this **before** running
-another host-initiated root command. New staging archives put `BOOT_ID=` in the
-root proof alongside the complete UID/GID status fields:
+another host-initiated root command.
+
+On the QN90B, use the manager's diagnostic SDK bridge on `26104` until its
+headless bridge is repaired. A connection to either port alone is not proof:
+verify the new boot and complete root identity from the evidence itself.
+
+New staging archives put `BOOT_ID=` in the root proof alongside the complete
+UID/GID status fields. Check the collected proof with:
 
 ```console
 python tools/verify_boot_proof.py /path/to/selfroot-proof.txt \
