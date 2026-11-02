@@ -43,6 +43,9 @@ model/build above. Build and deployment instructions, including the required
 
 ## QN90B: verified automatic boot-root and remote reboot — 2026-11-01
 
+Status updated 2026-11-02 after the headless bridge repair and manager v5.14
+installation.
+
 | Item | Verified device |
 | --- | --- |
 | Exact model | Samsung `QN55QN90BAFXZA` (QN90B) |
@@ -59,11 +62,12 @@ older upstream `1602.3` result below does not identify this firmware.
 | SDB foothold and platform preflight | Verified; preflight reports `compatible-untested` for this newer build |
 | Host-initiated `archive-root` | Verified: authenticated UID/EUID/GID/EGID 0 and successful `id` command |
 | Root-session integrity and cleanup | All 24 checked installed/system-file hashes match; all three task stages removed with guarded cleanup |
-| Gaming Hub-based boot-root installation | Activated; manager v5.13 targets .NET Core 3.1 |
+| Gaming Hub-based boot-root installation | Activated; manager v5.14 installed on 2026-11-02, targeting .NET Core 3.1 |
 | Automatic boot-root and TV-local SDB | Verified after one fresh Linux reboot; matching boot ID and complete zero UID/GID proof collected twice as SDK before host root |
 | Remote localhost activation and reboot | Verified without TV-menu, remote-button or physical interaction after installation and initial Developer Mode setup |
 | Token-authenticated diagnostic SDK bridge (`26104`) | Working; depends on the manager process remaining alive |
-| Headless management bridge (`26103`) | Blocked by CRLF line endings in the deployed bridge module's shell script; separate fix pending |
+| Headless management bridge (`26103`) | Verified authenticated SDK access after manager auto-close; incorrect tokens rejected |
+| Manager v5.14 auto-close | Verified: ten-second countdown after root/bridge readiness; errors leave diagnostics visible |
 | FDET root, UEP changes, privacy/debloat and rollback | Not validated on this build |
 | Native HDMI gaming after activation | Pending 4K120, HDR, VRR/FreeSync, Game Mode, picture and audio checks |
 
@@ -87,13 +91,19 @@ UID/GID fields zero. The host retrieved matching proof twice as SDK UID 901
 through the authenticated diagnostic bridge **before any post-boot host root**.
 The root payload exited successfully and the manager recorded fresh root proof.
 
-Headless management is a separate pending result. The bridge module's deployed
-CRLF script fails Linux Bash parsing; an LF-only read-only parse passes. Its
-service did not start, so diagnostic access currently depends on the manager.
-Wrong-token rejection, access after closing the manager or switching HDMI,
-repeated reboot/standby-wake, native gaming and actual rollback remain to be
-tested. The installed bundle contains only root and bridge support;
-privacy/debloat modules have not been installed or enabled on this TV.
+On 2026-11-02, an LF-only repair of the bridge module's deployed shell script
+restored `tvroot-bridge.service`, preserving its inode, ownership, mode, SMACK
+label and an original backup. Authenticated SDK access on `26103` and incorrect
+token rejection passed. After the manager v5.14 update, the manager exited
+13.11 seconds after launch with a ten-second countdown; authenticated headless
+access continued afterward. The owner also visually confirmed auto-close.
+
+The owner reports stable root across multiple boots. That report does not
+replace the remaining cold-boot auto-close, standby/wake, HDMI switching,
+native gaming and actual rollback checks. The bridge repair and manager
+update checks did not reboot the TV or test standby. The installed bundle
+contains only root and bridge support; privacy/debloat modules have not been
+installed or enabled on this TV.
 
 ### Verified remote root and reboot method
 
@@ -131,8 +141,8 @@ This is a verified method on the exact model/build above, not a new one-command
 release installer. Direct kernel restart bypasses normal application shutdown;
 quiet storage samples and `sync()` do not establish database consistency or
 general restart safety. Physical recovery can still be required if remote
-access fails. One automatic-root boot does not establish repeated cold-cycle,
-standby/wake or HDMI/gaming reliability.
+access fails. Fresh automatic-root proof and owner-reported repeat boots do
+not establish cold-boot auto-close, standby/wake or HDMI/gaming reliability.
 
 ### Recent changes in this fork
 
@@ -199,7 +209,8 @@ Key results:
 | sdb bridge — devIP stays `127.0.0.1`, host CLI through `TVROOT_BRIDGE_TOKEN` | shipped (M1) |
 | Agent v4 — UI freeze fix, single-shot chain, safe mode | shipped (M2) |
 | On-TV screenshot via Samsung's own capture API | proven (PoC above) |
-| Module runner, manager UI, telemetry modules and headless bridge service | present in source; not validated on this QN90B build |
+| Module runner, manager UI and headless bridge service | present in source; device-specific verification documented above |
+| Optional privacy/debloat modules | present in source; not installed on this fork's QN90B or U8000 |
 
 ---
 
@@ -265,7 +276,7 @@ preserve upstream's reports and evidence labels.
 | Status | Exact TV or firmware family | Firmware | Root route and result | Evidence / limitation |
 | --- | --- | --- | --- | --- |
 | Fork-tested | `UN50U8000FFXZA` (U8000) | `T-X22UDFAKUC-0090-REL-202607141244`; numeric version not recorded | Archive-launcher route; automatic boot-root and authenticated bridge | [U8000 observations](docs/research-notes/U8000_REPRODUCTION.md); Tizen 9, ARMv7, .NET 6.0.9; one full reboot verified |
-| Fork-tested | `QN55QN90BAFXZA` (QN90B) | `T-PTMAKUC-REL-202602250225`; numeric version not recorded | Archive-launcher route; remote reboot and automatic boot-root verified | [Current QN90B status](#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01); diagnostic bridge works; headless bridge fix and native gaming checks pending |
+| Fork-tested | `QN55QN90BAFXZA` (QN90B) | `T-PTMAKUC-REL-202602250225`; numeric version not recorded | Archive-launcher route; remote reboot and automatic boot-root verified | [Current QN90B status](#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01); authenticated headless access survives manager auto-close; native gaming checks pending |
 | Owner-tested | `QN55QN90BAFXZA` (QN90B) | `T-PTMAKUC-1602.3` | FDET physical-memory route; archive-launcher route also tested | [QN90B reproduction](docs/research-notes/QN90B_REPRODUCTION.md) |
 | Owner-tested | `QN75QN90FAFXZA` (QN90F) | `T-RSMFAKUC-0090-1203.0` | Mali-G510 `CVE-2025-0072` route; archive-launcher route also tested | [QN90F reproduction](docs/research-notes/QN90F_REPRODUCTION.md) |
 | Reported, public release | `QA55QN90FAUXEG` (QN90F) | `T-RSMFUABC-0090-1301.0` | Mali route; authenticated root, full capability mask and volatile UEP disable | [Independent v0.0.3 validation](docs/research-notes/QN90F_REPRODUCTION.md#tested-targets); the TV UI misspelled the family `RSMFUBAC` |
