@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseAppHost>false</UseAppHost>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <StartupObject>BridgePortSelfTest</StartupObject>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BridgePortSelfTest.cs" />
+    <Compile Include="../bridge-relay/Program.cs" Link="BridgeRelay.cs" />
+  </ItemGroup>
+</Project>
