@@ -22,6 +22,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="SuccessAutoClose.cs" />
     <Compile Include="bridge-relay/Program.cs" />
   </ItemGroup>
   <ItemGroup>
