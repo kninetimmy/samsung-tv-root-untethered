@@ -43,8 +43,8 @@ model/build above. Build and deployment instructions, including the required
 
 ## QN90B: verified automatic boot-root and remote reboot — 2026-11-01
 
-Status updated 2026-11-02 after the headless bridge repair and manager v5.14
-installation.
+Status updated 2026-11-02 after the headless bridge repair, manager v5.17
+installation and one same-boot automatic-launch suppression check.
 
 | Item | Verified device |
 | --- | --- |
@@ -62,13 +62,14 @@ older upstream `1602.3` result below does not identify this firmware.
 | SDB foothold and platform preflight | Verified; preflight reports `compatible-untested` for this newer build |
 | Host-initiated `archive-root` | Verified: authenticated UID/EUID/GID/EGID 0 and successful `id` command |
 | Root-session integrity and cleanup | All 24 checked installed/system-file hashes match; all three task stages removed with guarded cleanup |
-| Gaming Hub-based boot-root installation | Activated; manager v5.14 installed on 2026-11-02, targeting .NET Core 3.1 |
+| Gaming Hub-based boot-root installation | Activated; manager v5.17 installed on 2026-11-02, targeting .NET Core 3.1 |
 | Automatic boot-root and TV-local SDB | Verified after one fresh Linux reboot; matching boot ID and complete zero UID/GID proof collected twice as SDK before host root |
 | Remote localhost activation and reboot | Verified without TV-menu, remote-button or physical interaction after installation and initial Developer Mode setup |
 | Token-authenticated diagnostic SDK bridge (`26104`) | Working; depends on the manager process remaining alive |
 | Headless management bridge (`26103`) | Verified authenticated SDK access after manager auto-close; incorrect tokens rejected |
 | Manager v5.14 auto-close | Verified: ten-second countdown after root/bridge readiness; errors leave diagnostics visible |
-| FDET root, UEP changes, privacy/debloat and rollback | Not validated on this build |
+| Hourly manager popups | v5.17 quiet-exit path verified for one natural daemon request; six camera frames stayed on the game and headless access survived |
+| FDET root, UEP changes, privacy/debloat and stock restoration | Not validated on this build |
 | Native HDMI gaming after activation | Pending 4K120, HDR, VRR/FreeSync, Game Mode, picture and audio checks |
 
 The verified root route is `archive-root`; the separate QN90B FDET route has
@@ -97,6 +98,17 @@ label and an original backup. Authenticated SDK access on `26103` and incorrect
 token rejection passed. After the manager v5.14 update, the manager exited
 13.11 seconds after launch with a ten-second countdown; authenticated headless
 access continued afterward. The owner also visually confirmed auto-close.
+
+The v5.15 diagnostic then captured a natural hourly launch from
+`com.samsung.tv.ghdaemon` using the default app-control operation. An
+owner-approved SDK opening had no caller ID and used the same operation.
+Both closed with headless access, the original boot/root proof and 23 other
+protected file hashes intact. The [v5.17 manager change](boot-agent/README.md)
+was then installed and passed intentional SDK opening. At 2026-11-03 03:20:47
+UTC, the natural daemon request took its quiet-exit path; all six scheduled
+camera frames showed the game screen without the manager. The original boot,
+root proof, 23 protected hashes and headless access remained intact. This is
+one same-boot interval. A visible Home tile remains unverified.
 
 The owner reports stable root across multiple boots. That report does not
 replace the remaining cold-boot auto-close, standby/wake, HDMI switching,

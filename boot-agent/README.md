@@ -78,6 +78,57 @@ no wake trigger is added. Actual standby/wake behavior still needs TV validation
 Closing also stops the manager-owned diagnostic bridge (normally port 26104);
 the supervised headless bridge (normally port 26103) remains independent.
 
+On the QN90B, v5.14 was also observed relaunching hourly during the same boot,
+taking the existing-proof fast path and showing that completion screen. A
+v5.15 diagnostic capture identified `com.samsung.tv.ghdaemon` with operation
+`http://tizen.org/appcontrol/operation/default`; its hourly scheduling mechanism
+remains unknown. An owner-approved SDK launch had no caller ID and used the
+same operation; both launches closed with headless access and the original
+root proof intact. A visible Home tile has not been verified on the QN90B.
+
+Version 5.17 starts with a transparent, hidden window that does not accept
+focus. If the current boot already has accepted root proof and the headless
+bridge answers its existing localhost port probe, the manager waits for the
+initial application-control request before building the UI. Only the exact
+`com.samsung.tv.ghdaemon`/default-operation pair exits silently after rechecking
+that readiness. It does not start another root chain or manager-owned bridge.
+Other requests, unavailable launch metadata, first boot and bridge failures
+keep the manager UI and recovery path. An idle fallback opens diagnostics if
+no initial application-control callback arrives. Visible successful sessions
+retain the ten-second close policy. The first v5.16 live test failed during
+startup and was rolled back to verified v5.15. NUI's idle callback marshalling
+rejects generic `Func<bool>`; v5.17 uses a non-generic `Action`, with a native
+function-pointer round-trip regression check. The corrected build was installed
+on the exact QN90B build above. Its intentional SDK opening showed the manager,
+closed normally and preserved headless access. The natural daemon launch at
+2026-11-03 03:20:47 UTC recorded the quiet-exit path; all six scheduled camera
+frames around it showed the game screen without a manager window. The original
+boot/root proof and 23 other protected hashes remained unchanged. This verifies
+one same-boot automatic launch; cold boot and standby/wake remain untested.
+
+Each process records its manager version in the existing
+`selfroot-evidence/agent.log`, and each
+application-control callback records `launch-control: caller=... operation=...`.
+Only those two fields are recorded; launch arguments, URI and extra-data values
+are omitted. Fields are quoted, control characters escaped, and each field is
+limited to 256 input characters with visible truncation. Unavailable metadata
+is recorded explicitly. Diagnostic failures do not change the root chain.
+
+Validate a changed manager on the exact TV build with a natural daemon launch,
+camera/owner observation, the quiet-exit log record and fresh headless access
+afterward. An intentional SDK opening must still show the manager. Missing
+callbacks or identical request metadata do not establish launch intent. These
+checks need no reboot or UEP/native-execution test; cold boot and standby/wake
+remain separate validation. This change leaves the manifest and package
+database intact.
+
+The launch-context self-test checks the quiet-launch policy, missing metadata,
+log injection and bounded records:
+
+```console
+dotnet run --project boot-agent/selftest/LaunchContextSelfTest.csproj --configuration Release
+```
+
 The countdown policy can be checked without TV framework assemblies:
 
 ```console
@@ -424,9 +475,10 @@ the bearer token is only shown on that page. A QR renderer is not included
 in this pass (generate the QR on the manager host from the pairing URI and
 push the PNG later — `ImageView` is available).
 
-Reopening the manager from the launcher (`TVRoot` tile — the squatted
-`com.samsung.tv.ghservice` manifest label was renamed from GHService) is
-instant: if this boot already has fresh proof the agent skips the injection
+The QN90B's installed manifest label is `GHService`; a visible Home tile has
+not been verified. An intentional opening through the existing authenticated
+SDK connection uses `app_launcher -s com.samsung.tv.ghservice`. If this boot
+already has fresh proof the agent skips the injection
 entirely, goes green, and checks the bridge (reopen fast-path). A full
 chain only runs at boot. Closing the manager stops its process and with it
 its window. The headless relay is owned by `tvroot-bridge.service`, independently
