@@ -86,7 +86,7 @@ remains unknown. An owner-approved SDK launch had no caller ID and used the
 same operation; both launches closed with headless access and the original
 root proof intact. A visible Home tile has not been verified on the QN90B.
 
-Version 5.16 starts with a transparent, hidden window that does not accept
+Version 5.17 starts with a transparent, hidden window that does not accept
 focus. If the current boot already has accepted root proof and the headless
 bridge answers its existing localhost port probe, the manager waits for the
 initial application-control request before building the UI. Only the exact
@@ -95,8 +95,11 @@ that readiness. It does not start another root chain or manager-owned bridge.
 Other requests, unavailable launch metadata, first boot and bridge failures
 keep the manager UI and recovery path. An idle fallback opens diagnostics if
 no initial application-control callback arrives. Visible successful sessions
-retain the ten-second close policy. This suppression change needs live TV
-validation; the diagnostic capture above does not establish silent startup.
+retain the ten-second close policy. The first v5.16 live test failed during
+startup and was rolled back to verified v5.15. NUI's idle callback marshalling
+rejects generic `Func<bool>`; v5.17 uses a non-generic `Action`, with a native
+function-pointer round-trip regression check. This corrected suppression build
+still needs live TV validation.
 
 Each process records its manager version in the existing
 `selfroot-evidence/agent.log`, and each

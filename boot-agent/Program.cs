@@ -14,7 +14,7 @@ using Tizen.NUI.BaseComponents;
 
 public static class GhUIAgent
 {
-    private const string Version = "5.16";
+    private const string Version = "5.17";
     private const string BuildTime = "2026-11-02";
 
     private const string Res = "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot";
@@ -121,7 +121,7 @@ public static class GhUIAgent
     {
         private bool launchControlReceived;
         private bool managerStarted;
-        private Func<bool> idleFallback;
+        private Action idleFallback;
 
         public Agent() : base("", NUIApplication.WindowMode.Transparent) { }
 
@@ -144,11 +144,7 @@ public static class GhUIAgent
                 return;
             }
             // Keep diagnostics available if the platform omits initial launch context.
-            idleFallback = () =>
-            {
-                if (!launchControlReceived) StartManager();
-                return false;
-            };
+            idleFallback = LaunchContext.CreateIdleFallback(() => launchControlReceived, StartManager);
             if (!AddIdle(idleFallback)) StartManager();
         }
 

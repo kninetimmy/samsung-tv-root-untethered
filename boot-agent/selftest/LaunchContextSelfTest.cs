@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 internal static class LaunchContextSelfTest
 {
@@ -9,6 +10,18 @@ internal static class LaunchContextSelfTest
 
     public static void Main()
     {
+        bool controlReceived = false;
+        int starts = 0;
+        Action fallback = LaunchContext.CreateIdleFallback(() => controlReceived, () => starts++);
+        IntPtr callback = Marshal.GetFunctionPointerForDelegate(fallback);
+        var invoke = Marshal.GetDelegateForFunctionPointer<Action>(callback);
+        invoke();
+        Require(starts == 1, "native idle callback must open diagnostics without launch context");
+        controlReceived = true;
+        invoke();
+        Require(starts == 1, "received context must prevent the native idle fallback from opening UI");
+        GC.KeepAlive(fallback);
+
         const string automaticCaller = "com.samsung.tv.ghdaemon";
         const string defaultOperation = "http://tizen.org/appcontrol/operation/default";
         Require(LaunchContext.ShouldStayQuiet(automaticCaller, defaultOperation, true),
@@ -56,6 +69,6 @@ internal static class LaunchContextSelfTest
             Require(!char.IsControl(c), "all control characters must be escaped");
         Require(LaunchContext.Describe(new string('\0', 10000), new string('\0', 10000)).Length < 3200,
             "escaping must not allow unbounded log records");
-        Console.WriteLine("PASS: quiet-launch policy and launch-context field, escaping and size checks (no TV required)");
+        Console.WriteLine("PASS: native idle callback, quiet-launch policy and bounded logging checks (no TV required)");
     }
 }

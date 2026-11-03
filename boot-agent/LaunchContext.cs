@@ -3,6 +3,12 @@ using System.Text;
 
 internal static class LaunchContext
 {
+    public static Action CreateIdleFallback(Func<bool> controlReceived, Action startManager)
+    {
+        // NUI marshals this delegate; Action is non-generic and matches its void callback.
+        return () => { if (!controlReceived()) startManager(); };
+    }
+
     public static bool ShouldStayQuiet(string caller, string operation, bool rootAndBridgeReady)
     {
         return rootAndBridgeReady

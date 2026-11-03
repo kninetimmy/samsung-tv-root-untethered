@@ -44,7 +44,8 @@ model/build above. Build and deployment instructions, including the required
 ## QN90B: verified automatic boot-root and remote reboot — 2026-11-01
 
 Status updated 2026-11-02 after the headless bridge repair and manager v5.15
-launch-context diagnostics. The v5.16 popup-suppression change awaits live validation.
+launch-context diagnostics. The v5.16 trial was rolled back after failed startup;
+the corrected v5.17 popup-suppression change awaits live validation.
 
 | Item | Verified device |
 | --- | --- |
@@ -68,7 +69,7 @@ older upstream `1602.3` result below does not identify this firmware.
 | Token-authenticated diagnostic SDK bridge (`26104`) | Working; depends on the manager process remaining alive |
 | Headless management bridge (`26103`) | Verified authenticated SDK access after manager auto-close; incorrect tokens rejected |
 | Manager v5.14 auto-close | Verified: ten-second countdown after root/bridge readiness; errors leave diagnostics visible |
-| Hourly manager popups | v5.15 identifies `com.samsung.tv.ghdaemon` using the default operation; v5.16 suppression needs live validation |
+| Hourly manager popups | v5.15 identifies `com.samsung.tv.ghdaemon` using the default operation; corrected v5.17 suppression needs live validation |
 | FDET root, UEP changes, privacy/debloat and rollback | Not validated on this build |
 | Native HDMI gaming after activation | Pending 4K120, HDR, VRR/FreeSync, Game Mode, picture and audio checks |
 
@@ -103,7 +104,7 @@ The v5.15 diagnostic then captured a natural hourly launch from
 `com.samsung.tv.ghdaemon` using the default app-control operation. An
 owner-approved SDK opening had no caller ID and used the same operation.
 Both closed with headless access, the original boot/root proof and 23 other
-protected file hashes intact. The [v5.16 manager change](boot-agent/README.md)
+protected file hashes intact. The [v5.17 manager change](boot-agent/README.md)
 uses that distinction to keep healthy automatic starts quiet; it has not yet
 been validated on the TV. A visible Home tile remains unverified.
 
