@@ -122,7 +122,7 @@ public static class GhUIAgent
         protected override void OnCreate()
         {
             base.OnCreate();
-            Persist("manager v" + Version + " created");
+            Persist("manager v" + GhUIAgent.Version + " created");
             GhUIAgent.BuildUi();
             GhUIAgent.StartBootstrapBridge();
             GhUIAgent.RunChain();

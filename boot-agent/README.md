@@ -79,9 +79,11 @@ Closing also stops the manager-owned diagnostic bridge (normally port 26104);
 the supervised headless bridge (normally port 26103) remains independent.
 
 On the QN90B, v5.14 was also observed relaunching hourly during the same boot,
-taking the existing-proof fast path and showing that completion screen. The
-originating caller is still unknown. Version 5.15 adds diagnostic logging;
-it does not yet suppress these popups. Each process records
+taking the existing-proof fast path and showing that completion screen. A
+v5.15 diagnostic capture identified `com.samsung.tv.ghdaemon` with operation
+`http://tizen.org/appcontrol/operation/default`; its hourly scheduling mechanism
+remains unknown. This diagnostic version does not yet suppress these popups.
+Each process records
 `manager v5.15 created` in the existing `selfroot-evidence/agent.log`, and each
 application-control callback records `launch-control: caller=... operation=...`.
 Only those two fields are recorded; launch arguments, URI and extra-data values
