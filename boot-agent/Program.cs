@@ -14,7 +14,7 @@ using Tizen.NUI.BaseComponents;
 
 public static class GhUIAgent
 {
-    private const string Version = "5.14";
+    private const string Version = "5.15";
     private const string BuildTime = "2026-11-02";
 
     private const string Res = "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot";
@@ -122,9 +122,24 @@ public static class GhUIAgent
         protected override void OnCreate()
         {
             base.OnCreate();
+            Persist("manager v" + Version + " created");
             GhUIAgent.BuildUi();
             GhUIAgent.StartBootstrapBridge();
             GhUIAgent.RunChain();
+        }
+
+        protected override void OnAppControlReceived(Tizen.Applications.AppControlReceivedEventArgs e)
+        {
+            try
+            {
+                var control = e?.ReceivedAppControl;
+                Persist(LaunchContext.Describe(control?.CallerApplicationId, control?.Operation));
+            }
+            catch (Exception error)
+            {
+                Persist("launch-control: metadata unavailable (" + error.GetType().Name + ")");
+            }
+            base.OnAppControlReceived(e);
         }
 
         protected override void OnResume()

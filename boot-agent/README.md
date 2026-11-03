@@ -78,6 +78,34 @@ no wake trigger is added. Actual standby/wake behavior still needs TV validation
 Closing also stops the manager-owned diagnostic bridge (normally port 26104);
 the supervised headless bridge (normally port 26103) remains independent.
 
+On the QN90B, v5.14 was also observed relaunching hourly during the same boot,
+taking the existing-proof fast path and showing that completion screen. The
+originating caller is still unknown. Version 5.15 adds diagnostic logging;
+it does not yet suppress these popups. Each process records
+`manager v5.15 created` in the existing `selfroot-evidence/agent.log`, and each
+application-control callback records `launch-control: caller=... operation=...`.
+Only those two fields are recorded; launch arguments, URI and extra-data values
+are omitted. Fields are quoted, control characters escaped, and each field is
+limited to 256 input characters with visible truncation. Unavailable metadata
+is recorded explicitly. Diagnostic failures do not change the root chain.
+
+After a separately reviewed diagnostic deployment, collect the creation,
+launch-control, fast-path and close records for a natural hourly launch.
+Capture an intentional TVRoot-tile launch separately when the TV is available
+for that test, and verify headless access afterward. Compare caller and
+operation before choosing a suppression rule; absent callbacks or identical
+metadata do not establish launch intent. Preserve manual opening, first-boot
+and error diagnostics, and root/bridge recovery. This capture needs no reboot
+or UEP/native-execution test. Manifest and package-database changes are not
+part of this diagnostic patch.
+
+The launch-context formatter has a host-only check for missing metadata,
+log injection and bounded records:
+
+```console
+dotnet run --project boot-agent/selftest/LaunchContextSelfTest.csproj --configuration Release
+```
+
 The countdown policy can be checked without TV framework assemblies:
 
 ```console

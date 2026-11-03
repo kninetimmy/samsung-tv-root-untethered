@@ -59,6 +59,8 @@ jobs:
       - run: make payloads swu-preloads
       - name: Verify boot manager auto-close timing
         run: dotnet run --project boot-agent/selftest/AutoCloseSelfTest.csproj --configuration Release
+      - name: Verify boot manager launch-context logging
+        run: dotnet run --project boot-agent/selftest/LaunchContextSelfTest.csproj --configuration Release
       - name: Compile headless bridge for both TV runtimes
         run: |
           dotnet build boot-agent/bridge-relay/bridge-relay.csproj --configuration Release
