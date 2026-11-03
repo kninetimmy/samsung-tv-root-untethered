@@ -43,8 +43,8 @@ model/build above. Build and deployment instructions, including the required
 
 ## QN90B: verified automatic boot-root and remote reboot — 2026-11-01
 
-Status updated 2026-11-02 after the headless bridge repair and manager v5.14
-installation.
+Status updated 2026-11-02 after the headless bridge repair and manager v5.15
+launch-context diagnostics. The v5.16 popup-suppression change awaits live validation.
 
 | Item | Verified device |
 | --- | --- |
@@ -62,12 +62,13 @@ older upstream `1602.3` result below does not identify this firmware.
 | SDB foothold and platform preflight | Verified; preflight reports `compatible-untested` for this newer build |
 | Host-initiated `archive-root` | Verified: authenticated UID/EUID/GID/EGID 0 and successful `id` command |
 | Root-session integrity and cleanup | All 24 checked installed/system-file hashes match; all three task stages removed with guarded cleanup |
-| Gaming Hub-based boot-root installation | Activated; manager v5.14 installed on 2026-11-02, targeting .NET Core 3.1 |
+| Gaming Hub-based boot-root installation | Activated; diagnostic manager v5.15 installed on 2026-11-02, targeting .NET Core 3.1 |
 | Automatic boot-root and TV-local SDB | Verified after one fresh Linux reboot; matching boot ID and complete zero UID/GID proof collected twice as SDK before host root |
 | Remote localhost activation and reboot | Verified without TV-menu, remote-button or physical interaction after installation and initial Developer Mode setup |
 | Token-authenticated diagnostic SDK bridge (`26104`) | Working; depends on the manager process remaining alive |
 | Headless management bridge (`26103`) | Verified authenticated SDK access after manager auto-close; incorrect tokens rejected |
 | Manager v5.14 auto-close | Verified: ten-second countdown after root/bridge readiness; errors leave diagnostics visible |
+| Hourly manager popups | v5.15 identifies `com.samsung.tv.ghdaemon` using the default operation; v5.16 suppression needs live validation |
 | FDET root, UEP changes, privacy/debloat and rollback | Not validated on this build |
 | Native HDMI gaming after activation | Pending 4K120, HDR, VRR/FreeSync, Game Mode, picture and audio checks |
 
@@ -97,6 +98,14 @@ label and an original backup. Authenticated SDK access on `26103` and incorrect
 token rejection passed. After the manager v5.14 update, the manager exited
 13.11 seconds after launch with a ten-second countdown; authenticated headless
 access continued afterward. The owner also visually confirmed auto-close.
+
+The v5.15 diagnostic then captured a natural hourly launch from
+`com.samsung.tv.ghdaemon` using the default app-control operation. An
+owner-approved SDK opening had no caller ID and used the same operation.
+Both closed with headless access, the original boot/root proof and 23 other
+protected file hashes intact. The [v5.16 manager change](boot-agent/README.md)
+uses that distinction to keep healthy automatic starts quiet; it has not yet
+been validated on the TV. A visible Home tile remains unverified.
 
 The owner reports stable root across multiple boots. That report does not
 replace the remaining cold-boot auto-close, standby/wake, HDMI switching,

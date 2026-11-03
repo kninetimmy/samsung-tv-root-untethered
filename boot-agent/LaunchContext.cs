@@ -3,6 +3,13 @@ using System.Text;
 
 internal static class LaunchContext
 {
+    public static bool ShouldStayQuiet(string caller, string operation, bool rootAndBridgeReady)
+    {
+        return rootAndBridgeReady
+            && string.Equals(caller, "com.samsung.tv.ghdaemon", StringComparison.Ordinal)
+            && string.Equals(operation, "http://tizen.org/appcontrol/operation/default", StringComparison.Ordinal);
+    }
+
     public static string Describe(string caller, string operation)
     {
         return "launch-control: caller=" + Field(caller) + " operation=" + Field(operation);

@@ -9,6 +9,27 @@ internal static class LaunchContextSelfTest
 
     public static void Main()
     {
+        const string automaticCaller = "com.samsung.tv.ghdaemon";
+        const string defaultOperation = "http://tizen.org/appcontrol/operation/default";
+        Require(LaunchContext.ShouldStayQuiet(automaticCaller, defaultOperation, true),
+            "the observed healthy automatic repeat must stay quiet");
+        Require(!LaunchContext.ShouldStayQuiet(automaticCaller, defaultOperation, false),
+            "first boot, missing proof or an unavailable bridge must keep diagnostics visible");
+        Require(!LaunchContext.ShouldStayQuiet(null, defaultOperation, true),
+            "the observed intentional SDK launch must show the manager");
+        Require(!LaunchContext.ShouldStayQuiet("org.tizen.launcher", defaultOperation, true),
+            "a launcher request must not be mistaken for the daemon");
+        Require(!LaunchContext.ShouldStayQuiet(automaticCaller, "http://tizen.org/appcontrol/operation/main", true),
+            "other daemon operations must retain their existing UI behavior");
+        Require(!LaunchContext.ShouldStayQuiet(null, null, true),
+            "missing metadata must keep diagnostics available");
+        Require(!LaunchContext.ShouldStayQuiet("", defaultOperation, true),
+            "an empty caller must not select the automatic path");
+        Require(!LaunchContext.ShouldStayQuiet(automaticCaller.ToUpperInvariant(), defaultOperation, true),
+            "caller identity must match exactly");
+        Require(!LaunchContext.ShouldStayQuiet(automaticCaller, defaultOperation + "/extra", true),
+            "operation identity must match exactly");
+
         Require(LaunchContext.Describe("org.tizen.launcher", "http://tizen.org/appcontrol/operation/main")
             == "launch-control: caller=\"org.tizen.launcher\" operation=\"http://tizen.org/appcontrol/operation/main\"",
             "caller and operation must remain distinct and readable");
@@ -35,6 +56,6 @@ internal static class LaunchContextSelfTest
             Require(!char.IsControl(c), "all control characters must be escaped");
         Require(LaunchContext.Describe(new string('\0', 10000), new string('\0', 10000)).Length < 3200,
             "escaping must not allow unbounded log records");
-        Console.WriteLine("PASS: launch-context field, escaping and size checks (no TV required)");
+        Console.WriteLine("PASS: quiet-launch policy and launch-context field, escaping and size checks (no TV required)");
     }
 }

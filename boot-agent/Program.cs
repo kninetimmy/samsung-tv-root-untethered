@@ -14,7 +14,7 @@ using Tizen.NUI.BaseComponents;
 
 public static class GhUIAgent
 {
-    private const string Version = "5.15";
+    private const string Version = "5.16";
     private const string BuildTime = "2026-11-02";
 
     private const string Res = "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot";
@@ -119,41 +119,100 @@ public static class GhUIAgent
 
     private class Agent : NUIApplication
     {
+        private bool launchControlReceived;
+        private bool managerStarted;
+        private Func<bool> idleFallback;
+
+        public Agent() : base("", NUIApplication.WindowMode.Transparent) { }
+
+        protected override void OnPreCreate()
+        {
+            base.OnPreCreate();
+            var window = Tizen.NUI.Window.Instance;
+            window.BackgroundColor = new Color(0f, 0f, 0f, 0f);
+            window.SetAcceptFocus(false);
+            window.Hide();
+        }
+
         protected override void OnCreate()
         {
             base.OnCreate();
             Persist("manager v" + GhUIAgent.Version + " created");
-            GhUIAgent.BuildUi();
-            GhUIAgent.StartBootstrapBridge();
-            GhUIAgent.RunChain();
+            if (!ExistingRootAndBridgeReady())
+            {
+                StartManager();
+                return;
+            }
+            // Keep diagnostics available if the platform omits initial launch context.
+            idleFallback = () =>
+            {
+                if (!launchControlReceived) StartManager();
+                return false;
+            };
+            if (!AddIdle(idleFallback)) StartManager();
         }
 
         protected override void OnAppControlReceived(Tizen.Applications.AppControlReceivedEventArgs e)
         {
+            launchControlReceived = true;
+            string caller = null;
+            string operation = null;
             try
             {
                 var control = e?.ReceivedAppControl;
-                Persist(LaunchContext.Describe(control?.CallerApplicationId, control?.Operation));
+                caller = control?.CallerApplicationId;
+                operation = control?.Operation;
+                Persist(LaunchContext.Describe(caller, operation));
             }
             catch (Exception error)
             {
                 Persist("launch-control: metadata unavailable (" + error.GetType().Name + ")");
             }
+            if (!managerStarted)
+            {
+                if (LaunchContext.ShouldStayQuiet(caller, operation, ExistingRootAndBridgeReady()))
+                {
+                    Persist("automatic repeat launch suppressed - existing root and headless bridge ready");
+                    Exit();
+                }
+                else StartManager();
+            }
             base.OnAppControlReceived(e);
+        }
+
+        private static bool ExistingRootAndBridgeReady()
+        {
+            string proof;
+            return BootTimeUtc() != DateTime.MinValue
+                && FreshProofThisBoot(out proof)
+                && ProbeBridgeStatus();
+        }
+
+        private void StartManager()
+        {
+            if (managerStarted) return;
+            managerStarted = true;
+            GhUIAgent.BuildUi();
+            var window = Tizen.NUI.Window.Instance;
+            window.SetAcceptFocus(true);
+            window.Show();
+            window.Activate();
+            GhUIAgent.StartBootstrapBridge();
+            GhUIAgent.RunChain();
         }
 
         protected override void OnResume()
         {
             base.OnResume();
             lock (Gate) { UiDirty = true; IsAppActive = true; }
-            _uiTimer.Start();
+            _uiTimer?.Start();
         }
 
         protected override void OnPause()
         {
             base.OnPause();
             lock (Gate) IsAppActive = false;
-            _uiTimer.Stop();
+            _uiTimer?.Stop();
         }
     }
 
