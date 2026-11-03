@@ -98,8 +98,13 @@ no initial application-control callback arrives. Visible successful sessions
 retain the ten-second close policy. The first v5.16 live test failed during
 startup and was rolled back to verified v5.15. NUI's idle callback marshalling
 rejects generic `Func<bool>`; v5.17 uses a non-generic `Action`, with a native
-function-pointer round-trip regression check. This corrected suppression build
-still needs live TV validation.
+function-pointer round-trip regression check. The corrected build was installed
+on the exact QN90B build above. Its intentional SDK opening showed the manager,
+closed normally and preserved headless access. The natural daemon launch at
+2026-11-03 03:20:47 UTC recorded the quiet-exit path; all six scheduled camera
+frames around it showed the game screen without a manager window. The original
+boot/root proof and 23 other protected hashes remained unchanged. This verifies
+one same-boot automatic launch; cold boot and standby/wake remain untested.
 
 Each process records its manager version in the existing
 `selfroot-evidence/agent.log`, and each
