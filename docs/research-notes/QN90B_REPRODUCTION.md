@@ -91,3 +91,33 @@ uv run samsung-tv-root qn90b uep "$TV_IP" disable
 The transition is volatile and is restored by rebooting the TV.
 Unlike the root scan, this fixed UEP address is restricted to the exact tested
 build.
+
+### 2026 build verification
+
+On 2026-11-08 the same gate was verified live on the exact
+`QN55QN90BAFXZA` running `T-PTMAKUC-REL-202602250225` (2026 firmware,
+Tizen 6.5, Linux 5.4.77, .NET 3.1.3) through the FDET physical-memory
+primitive above, with a guarded, one-use packet: one CAS at a time, every
+proposed write pinned against the observed neighbourhood, no retries and no
+fallback addresses, and an immediate restore.
+
+- The kernel state word validates at the same physical `0x208c26c4`. The
+  running neighbourhood read `c07bd300 00000001 00000000 000004e2`, i.e.
+  enforcing. Read faults at the older candidate `0x808c26c0` stalled under
+  the build's own watchdog and must never be written.
+- A compare-before-write clear from `1` to `0` succeeded after the full
+  four-word fingerprint matched. `FdetProbe.dll`'s `write-words-if` prints
+  the 24-word dump before and after the store, and the receipts showed
+  exactly one word change. A hash-locked, deliberately unsigned
+  [uep-probe](../../payloads/qn90b/uep-probe.c) (static, no libc; sha256
+  `d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d`) then
+  executed and exited 42 while enforcing admits the same binary only with
+  `EACCES` (exit 126), so the cleared gate admits executables without
+  revalidation rather than merely skipping a checksum.
+- A second guarded CAS restored `1` and the follow-up read confirmed the
+  enforcing fingerprint. Two single-word stores total, no reboot, and the
+  protected-file hashes were unchanged before and after.
+
+As above, the disable is volatile: the packaged default re-applies `1` at
+every boot, so boot-time reapplication would have to be a separate
+fingerprint-gated, fail-closed step and remains untested and unreleased.
