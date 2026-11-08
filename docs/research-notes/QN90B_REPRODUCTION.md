@@ -111,9 +111,12 @@ fallback addresses, and an immediate restore.
   exactly one word change. A hash-locked, deliberately unsigned
   [uep-probe](../../payloads/qn90b/uep-probe.c) (static, no libc; sha256
   `d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d`) then
-  executed and exited 42 while enforcing admits the same binary only with
-  `EACCES` (exit 126), so the cleared gate admits executables without
-  revalidation rather than merely skipping a checksum.
+  executed and exited 42. The separately approved denial control on the
+  same day observed the same binary refused while enforcing: no success
+  marker, exit 126, and the runtime's `Operation not permitted` message,
+  with no errno identity (the wording was `Operation not permitted`, not
+  e.g. `EACCES`) established by any test, so the cleared gate admits
+  executables without revalidation rather than merely skipping a checksum.
 - A second guarded CAS restored `1` and the follow-up read confirmed the
   enforcing fingerprint. Two single-word stores total, no reboot, and the
   protected-file hashes were unchanged before and after.
