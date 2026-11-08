@@ -1,11 +1,17 @@
+from pathlib import Path
+from unittest.mock import Mock
+
 import pytest
 
 from samsung_tv_root.qn90b import (
+    REMOTE_PROBE,
     Qn90bError,
     Qn90bRootEvidence,
+    Qn90bRootExploit,
     _uep_gate_is_valid,
     _uep_probe_words,
 )
+from samsung_tv_root.sdb import CaptureResult
 
 
 def test_qn90b_root_evidence_accepts_complete_root_identity() -> None:
@@ -37,7 +43,7 @@ def test_qn90b_root_evidence_requires_exact_identity_markers() -> None:
 
 def test_uep_gate_fingerprint_accepts_closed_and_open_flag() -> None:
     closed = _uep_probe_words(
-        "read_words physical=0x808c26c0 page=0x808c2000 offset=0x6c0 words=4\n"
+        "read_words physical=0x208c26c0 page=0x208c2000 offset=0x6c0 words=4\n"
         "words word=0 c07bd300 00000001 00000000 000004e2\n"
     )
     assert _uep_gate_is_valid(closed)
@@ -64,3 +70,52 @@ def test_uep_probe_words_selects_named_dump() -> None:
     )
     assert _uep_probe_words(output, "words_after")[1] == "00000000"
     assert _uep_probe_words(output, "words_before")[1] == "00000001"
+
+
+@pytest.mark.parametrize(
+    ("operation", "flag"),
+    (
+        ("read_uep_gate", "00000001"),
+        ("read_uep_gate", "00000000"),
+        ("disable_uep", "00000000"),
+    ),
+)
+def test_uep_gate_reads_only_validated_address(monkeypatch, tmp_path, operation, flag) -> None:
+    monkeypatch.setattr("samsung_tv_root.qn90b.find_sdb", lambda: Path("sdb"))
+    exploit = Qn90bRootExploit("192.0.2.50", tmp_path)
+    result = CaptureResult(f"words word=0 c07bd300 {flag} 00000000 000004e2\n", 0)
+    capture = Mock(return_value=result)
+    monkeypatch.setattr(exploit.sdb, "capture", capture)
+
+    assert getattr(exploit, operation)() is result
+    capture.assert_called_once_with(
+        f"/usr/bin/dotnet {REMOTE_PROBE} rw 0x208c26c0 4", timeout=15.0
+    )
+
+
+@pytest.mark.parametrize("operation", ("read_uep_gate", "disable_uep"))
+@pytest.mark.parametrize(
+    "output",
+    (
+        "",
+        "words word=0 c07bd300\n",
+        "words word=0 00000000 00000001 00000000 000004e2\n",
+        "words word=0 c07bd300 00000002 00000000 000004e2\n",
+    ),
+    ids=("missing", "short", "wrong-neighbour", "invalid-flag"),
+)
+def test_uep_gate_rejects_without_fallback_or_write(
+    monkeypatch, tmp_path, operation, output
+) -> None:
+    monkeypatch.setattr("samsung_tv_root.qn90b.find_sdb", lambda: Path("sdb"))
+    exploit = Qn90bRootExploit("192.0.2.50", tmp_path)
+    capture = Mock(return_value=CaptureResult(output, 0))
+    monkeypatch.setattr(exploit.sdb, "capture", capture)
+
+    with pytest.raises(Qn90bError, match="at the validated physical address") as error:
+        getattr(exploit, operation)()
+
+    assert f"0x208c26c0: {output.strip() or 'no probe output'}" in str(error.value)
+    capture.assert_called_once_with(
+        f"/usr/bin/dotnet {REMOTE_PROBE} rw 0x208c26c0 4", timeout=15.0
+    )

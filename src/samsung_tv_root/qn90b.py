@@ -225,8 +225,8 @@ class Qn90bRootExploit:
             attempts.append(f"{address}: {result.output.strip() or 'no probe output'}")
         detail = "\n".join(attempts)
         raise Qn90bError(
-            "QN90B UEP gate did not match its neighbourhood fingerprint at either "
-            "candidate physical address; refusing to trust the result:\n" + detail
+            "QN90B UEP gate did not match its neighbourhood fingerprint at the "
+            "validated physical address; refusing to trust the result:\n" + detail
         )
 
     def read_uep_gate(self) -> CaptureResult:
