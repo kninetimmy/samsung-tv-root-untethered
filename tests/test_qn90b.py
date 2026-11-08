@@ -119,3 +119,60 @@ def test_uep_gate_rejects_without_fallback_or_write(
     capture.assert_called_once_with(
         f"/usr/bin/dotnet {REMOTE_PROBE} rw 0x208c26c0 4", timeout=15.0
     )
+
+
+def test_uep_disable_writes_with_neighbour_checks(monkeypatch, tmp_path) -> None:
+    monkeypatch.setattr("samsung_tv_root.qn90b.find_sdb", lambda: Path("sdb"))
+    exploit = Qn90bRootExploit("192.0.2.50", tmp_path)
+    read = CaptureResult("words word=0 c07bd300 00000001 00000000 000004e2\n", 0)
+    write = CaptureResult(
+        "words_before word=0 c07bd300 00000001 00000000 000004e2\n"
+        "words_after word=0 c07bd300 00000000 00000000 000004e2\n",
+        0,
+    )
+    capture = Mock(side_effect=[read, write])
+    monkeypatch.setattr(exploit.sdb, "capture", capture)
+
+    assert exploit.disable_uep() is write
+    assert capture.call_count == 2
+    capture.assert_called_with(
+        f"/usr/bin/dotnet {REMOTE_PROBE} wwi 0x208c26c0 1 0x00000001 0x00000000 "
+        "0:c07bd300,2:00000000,3:000004e2",
+        timeout=15.0,
+    )
+
+
+def test_uep_disable_fails_closed_when_payload_refuses_neighbour(
+    monkeypatch, tmp_path
+) -> None:
+    monkeypatch.setattr("samsung_tv_root.qn90b.find_sdb", lambda: Path("sdb"))
+    exploit = Qn90bRootExploit("192.0.2.50", tmp_path)
+    read = CaptureResult("words word=0 c07bd300 00000001 00000000 000004e2\n", 0)
+    write = CaptureResult(
+        "words_before word=0 00000000 00000001 00000000 00000000\n"
+        "refusing write neighbour word=0 expected=0xc07bd300 actual=0x00000000\n",
+        1,
+    )
+    capture = Mock(side_effect=[read, write])
+    monkeypatch.setattr(exploit.sdb, "capture", capture)
+
+    with pytest.raises(Qn90bError, match="guarded read-back"):
+        exploit.disable_uep()
+
+
+def test_uep_disable_fails_closed_on_unverified_read_back(
+    monkeypatch, tmp_path
+) -> None:
+    monkeypatch.setattr("samsung_tv_root.qn90b.find_sdb", lambda: Path("sdb"))
+    exploit = Qn90bRootExploit("192.0.2.50", tmp_path)
+    read = CaptureResult("words word=0 c07bd300 00000001 00000000 000004e2\n", 0)
+    write = CaptureResult(
+        "words_before word=0 c07bd300 00000001 00000000 000004e2\n"
+        "words_after word=0 c07bd300 00000000 00000000 000004f3\n",
+        0,
+    )
+    capture = Mock(side_effect=[read, write])
+    monkeypatch.setattr(exploit.sdb, "capture", capture)
+
+    with pytest.raises(Qn90bError, match="guarded read-back"):
+        exploit.disable_uep()
