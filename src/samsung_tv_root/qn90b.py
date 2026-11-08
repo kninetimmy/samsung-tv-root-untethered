@@ -59,13 +59,12 @@ SCAN_LENGTH = "0x4a000000"
 #   0xc08c26c4 = 1 enforcing, 0 disabled   <- the flag, one-way until reboot
 #   0xc08c26c8 = 0
 #   0xc08c26cc = 0x4e2
-# The physical address is PHYS_OFFSET + 0x8c26c0.  PHYS_OFFSET is patched at
-# boot (CONFIG_ARM_PATCH_PHYS_VIRT) and therefore cannot be derived from the
-# image alone: the uImage load address 0x80008000 implies 0x808c26c0, while the
-# older 0x20000000 DRAM base used by the 2023 build implies 0x208c26c0.  Reads
-# are harmless, so both candidates are probed and the fingerprint decides which
-# page is live.  Never write to a candidate whose fingerprint did not match.
-UEP_GATE_CANDIDATES = ("0x808c26c0", "0x208c26c0")
+# The physical address is runtime-layout dependent.  On this exact build the
+# driver-owned positive control succeeded and 0x208c26c0 returned the exact
+# neighbourhood fingerprint, validating 0x208c26c4 as the live flag address.
+# The uImage-derived 0x808c26c0 stalled before returning words; do not retry it.
+# Never write to a candidate whose fingerprint did not match.
+UEP_GATE_CANDIDATES = ("0x208c26c0",)
 UEP_GATE_FLAG_WORD = 1
 UEP_GATE_FINGERPRINT = {0: "c07bd300", 2: "00000000", 3: "000004e2"}
 UEP_GATE_CLOSED = "0x00000001"
