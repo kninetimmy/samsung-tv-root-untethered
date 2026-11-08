@@ -141,6 +141,38 @@ The port-configuration fix also adds a host-only regression check:
 dotnet run --project boot-agent/selftest/BridgePortSelfTest.csproj --configuration Release
 ```
 
+## Opt-in UEP boot gate (unverified, not deployed)
+
+The manager v5.18 adds an L4 hook (task 25): after a verified root proof, it
+runs `UepGate`, which can re-apply the guarded UEP enforcement clear that the
+one-use L2 packet proved live on the exact QN90B build. The kernel's packaged
+default reloads the enforcement flag at every boot, so the gate repeats the
+same fingerprint-checked compare-before-write CAS — it never patches the
+kernel image, only opens the pinned physical page `0x208c26c0` through the
+same `FdetProbe.dll` bytes hashed against the L2 receipts.
+
+The gate is opt-in and fails closed by construction: no TV state is ever
+touched unless `/opt/usr/share/selfroot/uep-off.conf` exists — absent means
+(enforcing) no action, unexpected or unreadable content fails closed, and
+`read-only` restricts the gate to honest one-read reporting. With `active`,
+each boot allows at most two guarded clears and one guarded restore, every
+store's 24-word neighbourhood is pinned against the observed values, refusal
+consumes the attempt without retry, and any anomaly ends with the enforcing
+state left alone or restored. Deleting the config and rebooting always
+returns the TV to the packaged enforcing default.
+
+Its fail-closed matrix (configs, hash pins, boot-id rotation, budget rules,
+receipt parsing, anomaly restore) is exercised without TV framework
+assemblies:
+
+```console
+dotnet run --project boot-agent/selftest/UepGateSelfTest.csproj --configuration Release
+```
+
+This gate has never run against a television: deployment, one or more
+approved reboots, and a live validation are still separately gated task-25
+work.
+
 The bridge token is sent in cleartext on the local network. Use a random token,
 keep it private, and use the bridge only on a trusted LAN.
 
