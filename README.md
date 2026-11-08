@@ -1,13 +1,37 @@
 # Samsung TV root — fork: untethered boot-root + bridge + module manager
 
-This fork adds **untethered root** on top of upstream's host-driven toolkit:
-a boot-launched .NET agent that re-acquires root **on the TV at boot,
-without a host starting the root chain**, a token-gated **sdb bridge** so the host CLI
-keeps working while Developer Mode Host PC IP stays at `127.0.0.1`, and a
-Magisk/Cydia-style **module system** for debloat/telemetry kills. The inherited
-fork reports end-to-end boot-root on QN55Q60BAFXZC / T-NKLBAKUC-1720.7
-(Tizen 6.5.0, armv7l). This fork has also verified automatic boot-root on
-the U8000 and QN90B below; their bridge and hardware-validation results differ.
+Root Samsung Tizen TVs and keep that root working day to day. This fork of
+[samsung-tv-root](https://github.com/chris-ritsen/samsung-tv-root) adds what
+upstream left out: the TV roots **itself** when it starts, no computer running
+the root chain, and your computer keeps talking to it through an
+authenticated bridge. The fork keeps upstream's evidence discipline: every
+claim below lists the exact TV and firmware it was verified on and links to
+the research notes that hold the receipts.
+
+Root normally disappears when the TV restarts. What this fork adds is a boot
+manager that re-establishes root on its own at every startup, on the TVs where
+that is verified. Two of the project's own TVs currently run this way.
+
+## Known-working TVs
+
+What each TV has actually done, as of 2026-11-08:
+
+| TV (exact model) | Firmware | What works on it |
+| --- | --- | --- |
+| Samsung `QN55QN90BAFXZA` (QN90B) | `T-PTMAKUC-REL-202602250225` (Tizen 6.5, 2026 build) | Root from a computer on demand; root re-established automatically at boot; network-initiated restart comes back rooted; authenticated bridge after the boot manager closes; unsigned native code allowed for the rest of a boot (verified once under close supervision, gate restored after) |
+| Samsung `UN50U8000FFXZA` (U8000) | `T-X22UDFAKUC-0090-REL-202607141244` (Tizen 9) | Root on demand; root re-established automatically at boot, verified across a full reboot; authenticated bridge access |
+| Samsung `QN55QN90BAFXZA` (QN90B), older firmware | `T-PTMAKUC-1602.3` | Root on demand, including the dedicated memory route, and the UEP status/disable commands |
+| Samsung `QN75QN90FAFXZA` (QN90F) | `T-RSMFAKUC-0090-1203.0` | Root on demand, including the dedicated display-memory route; UEP status and volatile disable; input switching, local-dimming, screenshots, on-screen text and volume controls |
+| Other TVs | varies | About a dozen more model/build combinations are confirmed by other owners with their own adaptions; see the [full compatibility table](#tv-compatibility) — none are tested by this fork |
+
+HDMI gaming, cold-boot and standby reliability, privacy/debloat modules and
+rollback are the main things still unverified; each TV's section below says
+exactly which. Nothing here is a one-command installer for every Samsung TV.
+
+The tools themselves live in the section below the headline results:
+[run from source](#run-from-source), [install](#enable-developer-mode),
+[root session](#one-root-session), [archive route](#archive-root-route),
+[controller](#continuous-controller).
 
 ## U8000: verified untethered boot-root — 2026-11-01
 
@@ -41,10 +65,9 @@ gaming and actual rollback remain untested. This result applies to the exact
 model/build above. Build and deployment instructions, including the required
 .NET 6 target and shared staging labels, are in [boot-agent/](boot-agent/README.md).
 
-## QN90B: verified automatic boot-root and remote reboot — 2026-11-01
+## QN90B: verified boot-root, remote restart, and the UEP gate
 
-Status updated 2026-11-02 after the headless bridge repair, manager v5.17
-installation and one same-boot automatic-launch suppression check.
+Status updated 2026-11-08.
 
 | Item | Verified device |
 | --- | --- |
@@ -67,85 +90,58 @@ older upstream `1602.3` result below does not identify this firmware.
 | Remote localhost activation and reboot | Verified without TV-menu, remote-button or physical interaction after installation and initial Developer Mode setup |
 | Token-authenticated diagnostic SDK bridge (`26104`) | Working; depends on the manager process remaining alive |
 | Headless management bridge (`26103`) | Verified authenticated SDK access after manager auto-close; incorrect tokens rejected |
-| Manager v5.14 auto-close | Verified: ten-second countdown after root/bridge readiness; errors leave diagnostics visible |
-| Hourly manager popups | v5.17 quiet-exit path verified for one natural daemon request; six camera frames stayed on the game and headless access survived |
-| FDET root, UEP changes, privacy/debloat and stock restoration | Not validated on this build |
+| Hourly manager popups | v5.17 exits quietly on natural daemon relaunches (verified over one same-boot interval with all camera frames and headless access intact); intentional openings still show diagnostics |
+| FDET physical-memory primitive | Verified 2026-11-08 through an approved one-use packet: the UEP word read and wrote at the validated physical address; the older candidate address faults before returning data and is never written |
+| UEP gate for unsigned native code | Verified 2026-11-08 through the same packet: gate opened with a fingerprint-checked compare-before-write, a deliberately unsigned probe executed and exited 42, then the gate was restored and re-read as enforcing |
 | Native HDMI gaming after activation | Pending 4K120, HDR, VRR/FreeSync, Game Mode, picture and audio checks |
+| Privacy/debloat modules and stock restoration | Not installed or validated on this build |
 
-The verified root route is `archive-root`; the separate QN90B FDET route has
-only passed prerequisite checks on this firmware. The root agent retains
-Samsung's `User` SMACK label, so UID 0 does not establish unrestricted access
-through every security boundary. Preflight's `compatible-untested` result is
-unchanged by the successful archive-root test.
+The verified root route is `archive-root`; the root agent retains Samsung's
+`User` SMACK label, so UID 0 does not establish unrestricted access through
+every security boundary. Preflight's `compatible-untested` result is unchanged
+by the successful root tests. The 2026-11-08 UEP verification ran as a
+separately approved, one-use packet through a self-built payload; it does not
+add public CLI support, and the `qn90b uep` commands still require the older
+tested build and are rejected on this build. Means and limits of both UEP
+results are in the
+[QN90B reproduction note](docs/research-notes/QN90B_REPRODUCTION.md).
 
-Installation repurposed `com.samsung.tv.ghservice` (the Gaming Hub app/service)
-for the boot agent and bridge-service module. Stock app files, metadata and the
-package database were backed up. All 13 deployed file hashes, eight untouched
-stock file hashes, original ownership/modes/SMACK labels and three system-file
-hashes were verified. The package database changed only the three intended
-startup fields in the Gaming Hub row.
-
-Developer Mode Host PC IP is now `127.0.0.1`. After repairing the shared evidence
-directory's ownership and permissions, a remotely initiated kernel reboot
-returned with **automatic TV-side root**: a new kernel boot ID and all four
-UID/GID fields zero. The host retrieved matching proof twice as SDK UID 901
-through the authenticated diagnostic bridge **before any post-boot host root**.
-The root payload exited successfully and the manager recorded fresh root proof.
-
-On 2026-11-02, an LF-only repair of the bridge module's deployed shell script
-restored `tvroot-bridge.service`, preserving its inode, ownership, mode, SMACK
-label and an original backup. Authenticated SDK access on `26103` and incorrect
-token rejection passed. After the manager v5.14 update, the manager exited
-13.11 seconds after launch with a ten-second countdown; authenticated headless
-access continued afterward. The owner also visually confirmed auto-close.
-
-The v5.15 diagnostic then captured a natural hourly launch from
-`com.samsung.tv.ghdaemon` using the default app-control operation. An
-owner-approved SDK opening had no caller ID and used the same operation.
-Both closed with headless access, the original boot/root proof and 23 other
-protected file hashes intact. The [v5.17 manager change](boot-agent/README.md)
-was then installed and passed intentional SDK opening. At 2026-11-03 03:20:47
-UTC, the natural daemon request took its quiet-exit path; all six scheduled
-camera frames showed the game screen without the manager. The original boot,
-root proof, 23 protected hashes and headless access remained intact. This is
-one same-boot interval. A visible Home tile remains unverified.
+The boot agent repurposed `com.samsung.tv.ghservice` (the Gaming Hub
+app/service) for the boot agent and bridge-service module. Stock app files,
+metadata and the package database were backed up; every change verified
+installed and untouched file hashes, ownership, modes and SMACK labels, and
+the package database changed only three startup fields. A later in-place
+repair of the bridge module's deployed shell script (LF fix) preserved its
+inode, ownership, mode, label and an original backup. Developer Mode Host PC
+IP is `127.0.0.1`; the desktop connects through the token-gated headless
+bridge on `26103`. The installed bundle contains only root and bridge
+support; privacy/debloat modules have not been installed or enabled on this
+TV.
 
 The owner reports stable root across multiple boots. That report does not
 replace the remaining cold-boot auto-close, standby/wake, HDMI switching,
-native gaming and actual rollback checks. The bridge repair and manager
-update checks did not reboot the TV or test standby. The installed bundle
-contains only root and bridge support; privacy/debloat modules have not been
-installed or enabled on this TV.
+native gaming and actual rollback checks; the bridge repair and manager
+update checks never rebooted the TV or tested standby. Deployment, hashing,
+backup and manager details are in [boot-agent/](boot-agent/README.md).
 
 ### Verified remote root and reboot method
 
-After installation and initial Developer Mode setup, this sequence required no
-interaction with the TV. The desktop initiated activation and reboot; the
-installed manager initiated the root chain on the subsequent boot.
+After installation and initial Developer Mode setup, restarting into root
+requires no interaction with the TV. The verified sequence:
 
-1. Verify the exact model/build, runtime, installed hashes and recovery backups.
-   Prepare SDK-owned shared staging and the evidence directory described in
-   [boot-agent deployment](boot-agent/README.md#deploy-one-time). A directory
-   created by the manager as UID 5001 with mode `0755` blocks the SDK launcher's
-   log redirection; verify an exclusive SDK write/read/delete check first.
-2. Obtain temporary authenticated root through the existing SDK archive-launcher
-   route. Check full root identity, namespaces, reboot capability and the
-   prepared detached helper's code/configuration and current boot/settings.
-3. For the initial desktop-to-localhost transition, save readiness durably,
-   disconnect the owned ordinary SDK session, recheck the detached caller, and
-   acknowledge one developer-host write. After the helper writes `127.0.0.1`,
-   durably save its fresh typed readback and caller context before sending the
-   distinct power acknowledgement.
-4. The detached helper performs at most one libc `sync()` and one
-   `reboot(RB_AUTOBOOT)`. Later reboot-only validation keeps localhost unchanged
-   and uses a separate one-use readiness/arming record. Neither an ambiguous
-   acknowledgement nor a dropped connection permits a power retry or automatic
-   post-commit restoration.
-5. On the new boot, Gaming Hub's startup entry launches the manager. It connects
-   to TV-local SDB and runs the signed archive-launcher root chain on the TV.
-   Collect a new boot ID and matching complete zero UID/GID proof as SDK,
-   twice, before issuing any host-root command; then check global hashes and
-   perform guarded task cleanup.
+1. Verify exact model/build, runtime, installed hashes and recovery backups.
+   Staging and evidence directories must be SDK-writable exactly as in
+   [boot-agent deployment](boot-agent/README.md#deploy-one-time).
+2. Take temporary authenticated root through the existing archive-launcher
+   route; check full identity, namespaces, reboot capability, settings and the
+   prepared detached helper.
+3. Move the TV's Developer-Mode host address to localhost through a single
+   owned SDK write with a typed readback; the helper performs at most one
+   `sync()` and one reboot. An ambiguous acknowledgement or a dropped
+   connection never permits a power retry or automatic restoration.
+4. On the new boot, the manager runs the root chain on the TV. Collect a new
+   boot ID and matching zero-UID/GID proof twice as SDK before any host-root
+   command, then clean up staging.
 
 The detached helpers are [experimental research tools](tools/reboot-helper/README.md),
 with device-specific controllers and approval/evidence packets kept private.
@@ -155,19 +151,6 @@ quiet storage samples and `sync()` do not establish database consistency or
 general restart safety. Physical recovery can still be required if remote
 access fails. Fresh automatic-root proof and owner-reported repeat boots do
 not establish cold-boot auto-close, standby/wake or HDMI/gaming reliability.
-
-### Recent changes in this fork
-
-- Accept the QN90B `Tizen6/TV 6.5.0` release-label variant while retaining the
-  platform and capability checks ([PR #2](https://github.com/kninetimmy/samsung-tv-root-untethered/pull/2)).
-- Backport upstream runtime detection for Samsung `dotnet` builds that reject
-  `--list-runtimes`, keep archive-launcher diagnostics inside session staging,
-  repair .NET 3.1 output-directory/restore handling, and fix release-audit
-  failures with a hash-pinned documentation-image exception
-  ([PR #3](https://github.com/kninetimmy/samsung-tv-root-untethered/pull/3)).
-- Write staged SDB capture scripts with LF line endings on Windows so long
-  diagnostic commands execute correctly
-  ([PR #4](https://github.com/kninetimmy/samsung-tv-root-untethered/pull/4)).
 
 ## External Q70T / NIKEM research
 
@@ -230,8 +213,8 @@ Key results:
 
 The material below preserves upstream's tested models and capabilities. Its
 first-person reports and older firmware results belong to upstream; use the
-current compatibility sections above for this fork's latest U8000 and QN90B
-validation.
+[known-working chart](#known-working-tvs) and the per-TV sections above for
+this fork's latest U8000, QN90B and UEP validation.
 
 ## Samsung TV root
 
@@ -288,7 +271,7 @@ preserve upstream's reports and evidence labels.
 | Status | Exact TV or firmware family | Firmware | Root route and result | Evidence / limitation |
 | --- | --- | --- | --- | --- |
 | Fork-tested | `UN50U8000FFXZA` (U8000) | `T-X22UDFAKUC-0090-REL-202607141244`; numeric version not recorded | Archive-launcher route; automatic boot-root and authenticated bridge | [U8000 observations](docs/research-notes/U8000_REPRODUCTION.md); Tizen 9, ARMv7, .NET 6.0.9; one full reboot verified |
-| Fork-tested | `QN55QN90BAFXZA` (QN90B) | `T-PTMAKUC-REL-202602250225`; numeric version not recorded | Archive-launcher route; remote reboot and automatic boot-root verified | [Current QN90B status](#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01); authenticated headless access survives manager auto-close; native gaming checks pending |
+| Fork-tested | `QN55QN90BAFXZA` (QN90B) | `T-PTMAKUC-REL-202602250225`; numeric version not recorded | Archive-launcher route; remote reboot and automatic boot-root verified; volatile UEP gate change verified once through an approved one-use packet | [Current QN90B status](#qn90b-verified-boot-root-remote-restart-and-the-uep-gate); authenticated headless access survives manager auto-close; UEP experiment adds no public CLI support; native gaming checks pending |
 | Owner-tested | `QN55QN90BAFXZA` (QN90B) | `T-PTMAKUC-1602.3` | FDET physical-memory route; archive-launcher route also tested | [QN90B reproduction](docs/research-notes/QN90B_REPRODUCTION.md) |
 | Owner-tested | `QN75QN90FAFXZA` (QN90F) | `T-RSMFAKUC-0090-1203.0` | Mali-G510 `CVE-2025-0072` route; archive-launcher route also tested | [QN90F reproduction](docs/research-notes/QN90F_REPRODUCTION.md) |
 | Reported, public release | `QA55QN90FAUXEG` (QN90F) | `T-RSMFUABC-0090-1301.0` | Mali route; authenticated root, full capability mask and volatile UEP disable | [Independent v0.0.3 validation](docs/research-notes/QN90F_REPRODUCTION.md#tested-targets); the TV UI misspelled the family `RSMFUBAC` |

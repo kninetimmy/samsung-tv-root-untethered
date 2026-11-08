@@ -48,7 +48,7 @@ On 2026-11-01, the exact QN55QN90BAFXZA / `T-PTMAKUC-REL-202602250225` passed
 remote kernel reboots through this helper, including a localhost reboot followed
 by automatic TV-side root. SDK collected matching new-boot/full-zero UID/GID
 proof twice before any host-initiated root. The tested method and remaining
-headless-bridge limitation are in the [QN90B result](../../README.md#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01).
+headless-bridge limitation are in the [QN90B result](../../README.md#qn90b-verified-boot-root-remote-restart-and-the-uep-gate).
 
 Direct kernel reboot bypasses normal application shutdown. Storage measurements
 and `sync()` do not establish application/database consistency or exclude a new

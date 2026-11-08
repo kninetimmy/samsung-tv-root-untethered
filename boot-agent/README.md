@@ -18,7 +18,7 @@ root. On 2026-11-02 the deployed CRLF bridge script was repaired and manager
 v5.14 was installed. Authenticated headless access survived manager auto-close,
 incorrect tokens were rejected, and the owner visually confirmed auto-close.
 HDMI switching, standby/wake and cold-boot auto-close remain untested. See the
-[current QN90B result and method](../README.md#qn90b-verified-automatic-boot-root-and-remote-reboot--2026-11-01)
+[current QN90B result and method](../README.md#qn90b-verified-boot-root-remote-restart-and-the-uep-gate)
 for the tested boundary; the inherited proof below is a separate device result.
 
 ## The chain
