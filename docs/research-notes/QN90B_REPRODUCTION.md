@@ -124,3 +124,11 @@ fallback addresses, and an immediate restore.
 As above, the disable is volatile: the packaged default re-applies `1` at
 every boot, so boot-time reapplication would have to be a separate
 fingerprint-gated, fail-closed step and remains untested and unreleased.
+
+This verification ran as a separately approved, one-use packet through a
+self-built `FdetProbe.dll`; it does not add the 2026 build to the public
+CLI's tested set. `qn90b uep status` and `qn90b uep disable` still require
+`T-PTMAKUC-REL-202310071804` in their preflight and are rejected on the
+2026 build before anything is staged. Reproducing this experiment
+requires a new explicitly approved packet like the one recorded here, not
+the public CLI commands.
