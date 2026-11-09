@@ -22,7 +22,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="UepGate.cs" />
     <Compile Include="LaunchContext.cs" />
     <Compile Include="SuccessAutoClose.cs" />
     <Compile Include="bridge-relay/Program.cs" />

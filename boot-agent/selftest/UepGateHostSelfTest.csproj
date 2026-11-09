@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <UseAppHost>false</UseAppHost>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <StartupObject>UepGateHostSelfTest</StartupObject>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="UepGateHostSelfTest.cs" />
+    <Compile Include="../UepGate.cs" Link="UepGate.cs" />
+    <Compile Include="../uep-gate-host/UepGateHost.cs" Link="UepGateHost.cs" />
+  </ItemGroup>
+</Project>
