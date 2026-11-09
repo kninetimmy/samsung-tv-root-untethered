@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- v5.19 root-context host for the L4 UEP gate.
+       Runs from the boot module runner (/opt/usr/share/selfroot/modules/uep-gate)
+       as uid 0, where /usr/bin/dotnet and FdetProbe.dll are actually executable.
+       No Tizen references: the gate logic is plain System.* and is shared
+       byte-for-byte with the manager-era code and its self-test. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TvTargetFramework Condition="'$(TvTargetFramework)' == ''">netcoreapp3.1</TvTargetFramework>
+    <TargetFramework>$(TvTargetFramework)</TargetFramework>
+    <UseAppHost>false</UseAppHost>
+    <AssemblyName>UepGateHost</AssemblyName>
+    <RootNamespace>UepGateHost</RootNamespace>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <DebugType>none</DebugType>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="UepGateHost.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="../UepGate.cs" Link="UepGate.cs" />
+  </ItemGroup>
+</Project>

@@ -14,8 +14,8 @@ using Tizen.NUI.BaseComponents;
 
 public static class GhUIAgent
 {
-    private const string Version = "5.18";
-    private const string BuildTime = "2026-11-02";
+    private const string Version = "5.19";
+    private const string BuildTime = "2026-11-09";
 
     private const string Res = "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot";
     private const string AppHome = "/tmp/selfroot-app";
@@ -1068,7 +1068,6 @@ public static class GhUIAgent
                         BannerColor = new Color(0.2f, 1f, 0.3f, 1f);
                         Progress = 1.0;
                     }
-                    RunUepGate("reopen");
                     WaitForBridgeAndAutoClose();
                     return;
                 }
@@ -1233,7 +1232,6 @@ public static class GhUIAgent
                             BannerColor = new Color(0.2f, 1f, 0.3f, 1f);
                             Progress = 1.0;
                         }
-                        RunUepGate("boot");
                         WaitForBridgeAndAutoClose();
                         return;
                     }
@@ -1259,33 +1257,6 @@ public static class GhUIAgent
                 Note("EXCEPTION " + e.GetType().Name + ": " + e.Message, 0);
             }
         });
-    }
-
-    // L4 (task 25): opt-in UEP clear reapplication after root proof, enabled
-    // only while /opt/usr/share/selfroot/uep-off.conf exists. Never runs
-    // before root; every anomaly fails closed inside UepGate (see its
-    // self-test), and this wrapper never throws so the boot chain continues.
-    private static void RunUepGate(string phase)
-    {
-        try
-        {
-            var gate = new UepGate(
-                UepGate.ProductionConfigPath,
-                UepGate.ProductionStatePath,
-                UepGate.ProductionProbePath,
-                UepGate.ProductionRuntimeConfigPath,
-                UepGate.ProductionDotNetPath,
-                UepGate.ProductionBootIdPath,
-                UepGate.ProductionProbeSha256,
-                UepGate.ProductionRuntimeConfigSha256,
-                UepGate.RunProductionProbe,
-                (string text) => AddUiEvent("uep gate: " + text));
-            AddUiEvent("uep gate (" + phase + "): " + gate.Run(phase));
-        }
-        catch (Exception e)
-        {
-            try { AddUiEvent("uep gate EXCEPTION " + e.GetType().Name + ": " + e.Message); } catch { }
-        }
     }
 
     // v5.12: the relay is owned by tvroot-bridge.service (supervised root
