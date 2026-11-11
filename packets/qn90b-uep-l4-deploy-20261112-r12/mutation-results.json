@@ -1,0 +1,136 @@
+{
+  "runner": "mutation_checks.py",
+  "tv_operations": 0,
+  "mutants": 14,
+  "killed": 14,
+  "survived": [],
+  "verdict": "PASSED",
+  "cases": [
+    {
+      "name": "state-tmp-key-dropped",
+      "file": "stage_common.py",
+      "runner": "session_checks:state_capture_contract",
+      "reason": "a capture that stops emitting state_tmp must fail the command contract",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "state-tmp-check-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:state_present_temp",
+      "reason": "a present budget temp path must still STOP",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "module-exit-presence-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_rejects_missing_exit",
+      "reason": "a missing module exit line must STOP",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "module-exit-nonzero-accepted",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_rejects_nonzero_exit",
+      "reason": "a nonzero module exit must STOP",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "module-content-check-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_files_rejects_content",
+      "reason": "a changed module byte must STOP",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "upload-whitelist-widened",
+      "file": "sdk.py",
+      "runner": "session_checks:upload_contract",
+      "reason": "an unreviewed upload name must be refused",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "upload-stage-containment-removed",
+      "file": "sdk.py",
+      "runner": "session_checks:upload_contract",
+      "reason": "an upload target outside the owned stage must be refused",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "protected-set-keeps-runtimeconfig",
+      "file": "packet.py",
+      "runner": "session_checks:protected_set",
+      "reason": "the post-install set must exclude the runtimeconfig the install replaces",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "removal-stale-receipt-accepted",
+      "file": "prepare.py",
+      "runner": "flow",
+      "reason": "a receipt from another boot must be refused",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "removal-r11-guard-restored",
+      "file": "prepare.py",
+      "runner": "flow",
+      "reason": "the r11 shape accepts stale, multiline and appended receipts",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "temp-guard-removed",
+      "file": "prepare.py",
+      "runner": "flow",
+      "reason": "a planted budget temp path must be refused before the install/activation write",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "stage-absence-check-removed",
+      "file": "stage.sh",
+      "runner": "session_checks:stage_sh_rejects_missing",
+      "reason": "an absent manifest-listed file must stop publish",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "stage-eof-skip",
+      "file": "stage.sh",
+      "runner": "session_checks:stage_sh_rejects_unterminated",
+      "reason": "a final row without a newline must still be verified",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    },
+    {
+      "name": "protected-order-check-removed",
+      "file": "stage_lib.py",
+      "runner": "session_checks:protected_closeout_rejects_order",
+      "reason": "a response reordered away from the requested paths must STOP",
+      "killed": true,
+      "exit": 1,
+      "detail": ""
+    }
+  ]
+}
