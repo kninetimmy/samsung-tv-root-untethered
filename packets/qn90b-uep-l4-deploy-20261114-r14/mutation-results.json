@@ -1,0 +1,230 @@
+{
+  "runner": "mutation_checks.py",
+  "tv_operations": 0,
+  "mutants": 20,
+  "killed": 20,
+  "survived": [],
+  "verdict": "PASSED",
+  "cases": [
+    {
+      "name": "state-tmp-key-dropped",
+      "file": "stage_common.py",
+      "runner": "session_checks:state_capture_contract",
+      "reason": "a capture that stops emitting state_tmp must fail the command contract",
+      "expected": "state capture lost",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: state capture lost the state_tmp key",
+      "diagnostic": "                                                                                                               ~~~~~~~~~~~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 624, in state_capture_contract\r\n    p.require(\"printf '\" + key + \"='\" in command,\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              'state capture lost the ' + key + ' key')\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: state capture lost the state_tmp key\r\n"
+    },
+    {
+      "name": "state-tmp-check-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:state_present_temp",
+      "reason": "a present budget temp path must still STOP",
+      "expected": "budget temp path",
+      "killed": true,
+      "exit": 1,
+      "terminal": "AssertionError: expected STOP: present budget temp path",
+      "diagnostic": "-uep-l4-deploy-20261114-r14\\session_checks.py\", line 640, in state_present_temp\r\n    expect_stop(lambda: asyncio.run(stage_common.state(\r\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n        _state_capture(state_tmp='present'), p.NEW_MANAGER_SHA,\r\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n        'session-check-state-present')), 'present budget temp path')\r\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 79, in expect_stop\r\n    raise AssertionError('expected STOP: ' + label)\r\nAssertionError: expected STOP: present budget temp path\r\n"
+    },
+    {
+      "name": "module-exit-presence-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_rejects_missing_exit",
+      "reason": "a persistent missing exit line must STOP",
+      "expected": "expected STOP: missing module exit line",
+      "killed": true,
+      "exit": 1,
+      "terminal": "AssertionError: expected STOP: missing module exit line",
+      "diagnostic": "                                                                                                              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 715, in module_gate_rejects_missing_exit\r\n    expect_stop(lambda: _module_gate(ScriptedSDK(log)), 'missing module exit line')\r\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 79, in expect_stop\r\n    raise AssertionError('expected STOP: ' + label)\r\nAssertionError: expected STOP: missing module exit line\r\n"
+    },
+    {
+      "name": "module-exit-nonzero-accepted",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_rejects_nonzero_exit",
+      "reason": "a nonzero module exit must STOP",
+      "expected": "expected STOP: nonzero module exit",
+      "killed": true,
+      "exit": 1,
+      "terminal": "AssertionError: expected STOP: nonzero module exit",
+      "diagnostic": "                                                                                                                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 729, in module_gate_rejects_nonzero_exit\r\n    expect_stop(lambda: _module_gate(ScriptedSDK(log)), 'nonzero module exit')\r\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 79, in expect_stop\r\n    raise AssertionError('expected STOP: ' + label)\r\nAssertionError: expected STOP: nonzero module exit\r\n"
+    },
+    {
+      "name": "module-exit-wait-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_waits_for_exit",
+      "reason": "a partial first log must be polled, not STOPped",
+      "expected": "gate module exit receipt is missing",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: the gate module exit receipt is missing; STOP",
+      "diagnostic": "oop.run_until_complete(task)\r\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\r\n  File \"C:\\Python314\\Lib\\asyncio\\base_events.py\", line 719, in run_until_complete\r\n    return future.result()\r\n           ~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\stage_common.py\", line 205, in module_gate\r\n    p.require(exits, 'the gate module exit receipt is missing; STOP')\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: the gate module exit receipt is missing; STOP\r\n"
+    },
+    {
+      "name": "module-unexpected-immediate",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_waits_for_partial_line",
+      "reason": "a partial last line must not be treated as an immediate unexpected event",
+      "expected": "unexpected gate event",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: unexpected gate event: uep gate (boot) uid=0: read-only: enforc",
+      "diagnostic": "e_events.py\", line 719, in run_until_complete\r\n    return future.result()\r\n           ~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\stage_common.py\", line 211, in module_gate\r\n    p.require(not unexpected, 'unexpected gate event: '\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              + (unexpected[0][:160] if unexpected else ''))\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: unexpected gate event: uep gate (boot) uid=0: read-only: enforc\r\n"
+    },
+    {
+      "name": "module-exit-partial-terminal",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_waits_for_partial_exit",
+      "reason": "a partial exit suffix must stay pending until the line completes",
+      "expected": "the gate module exited non-zero",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: the gate module exited non-zero: uep gate module exit=",
+      "diagnostic": " line 719, in run_until_complete\r\n    return future.result()\r\n           ~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\stage_common.py\", line 208, in module_gate\r\n    p.require(exits[0].strip() == 'uep gate module exit=0',\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              'the gate module exited non-zero: ' + exits[0][:160])\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: the gate module exited non-zero: uep gate module exit=\r\n"
+    },
+    {
+      "name": "module-exception-format-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_rejects_exception",
+      "reason": "the host's real \"uep gate (boot) EXCEPTION\" format must take the fast path",
+      "expected": "expected STOP: gate exception in the log",
+      "killed": true,
+      "exit": 1,
+      "terminal": "AssertionError: expected STOP: gate exception in the log",
+      "diagnostic": "ninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 806, in module_gate_rejects_exception\r\n    expect_stop(lambda: asyncio.run(stage_common.module_gate(\r\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n        sdk_obj, 'install', 'session-check-exception', probes=2)),\r\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n        'gate exception in the log')\r\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 79, in expect_stop\r\n    raise AssertionError('expected STOP: ' + label)\r\nAssertionError: expected STOP: gate exception in the log\r\n"
+    },
+    {
+      "name": "module-shape-check-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_gate_rejects_missing_detail",
+      "reason": "the required-shape guard must still STOP a summary-only log",
+      "expected": "expected STOP: missing required detail shape",
+      "killed": true,
+      "exit": 1,
+      "terminal": "AssertionError: expected STOP: missing required detail shape",
+      "diagnostic": "                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 830, in module_gate_rejects_missing_detail\r\n    expect_stop(lambda: _module_gate(ScriptedSDK(log)), 'missing required detail shape')\r\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 79, in expect_stop\r\n    raise AssertionError('expected STOP: ' + label)\r\nAssertionError: expected STOP: missing required detail shape\r\n"
+    },
+    {
+      "name": "module-content-check-removed",
+      "file": "stage_common.py",
+      "runner": "session_checks:module_files_rejects_content",
+      "reason": "a changed module byte must STOP",
+      "expected": "expected STOP: module file content drift",
+      "killed": true,
+      "exit": 1,
+      "terminal": "AssertionError: expected STOP: module file content drift",
+      "diagnostic": "~~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 336, in module_files_rejects_content\r\n    expect_stop(lambda: asyncio.run(\r\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\r\n        stage_common.module_files(stub, 'session-check-module-content')),\r\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n        'module file content drift')\r\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 79, in expect_stop\r\n    raise AssertionError('expected STOP: ' + label)\r\nAssertionError: expected STOP: module file content drift\r\n"
+    },
+    {
+      "name": "upload-whitelist-widened",
+      "file": "sdk.py",
+      "runner": "session_checks:upload_contract",
+      "reason": "an unreviewed upload name must be refused",
+      "expected": "whitelist widened too far",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: whitelist widened too far",
+      "diagnostic": " None; import session_checks as m; m.upload_contract()\r\n                                                                                                                              ~~~~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 118, in upload_contract\r\n    p.require('arbitrary.dll' not in sdk.UPLOAD_NAMES, 'whitelist widened too far')\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: whitelist widened too far\r\n"
+    },
+    {
+      "name": "upload-stage-containment-removed",
+      "file": "sdk.py",
+      "runner": "session_checks:upload_contract",
+      "reason": "an upload target outside the owned stage must be refused",
+      "expected": "expected STOP: target outside the owned stage",
+      "killed": true,
+      "exit": 1,
+      "terminal": "AssertionError: expected STOP: target outside the owned stage",
+      "diagnostic": "~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 136, in upload_contract\r\n    expect_stop(lambda: sdk.prepare_upload(\r\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n        p.HERE / 'stage.sh', p.STAGE + '/../boot.sh', '45845:100001'),\r\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n        'target outside the owned stage')\r\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 79, in expect_stop\r\n    raise AssertionError('expected STOP: ' + label)\r\nAssertionError: expected STOP: target outside the owned stage\r\n"
+    },
+    {
+      "name": "protected-set-keeps-runtimeconfig",
+      "file": "packet.py",
+      "runner": "session_checks:protected_set",
+      "reason": "the post-install set must exclude the runtimeconfig the install replaces",
+      "expected": "expected protected set must be the 24-file post-install baseline",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: expected protected set must be the 24-file post-install baseline",
+      "diagnostic": "^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\stage_lib.py\", line 20, in <module>\r\n    import packet as p\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\packet.py\", line 277, in <module>\r\n    require(len(EXPECTED) == 24, 'expected protected set must be the 24-file post-install baseline')\r\n    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: expected protected set must be the 24-file post-install baseline\r\n"
+    },
+    {
+      "name": "removal-r11-guard-restored",
+      "file": "prepare.py",
+      "runner": "flow",
+      "reason": "the r11 grep guard accepts a stale receipt from another boot",
+      "expected": "different boot",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: removal accepted a receipt from a different boot",
+      "diagnostic": "ases; flow_cases.run()\r\n                                                            ~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\flow_cases.py\", line 292, in run\r\n    p.require(out['case_rc'] != '0' and out['cfg'] == 'active',\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              'removal accepted a receipt from a different boot')\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: removal accepted a receipt from a different boot\r\n"
+    },
+    {
+      "name": "removal-nul-receipt-accepted",
+      "file": "prepare.py",
+      "runner": "flow",
+      "reason": "a wc/grep guard accepts an LF+NUL padded receipt",
+      "expected": "NUL-padded receipt",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: removal accepted a NUL-padded receipt",
+      "diagnostic": "ath.insert(0, \".\"); import flow_cases; flow_cases.run()\r\n                                                            ~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\flow_cases.py\", line 317, in run\r\n    p.require(out['case_rc'] != '0' and out['cfg'] == 'active',\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              'removal accepted a NUL-padded receipt')\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: removal accepted a NUL-padded receipt\r\n"
+    },
+    {
+      "name": "removal-multiline-first-line",
+      "file": "prepare.py",
+      "runner": "flow",
+      "reason": "a first-line-only guard accepts a multiline receipt",
+      "expected": "multiline receipt",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: removal accepted a multiline receipt",
+      "diagnostic": "s.path.insert(0, \".\"); import flow_cases; flow_cases.run()\r\n                                                            ~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\flow_cases.py\", line 301, in run\r\n    p.require(out['case_rc'] != '0' and out['cfg'] == 'active',\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              'removal accepted a multiline receipt')\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: removal accepted a multiline receipt\r\n"
+    },
+    {
+      "name": "temp-guard-removed",
+      "file": "prepare.py",
+      "runner": "flow",
+      "reason": "a planted budget temp path must be refused before the install/activation write",
+      "expected": "planted budget temp path",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: install accepted a planted budget temp path or wrote before refusing",
+      "diagnostic": "4-r14\\flow_cases.py\", line 356, in run\r\n    p.require(out['case_rc'] != '0' and out['target'] == p.PREV_MANAGER_SHA\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              and out['module'] == 'absent',\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              'install accepted a planted budget temp path or wrote before refusing')\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: install accepted a planted budget temp path or wrote before refusing\r\n"
+    },
+    {
+      "name": "stage-absence-check-removed",
+      "file": "stage.sh",
+      "runner": "session_checks:stage_sh_rejects_missing",
+      "reason": "an absent manifest-listed file must stop publish",
+      "expected": "manifest entry that is absent",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: stage.sh accepted a manifest entry that is absent",
+      "diagnostic": "                                                            ~~~~~~~~~~~~~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 578, in stage_sh_rejects_missing\r\n    p.require('rc=0' not in result.stdout.splitlines(),\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              'stage.sh accepted a manifest entry that is absent')\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: stage.sh accepted a manifest entry that is absent\r\n"
+    },
+    {
+      "name": "stage-eof-skip",
+      "file": "stage.sh",
+      "runner": "session_checks:stage_sh_rejects_unterminated",
+      "reason": "a final row without a newline must still be verified",
+      "expected": "unverified final row",
+      "killed": true,
+      "exit": 1,
+      "terminal": "manager_tools.Stop: stage.sh accepted an unverified final row without a trailing newline",
+      "diagnostic": "~~~~~~~~~~~~~~~~~~~~~~~~^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 586, in stage_sh_rejects_unterminated\r\n    p.require('rc=0' not in result.stdout.splitlines(),\r\n    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n              'stage.sh accepted an unverified final row without a trailing newline')\r\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-evidence-reboot-20261101-r1\\controller\\packet.py\", line 47, in require\r\n    raise Stop(message)\r\nmanager_tools.Stop: stage.sh accepted an unverified final row without a trailing newline\r\n"
+    },
+    {
+      "name": "protected-order-check-removed",
+      "file": "stage_lib.py",
+      "runner": "session_checks:protected_closeout_rejects_order_synthetic",
+      "reason": "a reordered response with duplicate digests must still STOP",
+      "expected": "expected STOP: hash output did not follow the requested path order",
+      "killed": true,
+      "exit": 1,
+      "terminal": "AssertionError: expected STOP: hash output did not follow the requested path order",
+      "diagnostic": "Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 463, in protected_closeout_rejects_order_synthetic\r\n    expect_stop(lambda: asyncio.run(protected_hashes(Swapped(), expected)),\r\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n                'hash output did not follow the requested path order')\r\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261114-r14\\session_checks.py\", line 79, in expect_stop\r\n    raise AssertionError('expected STOP: ' + label)\r\nAssertionError: expected STOP: hash output did not follow the requested path order\r\n"
+    }
+  ]
+}
