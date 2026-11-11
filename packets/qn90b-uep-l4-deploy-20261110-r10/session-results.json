@@ -1,0 +1,37 @@
+{
+  "runner": "session_checks.py",
+  "tv_operations": 0,
+  "passed": 7,
+  "failures": [],
+  "verdict": "PASSED",
+  "cases": [
+    {
+      "case": "upload-contract",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-files-all-small",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-files-parse",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-set",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-sh-publish",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-sh-rejects-unlisted",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-sh-rejects-missing",
+      "verdict": "passed"
+    }
+  ]
+}
