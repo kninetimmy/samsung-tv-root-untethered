@@ -1,0 +1,84 @@
+{
+  "offline_checks": "passed",
+  "seal_entries": 49,
+  "agent_sha256": "ff64d757a580edea8bbb6de493447c780505daebb21e351ce87fff67d75176e0",
+  "agent_runtimeconfig_sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+  "openssl": "C:/Program Files/Git/usr/bin/openssl.exe",
+  "sdk": "C:\\Users\\Kninetimmy\\.dotnet-sdks\\3.1.426",
+  "boot": "0404f29a-1277-44bb-bee7-5b77a0b3b6bc",
+  "proof": "e52b1f19024e42cf80cc8d41b4cb45cb7b106b07a8de5340f22c3c6c0caf2a05",
+  "protected_files": 24,
+  "TV_operations": 0,
+  "stages": [
+    "LIVE_ARM_INSTALL",
+    "LIVE_ARM_ACTIVE",
+    "LIVE_ARM_DISABLE"
+  ],
+  "artifact_shas": {
+    "artifacts/manager.dll": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+    "artifacts/manager.runtimeconfig.json": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+    "artifacts/UepGateHost.dll": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+    "artifacts/UepGateHost.runtimeconfig.json": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+    "artifacts/FdetProbe.dll": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+    "artifacts/FdetProbe.runtimeconfig.json": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+    "artifacts/uep-probe.elf": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+    "module/boot.sh": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+    "module/module.json": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5"
+  },
+  "rehearsal": {
+    "runner": "driver_checks.py",
+    "tv_operations": 0,
+    "passed": 15,
+    "failures": [],
+    "verdict": "PASSED"
+  },
+  "session": {
+    "runner": "session_checks.py",
+    "tv_operations": 0,
+    "passed": 10,
+    "failures": [],
+    "verdict": "PASSED",
+    "cases": [
+      {
+        "case": "upload-contract",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-files-all-small",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-files-parse",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-set",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-closeout",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-publish",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-rejects-unlisted",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-rejects-missing",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-rejects-unterminated",
+        "verdict": "passed"
+      },
+      {
+        "case": "state-temp-refusal",
+        "verdict": "passed"
+      }
+    ]
+  }
+}
