@@ -1,0 +1,10 @@
+{
+  "offline_checks": "passed",
+  "seal_entries": 52,
+  "agent_sha256": "67bc36308b6868e1e7a170430a3327615607bc464c7aa4f976eee23354ac5629",
+  "agent_runtimeconfig_sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+  "boot": "27959362-134c-4ba8-95f4-5c00dfb16eaf",
+  "proof": "ad5bab649bc20d3ed31f901117d77347abdd5dc146c2e7f55caca1e4099eac9b",
+  "protected_files": 25,
+  "TV_operations": 0
+}
