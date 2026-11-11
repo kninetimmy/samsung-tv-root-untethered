@@ -1,0 +1,18 @@
+{
+  "precheck": "passed",
+  "checks": 57,
+  "commit": "847443cfa62a6d160a712216c3835706b350752e",
+  "marker_names": [
+    "LIVE_ARM_DEPLOY",
+    "LIVE_ARM_WATCH",
+    "LIVE_ARM_DIRREAD",
+    "LIVE_ARM_ACTIVE",
+    "LIVE_ARM_DISABLE"
+  ],
+  "manager_sha256": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+  "fdet_sha256": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+  "probe_sha256": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+  "rollback_sha256": "eaeab5b3c3d1f5991952b83033be92328c07e2e3adade6fc55cfbeaad5095fc1",
+  "TV_operations": 0,
+  "inspection_pending": true
+}

@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>netcoreapp3.1</TargetFramework><OutputType>Exe</OutputType><AssemblyName>SamsungTvRootAgent</AssemblyName><StartupObject>SamsungTvRootAgent</StartupObject><UseAppHost>false</UseAppHost><EnableDefaultCompileItems>false</EnableDefaultCompileItems><Nullable>disable</Nullable><ImplicitUsings>disable</ImplicitUsings><LangVersion>8.0</LangVersion><DebugType>none</DebugType></PropertyGroup>
+  <ItemGroup><Compile Include="UepGateAgent.cs"/><EmbeddedResource Include="snapshot.sh" LogicalName="snapshot.sh"/><EmbeddedResource Include="gate-install.sh" LogicalName="gate-install.sh"/><EmbeddedResource Include="gate-config-active.sh" LogicalName="gate-config-active.sh"/><EmbeddedResource Include="gate-remove.sh" LogicalName="gate-remove.sh"/></ItemGroup>
+</Project>

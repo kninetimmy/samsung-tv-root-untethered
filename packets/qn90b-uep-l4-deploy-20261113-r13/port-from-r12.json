@@ -1,0 +1,191 @@
+{
+  "added": 1,
+  "carried": 32,
+  "delta": 8,
+  "entries": {
+    "PLAN.md": {
+      "r12": "89b0070da86cfab973d9cc374bda36727b46e83b4e28c64269a609f008c859d1",
+      "r13": "3e3f659da12b64680dc1fff0526a153fc6ed38fe9436a79c1bda8924eeae6f8a",
+      "reason": "r13 plan: the fourth-review fixes, the corrected module-gate wait, and the byte-exact removal receipt",
+      "status": "delta"
+    },
+    "UepGateAgent.cs": {
+      "sha256": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "status": "carried"
+    },
+    "UepGateAgent.csproj": {
+      "sha256": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "status": "carried"
+    },
+    "active.py": {
+      "sha256": "7a8468dea0b3a7721eb605971f91f34faafa388af825ee1787c5ff3f1e1104dc",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.dll": {
+      "sha256": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.runtimeconfig.json": {
+      "sha256": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.dll": {
+      "sha256": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.runtimeconfig.json": {
+      "sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/manager.dll": {
+      "sha256": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "status": "carried"
+    },
+    "artifacts/manager.runtimeconfig.json": {
+      "sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/uep-probe.elf": {
+      "sha256": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "status": "carried"
+    },
+    "authoring_checks.py": {
+      "sha256": "1c8426d6920fad8cf71866974f47cb8d09b34346438f132bd133f62d05eb8dac",
+      "status": "carried"
+    },
+    "bootstrap_sdk.py": {
+      "sha256": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "status": "carried"
+    },
+    "denial.py": {
+      "sha256": "6564bb14c0324ea15a38ec22533f741f8db7be9c45d2580d029800a7bd82f895",
+      "status": "carried"
+    },
+    "deploy.py": {
+      "sha256": "0d2e3c22232bda208acd0b67226605490aa5a26759a768e1eb00d130a1ff06b2",
+      "status": "carried"
+    },
+    "disable.py": {
+      "sha256": "849cd5175da0ea66eace92607ff7b838f9d24763e9dbfd843e11b0fd0131e639",
+      "status": "carried"
+    },
+    "driver_checks.py": {
+      "sha256": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "status": "carried"
+    },
+    "driver_shim.py": {
+      "sha256": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "status": "carried"
+    },
+    "flow_cases.py": {
+      "r12": "cb8d3c46a75486b80af68753e92d493b46aa172bfad45597b1ef60a662d3deea",
+      "r13": "3618fd7b8fe4a883ae6b268d585ccf2210017798936121054a5d154d3c5fe579",
+      "reason": "r13 minor: receipt cases include appended and embedded NUL bytes, which the old cat/wc check accepted",
+      "status": "delta"
+    },
+    "inspect_tv.py": {
+      "sha256": "9010f640a22eb776f398c44d399d130341ab2e9a0e516ee9a5807f84ceb3b1f4",
+      "status": "carried"
+    },
+    "inspection.json": {
+      "sha256": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "status": "carried"
+    },
+    "install.py": {
+      "sha256": "3d4849c53abb7561e51fbf964210835f66afe5e4d320ca5ba82b06fc19eee7ef",
+      "status": "carried"
+    },
+    "module/boot.sh": {
+      "sha256": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "status": "carried"
+    },
+    "module/module.json": {
+      "sha256": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "status": "carried"
+    },
+    "mutation_checks.py": {
+      "r12": "38f9cf9b96ea926a2aeb56ba552eec838a94b694c23c9106d34b4ba4735efbac",
+      "r13": "2aca4031395649c837dd76d41abeec4f5499cfcf6f9f47ff819a4462cf0d5fd0",
+      "reason": "r13 majors: every mutant must fail with the intended assertion, not an unrelated crash; new mutants cover the immediate-STOP race, the required-shape guard and the NUL receipt",
+      "status": "delta"
+    },
+    "offline_checks.py": {
+      "r12": "6ec287fc67437dad7f4b6d040c10d95fd375fbf4edb9ae7d985f18cd9f2173ae",
+      "r13": "1116a7c573f60e8fdf959a482aa90aa7c89d703dffc727dc6e19a1b9c280e485",
+      "reason": "guards for the r13 fixes (hash-exact receipt, pending module exit, proper shape cases, expected-message mutation kills) and the r12 port ledger",
+      "status": "delta"
+    },
+    "packet.py": {
+      "r12": "ce08b20748085f3bbab76e30ab82bfe2dd948ecb5148f952767d55f80b7e1afc",
+      "r13": "6167eef0d1ff042363169187aa1aaf1228e91d24a67cdb46b89caaff9699fb5c",
+      "reason": "r13 docstring and SEAL_ENTRIES: the r12 provenance files are replaced by the r13 ones",
+      "status": "delta"
+    },
+    "port_from_r12.py": {
+      "reason": "r13 provenance tool: digest-verified carry from the sealed r12 plus the delta ledger the seal re-checks",
+      "sha256": "f6ffaa00fe9700be112d3798b3dcede3d1ccf87d9c2b955a1079790e7146477e",
+      "status": "added"
+    },
+    "prepare.py": {
+      "r12": "69816c103555feade1461347ee9b536881dc4d1687860bf2924e4b5868eabd79",
+      "r13": "bf01da66bd445e4ab6219429ca82df7f362ecb541a2da635fe1c6d3cb07081f9",
+      "reason": "r13 minor: the removal receipt is compared by SHA-256 against the exact current-boot one-line bytes, so a NUL or an extra byte cannot pass; the wc/cat substitution is gone",
+      "status": "delta"
+    },
+    "protected-register-20261108.json": {
+      "sha256": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "status": "carried"
+    },
+    "protected-register.json": {
+      "sha256": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "status": "carried"
+    },
+    "recovery.py": {
+      "sha256": "8cf59313fa4749d3494c9c562c9ce7ddc5af688d177a2b98c06f7ba48f597c17",
+      "status": "carried"
+    },
+    "sdk.py": {
+      "sha256": "39e8e4462f25e7a29bd155f07caee31418ec05b5ec7973a60008858fdef84e3b",
+      "status": "carried"
+    },
+    "session_checks.py": {
+      "r12": "5449b7eabe1d31ed673be3879babf96435aff77db55f9de87b0eda35005d3104",
+      "r13": "06cc8e61c057bcc13c6df3395780c897d9c5aedf4521d6ffbf81509bd4b6eade",
+      "reason": "r13 majors: a startup-race case (empty first log, valid second log), proper missing-shape cases, and a synthetic order case that isolates the order guard",
+      "status": "delta"
+    },
+    "snapshot.sh": {
+      "sha256": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "status": "carried"
+    },
+    "stage.sh": {
+      "sha256": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "status": "carried"
+    },
+    "stage_common.py": {
+      "r12": "401620ba8ca5b201c4d3e19fd1cc928796dc8cd5f7dce7841643394105d23863",
+      "r13": "6015e98428741f1398346e43959f048e99e56dd2cf5cef4a2c8d6208a08e7697",
+      "reason": "r13 major: a fresh partial module log is polled, not STOPped; a missing exit or missing required shape fails only when the bounded poll is exhausted, while a duplicate or nonzero exit still stops immediately",
+      "status": "delta"
+    },
+    "stage_lib.py": {
+      "sha256": "9b709d79190c750ee76d3f59b10e5e34b33c324c3a9bc20f12b94346eb22aa9e",
+      "status": "carried"
+    },
+    "stage_session.py": {
+      "sha256": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "status": "carried"
+    },
+    "stage_transport.py": {
+      "sha256": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "status": "carried"
+    },
+    "trial.py": {
+      "sha256": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "status": "carried"
+    }
+  },
+  "r12_seal_sha256": "293a27e24eba454af53645e471d169c1d5a7867e1bc0730a09102bb3e7c2731d",
+  "removed": 0,
+  "successor_of": "qn90b-uep-l4-deploy-20261112-r12"
+}

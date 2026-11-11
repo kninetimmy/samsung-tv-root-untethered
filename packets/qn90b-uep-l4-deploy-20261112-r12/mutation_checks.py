@@ -1,0 +1,194 @@
+"""r12 host-only mutation harness for the session/shell coverage.
+
+Each entry applies one exact defect to the real packet source, runs the case
+that is supposed to catch it, and requires that case to fail. The original
+bytes are restored in a finally block and verified by SHA-256; any mutant that
+survives is reported and makes this harness exit non-zero.
+
+No TV contact. `session` runners call the specific case function; `flow`
+runners execute the full gate-script rehearsal.
+"""
+import hashlib
+import json
+import shutil
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parents[2]
+VENV = REPO / '.venv/Scripts/python.exe'
+BAKED = ('gate-install.sh', 'gate-config-active.sh', 'gate-remove.sh')
+
+
+class HiddenBaked:
+    """Temporarily hide the live bake so flow_cases exercises the template.
+
+    With the sealed scripts present, a mutated prepare.py is first caught by
+    the sealed-vs-template equality check. Hiding the bake makes the specific
+    receipt/temp case run against the mutated template, which is what the
+    mutant is supposed to prove.
+    """
+
+    def __init__(self):
+        self.backup = Path(tempfile.mkdtemp(prefix='r12-mutation-bake-'))
+        self.saved = {}
+
+    def __enter__(self):
+        for name in BAKED:
+            source = HERE / name
+            if source.is_file():
+                copy = self.backup / name
+                shutil.copy2(source, copy)
+                self.saved[name] = (copy, hashlib.sha256(copy.read_bytes()).hexdigest())
+                source.unlink()
+        return self
+
+    def __exit__(self, exc_type, exc, tb):
+        for name, (copy, digest_value) in self.saved.items():
+            target = HERE / name
+            shutil.copy2(copy, target)
+            if hashlib.sha256(target.read_bytes()).hexdigest() != digest_value:
+                raise SystemExit('bake restoration digest mismatch: ' + name)
+        shutil.rmtree(self.backup, ignore_errors=True)
+        return False
+
+# name, file, old, new, runner (module:function or 'flow'), reason
+MUTANTS = [
+    ('state-tmp-key-dropped', 'stage_common.py',
+     '        "printf \'state_tmp=\'; if test -e " + p.UEP_STATE + ".tmp || test -L "',
+     '        "printf \'state_tmpx=\'; if test -e " + p.UEP_STATE + ".tmp || test -L "',
+     'session_checks:state_capture_contract',
+     'a capture that stops emitting state_tmp must fail the command contract'),
+    ('state-tmp-check-removed', 'stage_common.py',
+     "    p.require(out['state_tmp'] == 'absent',",
+     "    p.require(True or out['state_tmp'] == 'absent',",
+     'session_checks:state_present_temp',
+     'a present budget temp path must still STOP'),
+    ('module-exit-presence-removed', 'stage_common.py',
+     '            p.require(len(exits) == 1,',
+     '            p.require(True,',
+     'session_checks:module_gate_rejects_missing_exit',
+     'a missing module exit line must STOP'),
+    ('module-exit-nonzero-accepted', 'stage_common.py',
+     "            p.require(exits[0].strip() == 'uep gate module exit=0',",
+     '            p.require(True,',
+     'session_checks:module_gate_rejects_nonzero_exit',
+     'a nonzero module exit must STOP'),
+    ('module-content-check-removed', 'stage_common.py',
+     "        p.require(out[key] == line, 'module file drift: ' + key)",
+     "        p.require(True, 'module file drift: ' + key)",
+     'session_checks:module_files_rejects_content',
+     'a changed module byte must STOP'),
+    ('upload-whitelist-widened', 'sdk.py',
+     '    "manager.dll",',
+     '    "manager.dll",\n    "arbitrary.dll",',
+     'session_checks:upload_contract',
+     'an unreviewed upload name must be refused'),
+    ('upload-stage-containment-removed', 'sdk.py',
+     '        and str(remote.parent) == prior.STAGE',
+     '        and True  # mutant: no stage containment',
+     'session_checks:upload_contract',
+     'an upload target outside the owned stage must be refused'),
+    ('protected-set-keeps-runtimeconfig', 'packet.py',
+     '    EXPECTED.pop(TARGET_RC, None)',
+     '    pass  # mutant: keep the replaced runtimeconfig in the closeout set',
+     'session_checks:protected_set',
+     'the post-install set must exclude the runtimeconfig the install replaces'),
+    ('removal-stale-receipt-accepted', 'prepare.py',
+     'test "$(cat -- "$state")" = "boot=$current_boot clear=1 restore=0"',
+     "grep -Eqx 'boot=[0-9a-f-]{36} clear=1 restore=0' \"$state\"",
+     'flow',
+     'a receipt from another boot must be refused'),
+    ('removal-r11-guard-restored', 'prepare.py',
+     "test \"$(stat -c '%F:%u:%g:%h' -- \"$state\")\" = 'regular file:0:0:1'\n"
+     'test "$(wc -l < "$state")" -eq 1\n'
+     'test "$(cat -- "$state")" = "boot=$current_boot clear=1 restore=0"',
+     "grep -Eqx 'boot=[0-9a-f-]{36} clear=1 restore=0' \"$state\"",
+     'flow',
+     'the r11 shape accepts stale, multiline and appended receipts'),
+    ('temp-guard-removed', 'prepare.py',
+     'test ! -e "$state.tmp"\ntest ! -L "$state.tmp"',
+     '',
+     'flow',
+     'a planted budget temp path must be refused before the install/activation write'),
+    ('stage-absence-check-removed', 'stage.sh',
+     '    if absent "$name"; then test "$action" = clean && test "$started" = 0 || exit 1; continue; fi',
+     '    if absent "$name"; then continue; fi',
+     'session_checks:stage_sh_rejects_missing',
+     'an absent manifest-listed file must stop publish'),
+    ('stage-eof-skip', 'stage.sh',
+     'while read -r hash name || test -n "$hash"; do',
+     'while read -r hash name; do',
+     'session_checks:stage_sh_rejects_unterminated',
+     'a final row without a newline must still be verified'),
+    ('protected-order-check-removed', 'stage_lib.py',
+     "        p.require(path == requested_path, 'hash output does not follow the requested path order: ' + line[:120])",
+     '        pass',
+     'session_checks:protected_closeout_rejects_order',
+     'a response reordered away from the requested paths must STOP'),
+]
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def run_case(runner):
+    if runner == 'flow':
+        code = ('import sys; sys.path.insert(0, "."); '
+                'import flow_cases; flow_cases.run()')
+        with HiddenBaked():
+            return subprocess.run([str(VENV), '-B', '-c', code],
+                                  capture_output=True, cwd=str(HERE))
+    module, function = runner.split(':')
+    code = ('import sys; sys.path.insert(0, "."); '
+            'import stage_lib; stage_lib.save = lambda *a, **k: None; '
+            'import ' + module + ' as m; m.' + function + '()')
+    return subprocess.run([str(VENV), '-B', '-c', code],
+                          capture_output=True, cwd=str(HERE))
+
+
+def main():
+    results = []
+    for name, filename, old, new, runner, reason in MUTANTS:
+        path = HERE / filename
+        original = path.read_bytes()
+        original_digest = hashlib.sha256(original).hexdigest()
+        text = original.decode('utf-8')
+        count = text.count(old)
+        if count < 1:
+            raise SystemExit('mutant ' + name + ' did not match ' + filename)
+        try:
+            path.write_bytes(text.replace(old, new).encode('utf-8'))
+            outcome = run_case(runner)
+        finally:
+            path.write_bytes(original)
+            if digest(path) != original_digest:
+                raise SystemExit('restoration digest mismatch: ' + filename)
+        killed = outcome.returncode != 0
+        results.append({
+            'name': name, 'file': filename, 'runner': runner,
+            'reason': reason, 'killed': killed,
+            'exit': outcome.returncode,
+            'detail': '' if killed else (outcome.stdout.decode('utf-8', 'replace')[-600:]
+                                         + outcome.stderr.decode('utf-8', 'replace')[-300:]),
+        })
+        print(('KILLED ' if killed else 'SURVIVED ') + name, flush=True)
+    survived = [item for item in results if not item['killed']]
+    record = {
+        'runner': 'mutation_checks.py', 'tv_operations': 0,
+        'mutants': len(results), 'killed': len(results) - len(survived),
+        'survived': [item['name'] for item in survived],
+        'verdict': 'PASSED' if not survived else 'FAILED',
+        'cases': results,
+    }
+    (HERE / 'mutation-results.json').write_text(
+        json.dumps(record, indent=2) + '\n', encoding='utf-8', newline='\n')
+    print(json.dumps({key: value for key, value in record.items() if key != 'cases'}))
+    return 0 if not survived else 1
+
+
+if __name__ == '__main__':
+    sys.exit(main())

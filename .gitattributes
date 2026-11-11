@@ -1,2 +1,6 @@
 # TV shell scripts need LF even when the host uses core.autocrlf=true.
 *.sh text eol=lf
+
+# Archived packet bytes are sealed by sha256 in seal.json. Never let checkout
+# normalize them: CRLF rewriting would invalidate every seal hash.
+packets/** -text

@@ -1,0 +1,49 @@
+{
+  "relay_remove_ran_this_session": false,
+  "relay_removed": true,
+  "boot": "27959362-134c-4ba8-95f4-5c00dfb16eaf",
+  "uptime_seconds": 337739.5,
+  "epoch": 1794177142,
+  "manager": {
+    "sha256": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+    "meta": {
+      "dev": 45845,
+      "inode": 40632,
+      "uid": 201,
+      "gid": 0,
+      "mode": "755",
+      "nlink": 1,
+      "size": 61952
+    },
+    "meta_changed_from": {
+      "inode": true,
+      "size": 47616
+    },
+    "label_unchanged": true
+  },
+  "v517_backup": {
+    "sha256": "eaeab5b3c3d1f5991952b83033be92328c07e2e3adade6fc55cfbeaad5095fc1",
+    "path": "/opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.dll.before-l4-20261108-r1"
+  },
+  "protected_files_checked": 23,
+  "fdet_installed": {
+    "home": "/opt/usr/share/selfroot/fdetprobe",
+    "files": [
+      "FdetProbe.dll",
+      "FdetProbe.runtimeconfig.json"
+    ]
+  },
+  "absent_paths_verified": 8,
+  "bridge_service": "active",
+  "observation": {
+    "log_size": "46229",
+    "manager_pids": "",
+    "agent_log_size_at_inspection": "45930"
+  },
+  "selfroot": {
+    "meta": "directory:0:0:755:1",
+    "at_inspection": "0:0:755:1:3"
+  },
+  "verdict": "stage1-state-verified",
+  "deployment_receipt": "deployment-result.json was never written by deploy.py (run-time closeout bug, before this file); this verification is its factual replacement"
+}

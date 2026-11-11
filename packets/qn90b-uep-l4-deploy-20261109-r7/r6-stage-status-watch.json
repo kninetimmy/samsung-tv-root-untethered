@@ -1,0 +1,9 @@
+{
+  "stage": "watch",
+  "passed": true,
+  "utc": "2026-11-09T03:43:50.272764+00:00",
+  "absent_lines": 2,
+  "boot": "4b2c70c7-2d64-46df-b84e-02541ed33659",
+  "observed_growth": false,
+  "attempt_utc": "2026-11-09T03:40:42.816455+00:00"
+}

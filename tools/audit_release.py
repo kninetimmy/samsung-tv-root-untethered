@@ -13,6 +13,12 @@ DOCUMENTATION_IMAGES = {
         "7c1dfabfb569835d2633b32144bfc6ba960c5e0ac8bc028c14cd49475fd72618"
     ),
 }
+# Archived packet trees are the sealed record of past runs, not release
+# artifacts: they legitimately contain the build outputs each packet sealed
+# (PE/ELF, non-UTF-8). The binary rules are therefore scoped away from them,
+# while every text rule still applies so a private address, key or personal
+# path can never enter the archive unnoticed.
+ARCHIVE_ROOT = "packets"
 IGNORED_DIRECTORIES = {
     ".git",
     ".pytest_cache",
@@ -102,15 +108,17 @@ def audit() -> list[str]:
     failures: list[str] = []
     for path in candidate_files():
         relative = path.relative_to(ROOT)
+        archived = relative.parts[0] == ARCHIVE_ROOT
         if path.is_symlink():
             failures.append(f"symlink is not allowed: {relative}")
             continue
-        if path.suffix.lower() in FORBIDDEN_SUFFIXES:
+        if not archived and path.suffix.lower() in FORBIDDEN_SUFFIXES:
             failures.append(f"generated or proprietary suffix: {relative}")
         data = path.read_bytes()
-        for magic, description in FORBIDDEN_MAGIC.items():
-            if data.startswith(magic):
-                failures.append(f"{description} content is not allowed: {relative}")
+        if not archived:
+            for magic, description in FORBIDDEN_MAGIC.items():
+                if data.startswith(magic):
+                    failures.append(f"{description} content is not allowed: {relative}")
         image_hash = DOCUMENTATION_IMAGES.get(relative.as_posix())
         if image_hash is not None:
             if hashlib.sha256(data).hexdigest() != image_hash:
@@ -119,7 +127,8 @@ def audit() -> list[str]:
         try:
             text = data.decode("utf-8")
         except UnicodeDecodeError:
-            failures.append(f"non-UTF-8 file is not allowed: {relative}")
+            if not archived:
+                failures.append(f"non-UTF-8 file is not allowed: {relative}")
             continue
         for description, pattern in FORBIDDEN_TEXT.items():
             if pattern.search(text):

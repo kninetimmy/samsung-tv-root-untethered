@@ -1,0 +1,181 @@
+{
+  "added": 1,
+  "carried": 28,
+  "delta": 9,
+  "entries": {
+    "PLAN.md": {
+      "r10": "c1fc8026b9857c0d02906b49bc9b9bab6fb28be591dffffc07442c9b0818c17b",
+      "r11": "3e82697df9f065c3dc83403583b4cd8aa5213ea7a0f7febaf741c120d19412f8",
+      "reason": "r11 plan: budget-temp boundary, removal receipt, manifest EOF, module exit and the review-coverage corrections",
+      "status": "delta"
+    },
+    "UepGateAgent.cs": {
+      "sha256": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "status": "carried"
+    },
+    "UepGateAgent.csproj": {
+      "sha256": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "status": "carried"
+    },
+    "active.py": {
+      "sha256": "7a8468dea0b3a7721eb605971f91f34faafa388af825ee1787c5ff3f1e1104dc",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.dll": {
+      "sha256": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.runtimeconfig.json": {
+      "sha256": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.dll": {
+      "sha256": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.runtimeconfig.json": {
+      "sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/manager.dll": {
+      "sha256": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "status": "carried"
+    },
+    "artifacts/manager.runtimeconfig.json": {
+      "sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/uep-probe.elf": {
+      "sha256": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "status": "carried"
+    },
+    "authoring_checks.py": {
+      "sha256": "1c8426d6920fad8cf71866974f47cb8d09b34346438f132bd133f62d05eb8dac",
+      "status": "carried"
+    },
+    "bootstrap_sdk.py": {
+      "sha256": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "status": "carried"
+    },
+    "denial.py": {
+      "sha256": "6564bb14c0324ea15a38ec22533f741f8db7be9c45d2580d029800a7bd82f895",
+      "status": "carried"
+    },
+    "deploy.py": {
+      "sha256": "0d2e3c22232bda208acd0b67226605490aa5a26759a768e1eb00d130a1ff06b2",
+      "status": "carried"
+    },
+    "disable.py": {
+      "sha256": "849cd5175da0ea66eace92607ff7b838f9d24763e9dbfd843e11b0fd0131e639",
+      "status": "carried"
+    },
+    "driver_checks.py": {
+      "sha256": "92aa4151ae908b76985348bffbc8e4fb60ffd0a2b2920771ab7b47843e173715",
+      "status": "carried"
+    },
+    "driver_shim.py": {
+      "sha256": "fe9dc27347e9e27cd85ce1ce92a70c40e29af94f24774d8032961295939ad32b",
+      "status": "carried"
+    },
+    "flow_cases.py": {
+      "r10": "2db276f2410884b50c4e6edf09486adb32a50db476821cac147a3ed4969a8a29",
+      "r11": "db8b03ae24bbd3d37deeb9760ecc260ffa5fa81c7a60640dbfcc072ece63c2e1",
+      "reason": "M3: the removal happy path carries the active-boot budget receipt and a removal case proves an absent receipt is refused",
+      "status": "delta"
+    },
+    "inspect_tv.py": {
+      "sha256": "9010f640a22eb776f398c44d399d130341ab2e9a0e516ee9a5807f84ceb3b1f4",
+      "status": "carried"
+    },
+    "install.py": {
+      "sha256": "3d4849c53abb7561e51fbf964210835f66afe5e4d320ca5ba82b06fc19eee7ef",
+      "status": "carried"
+    },
+    "module/boot.sh": {
+      "sha256": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "status": "carried"
+    },
+    "module/module.json": {
+      "sha256": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "status": "carried"
+    },
+    "offline_checks.py": {
+      "r10": "c7b578f85aa7d2dfac55bdee08f67efec7bac7a5518d669ec3de35e19bdd30e9",
+      "r11": "1367f305baca21fcce5780569216783195da5672a4ae77df3f9acf5caf8dbe08",
+      "reason": "guards for the r11 fixes (state temp refusal, manifest EOF idiom, removal receipt, module exit) and the strengthened session suite",
+      "status": "delta"
+    },
+    "packet.py": {
+      "r10": "6a93a30ad2f12f0c7b92623a836182fafed20737a01c4a1a94425c6b5ed0ab57",
+      "r11": "e74b05950bc2c3a35544656666058a226aebb4087ed407c443301a49881a4531",
+      "reason": "r11 constants (state temp path, module exit receipt) and the docstring/ledger references; SEAL_ENTRIES gains the new files",
+      "status": "delta"
+    },
+    "port_from_r10.py": {
+      "reason": "r11 provenance tool: digest-verified carry from the sealed r10 plus the delta ledger the seal re-checks",
+      "sha256": "3915b0628e92ea1577f5bac89fbf23f3d64aed82e6b167d8f1c089c00a048a6e",
+      "status": "added"
+    },
+    "prepare.py": {
+      "r10": "ee2cb7698065adbb05685cee9483713115fe089e4acf7c562721f16255bbb359",
+      "r11": "4c775dab7294ed123d6de56a73876f414af47bd7328c97582e76e063efc70e77",
+      "reason": "B1: every baked script refuses a pre-existing or linked uep-state.conf.tmp before the host can write it; M3: gate-remove requires the present, well-shaped active-boot budget receipt",
+      "status": "delta"
+    },
+    "protected-register-20261108.json": {
+      "sha256": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "status": "carried"
+    },
+    "recovery.py": {
+      "sha256": "8cf59313fa4749d3494c9c562c9ce7ddc5af688d177a2b98c06f7ba48f597c17",
+      "status": "carried"
+    },
+    "sdk.py": {
+      "sha256": "39e8e4462f25e7a29bd155f07caee31418ec05b5ec7973a60008858fdef84e3b",
+      "status": "carried"
+    },
+    "session_checks.py": {
+      "r10": "6a13e79cdcd5016665f6f8bb1d7e1ec7fd5641bba2483902e8e732a9e79c88e6",
+      "r11": "d433a07b22f1859a23a9e08f79fd5c0dbad347c8f541cac89e57e37611cbcbd0",
+      "reason": "M1: the suite now checks the real EXPECTED set at seal time, executes the generated module capture under the shim, keeps the manifest row for an absent file, and covers closeout",
+      "status": "delta"
+    },
+    "snapshot.sh": {
+      "sha256": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "status": "carried"
+    },
+    "stage.sh": {
+      "r10": "f173c7c7975429c38aa3567bde341cb4cf07a25ea5bec696dc5b4253b5b488ac",
+      "r11": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "reason": "M2: manifest loops process a final row that lacks a trailing newline, so publish and clean cannot disagree with the awk sweep",
+      "status": "delta"
+    },
+    "stage_common.py": {
+      "r10": "8aa940e66107bdb0c41e89c890dc3dc2bcb195ef6f98e2d272b5be1b9ec2241b",
+      "r11": "e6336b72d8ab16a5ec3520cfbee9d0987f54b0bd9e609471f7e36e4fce5c8400",
+      "reason": "B1: state capture reports state_tmp and the stage refuses it; m1: module_gate requires module exit=0",
+      "status": "delta"
+    },
+    "stage_lib.py": {
+      "r10": "875896df6536b6383733e3a9fccc1f4c36c9be0ecf66464c172c5ceb324d699a",
+      "r11": "9b709d79190c750ee76d3f59b10e5e34b33c324c3a9bc20f12b94346eb22aa9e",
+      "reason": "closeout: protected_hashes requires exactly one response line per requested path (an extra line was silently ignored by zip)",
+      "status": "delta"
+    },
+    "stage_session.py": {
+      "sha256": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "status": "carried"
+    },
+    "stage_transport.py": {
+      "sha256": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "status": "carried"
+    },
+    "trial.py": {
+      "sha256": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "status": "carried"
+    }
+  },
+  "r10_seal_sha256": "30e2ca0087318e491d1385350b7f0616585af8c2e6b149f31942b1452773cead",
+  "removed": 0,
+  "successor_of": "qn90b-uep-l4-deploy-20261110-r10"
+}

@@ -1,0 +1,11 @@
+{
+  "offline_checks": "passed",
+  "seal_entries": 45,
+  "agent_sha256": "c9e7e435d0b27290a071a2b7fd5740cf07039885660f2b8a778077111ef2e71e",
+  "agent_runtimeconfig_sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+  "boot": "4b2c70c7-2d64-46df-b84e-02541ed33659",
+  "proof": "798df12ffbe920d3e4fc51ce2dd813c04a189b7a579749d01db1350e51bcae93",
+  "protected_files": 25,
+  "TV_operations": 0,
+  "gate_stage": "remove-only (owner decision 2026-11-09)"
+}
