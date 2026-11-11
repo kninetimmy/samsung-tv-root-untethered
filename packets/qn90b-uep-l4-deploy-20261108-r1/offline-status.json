@@ -1,0 +1,31 @@
+{
+  "status": "prepared; no TV contact; per-stage approval markers required",
+  "packet": "qn90b-uep-l4-deploy-20261108-r1",
+  "source_commit": "c51fbcc",
+  "pr23_merged_at": "847443cfa62a6d160a712216c3835706b350752e",
+  "master_ci": "run 42519473578-equivalent post-merge, 10/10 jobs success",
+  "target": {
+    "model": "QN55QN90BAFXZA",
+    "build": "T-PTMAKUC-REL-202602250225",
+    "installed_manager_sha256": "eaeab5b3c3d1f5991952b83033be92328c07e2e3adade6fc55cfbeaad5095fc1 (v5.17)"
+  },
+  "artifacts": [
+    {"name": "manager.dll", "sha256": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a", "provenance": "boot-agent netcoreapp3.1 build @ c51fbcc with SDK 3.1.426 and cached TV framework refs"},
+    {"name": "manager.runtimeconfig.json", "sha256": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b"},
+    {"name": "FdetProbe.dll", "sha256": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb", "provenance": "exact bytes validated live in the spent L2 packet; copied from qn90b-uep-l1-20261108-r1/payload"},
+    {"name": "FdetProbe.runtimeconfig.json", "sha256": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b"},
+    {"name": "uep-probe.elf", "sha256": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d", "provenance": "hash-locked probe admitted live in L3"}
+  ],
+  "build_tooling": {
+    "sdk_version": "3.1.426",
+    "sdk_zip_sha512": "ca5c60898318d2cf9786013edd45508f44fba45c2a8814752ba53094ca7b78b3d94874e765655e310b4efd2b604d42807ef6e16c6281d877495d513bfb5c1261",
+    "checksum_source": "https://builds.dotnet.microsoft.com/dotnet/checksums/3.1.32-sha.txt",
+    "install_location": "C:/Users/Kninetimmy/.dotnet-sdks/3.1.426",
+    "framework_ref_dir": "C:/Users/Kninetimmy/samtv/.memhub/prep/auto-close-20261102/agent"
+  },
+  "self_tests": ["UepGateSelfTest PASS", "BridgePortSelfTest PASS", "AutoCloseSelfTest PASS", "LaunchContextSelfTest PASS"],
+  "stage_pkg_token": "archive-root-a553e5ee83632f83",
+  "markers_required": ["LIVE_ARM_DEPLOY", "LIVE_ARM_WATCH", "LIVE_ARM_DIRREAD", "LIVE_ARM_ACTIVE", "LIVE_ARM_DISABLE"],
+  "acl": "packet dir + children: owner DESKTOP-LCJ0F6H\\Kninetimmy, inheritance disabled, FullControl only user + SYSTEM; icacls /verify OK",
+  "not_done_yet": ["read-only inspection (own light approval) producing inspection.json", "prepare.py run + agent build + offline_checks.py + seal.json", "stages 2-5 driver scripts with own markers", "owner stage approvals"]
+}
