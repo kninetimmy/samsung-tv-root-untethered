@@ -45,10 +45,11 @@ be identified against any surviving copy.
 | qn90b-uep-l4-deploy-20261113-r13 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
 | qn90b-uep-l4-deploy-20261114-r14 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
 | qn90b-uep-l4-deploy-20261115-r15 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
+| qn90b-uep-l4-deploy-20261116-r16 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
 | qn90b-uep-l4-deploy-20261117-r17 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
 
-Archived packets: 16 (837 files). The live set is r19 plus its predecessor
-r18; r16 is superseded and still sits in `.memhub/prep` pending archiving.
+Archived packets: 17 (909 files). The live set is r19 plus its predecessor
+r18; every older packet is archived here.
 
 _Last updated 2026-11-11._
 
