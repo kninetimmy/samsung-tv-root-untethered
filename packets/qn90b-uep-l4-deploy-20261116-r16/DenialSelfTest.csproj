@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>netcoreapp3.1</TargetFramework><OutputType>Exe</OutputType><AssemblyName>DenialSelfTest</AssemblyName><StartupObject>DenialSelfTest</StartupObject><UseAppHost>false</UseAppHost><EnableDefaultCompileItems>false</EnableDefaultCompileItems><LangVersion>8.0</LangVersion><DebugType>none</DebugType></PropertyGroup>
+  <ItemGroup><Compile Include="DenialRunner.cs"/><Compile Include="DenialSelfTest.cs"/></ItemGroup>
+</Project>

@@ -1,0 +1,289 @@
+{
+  "runner": "session_checks.py",
+  "tv_operations": 0,
+  "passed": 70,
+  "failures": [],
+  "verdict": "PASSED",
+  "cases": [
+    {
+      "case": "upload-contract",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-files-all-small",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-files-parse",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-files-rejects-content",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-files-rejects-mode",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-files-rejects-unkeyed",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-files-rejects-missing-dir",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-set",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-closeout-accepts",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-closeout-rejects-drift",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-closeout-rejects-extra",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-closeout-rejects-order",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-closeout-rejects-order-synthetic",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-closeout-rejects-short",
+      "verdict": "passed"
+    },
+    {
+      "case": "protected-closeout-rejects-duplicate",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-sh-publish",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-sh-clean-eof",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-sh-rejects-unlisted",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-sh-rejects-missing",
+      "verdict": "passed"
+    },
+    {
+      "case": "stage-sh-rejects-unterminated",
+      "verdict": "passed"
+    },
+    {
+      "case": "state-capture-contract",
+      "verdict": "passed"
+    },
+    {
+      "case": "state-missing-temp-key",
+      "verdict": "passed"
+    },
+    {
+      "case": "state-present-temp",
+      "verdict": "passed"
+    },
+    {
+      "case": "state-malformed-temp",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-accepts-valid",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-waits-for-exit",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-waits-for-partial-line",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-waits-for-partial-exit",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-exception",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-persistent-missing-exit",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-missing-exit",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-duplicate-exit",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-nonzero-exit",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-unexpected",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-stale-log",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-missing-detail",
+      "verdict": "passed"
+    },
+    {
+      "case": "module-gate-rejects-missing-summary",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-absent",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-stale-removed",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-directory-mode",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-directory-owner",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-file-mode",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-file-owner",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-dll-hash",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-runtime-hash",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-source-hash",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-extra",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-missing",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-hardlink",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-child-symlink",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-directory-symlink",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-not-directory",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-live-pid",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-listener",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-listener6",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-unreadable-table",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-boot",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-proof",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-uid",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-pid-malformed",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-pid-nul",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-refuses-pid-newline",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-fresh-session",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-fresh-reappearance",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-cleanup-reappearance",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-before-attempt",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-inherited-anchor",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-install-replay",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-stop-absence-guard",
+      "verdict": "passed"
+    },
+    {
+      "case": "relay-path-identity",
+      "verdict": "passed"
+    }
+  ]
+}

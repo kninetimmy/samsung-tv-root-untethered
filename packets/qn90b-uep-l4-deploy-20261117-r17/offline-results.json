@@ -1,0 +1,480 @@
+{
+  "offline_checks": "passed",
+  "seal_entries": 72,
+  "agent_sha256": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+  "agent_runtimeconfig_sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+  "openssl": "C:/Program Files/Git/usr/bin/openssl.exe",
+  "sdk": "C:\\Users\\Kninetimmy\\.dotnet-sdks\\3.1.426",
+  "boot": "299d6f3f-c014-43e5-a487-59c47c833f6f",
+  "proof": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+  "protected_files": 24,
+  "TV_operations": 0,
+  "stages": [
+    "LIVE_ARM_CERTIFY",
+    "LIVE_ARM_TIDY"
+  ],
+  "artifact_shas": {
+    "artifacts/manager.dll": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+    "artifacts/manager.runtimeconfig.json": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+    "artifacts/UepGateHost.dll": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+    "artifacts/UepGateHost.runtimeconfig.json": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+    "artifacts/FdetProbe.dll": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+    "artifacts/FdetProbe.runtimeconfig.json": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+    "artifacts/uep-probe.elf": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+    "module/boot.sh": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+    "module/module.json": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5"
+  },
+  "rehearsal": {
+    "runner": "driver_checks.py",
+    "tv_operations": 0,
+    "passed": 23,
+    "failures": [],
+    "verdict": "PASSED"
+  },
+  "session": {
+    "runner": "session_checks.py",
+    "tv_operations": 0,
+    "passed": 70,
+    "failures": [],
+    "verdict": "PASSED",
+    "cases": [
+      {
+        "case": "upload-contract",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-files-all-small",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-files-parse",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-files-rejects-content",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-files-rejects-mode",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-files-rejects-unkeyed",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-files-rejects-missing-dir",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-set",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-closeout-accepts",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-closeout-rejects-drift",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-closeout-rejects-extra",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-closeout-rejects-order",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-closeout-rejects-order-synthetic",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-closeout-rejects-short",
+        "verdict": "passed"
+      },
+      {
+        "case": "protected-closeout-rejects-duplicate",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-publish",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-clean-eof",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-rejects-unlisted",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-rejects-missing",
+        "verdict": "passed"
+      },
+      {
+        "case": "stage-sh-rejects-unterminated",
+        "verdict": "passed"
+      },
+      {
+        "case": "state-capture-contract",
+        "verdict": "passed"
+      },
+      {
+        "case": "state-missing-temp-key",
+        "verdict": "passed"
+      },
+      {
+        "case": "state-present-temp",
+        "verdict": "passed"
+      },
+      {
+        "case": "state-malformed-temp",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-accepts-valid",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-waits-for-exit",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-waits-for-partial-line",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-waits-for-partial-exit",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-exception",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-persistent-missing-exit",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-missing-exit",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-duplicate-exit",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-nonzero-exit",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-unexpected",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-stale-log",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-missing-detail",
+        "verdict": "passed"
+      },
+      {
+        "case": "module-gate-rejects-missing-summary",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-absent",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-stale-removed",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-directory-mode",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-directory-owner",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-file-mode",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-file-owner",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-dll-hash",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-runtime-hash",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-source-hash",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-extra",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-missing",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-hardlink",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-child-symlink",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-directory-symlink",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-not-directory",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-live-pid",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-listener",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-listener6",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-unreadable-table",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-boot",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-proof",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-uid",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-pid-malformed",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-pid-nul",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-refuses-pid-newline",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-fresh-session",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-fresh-reappearance",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-cleanup-reappearance",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-before-attempt",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-inherited-anchor",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-install-replay",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-stop-absence-guard",
+        "verdict": "passed"
+      },
+      {
+        "case": "relay-path-identity",
+        "verdict": "passed"
+      }
+    ]
+  },
+  "mutation": {
+    "mutants": 63,
+    "killed": 63,
+    "survived": [],
+    "verdict": "PASSED"
+  },
+  "budget_writer_residual": "UepGate.SaveBudget still writes uep-state.conf.tmp with a following File.WriteAllText before the rename; the packet pre-write refusal cannot cover that check-to-write window. Exclusive-create hardening is task 40 (v5.20); r14 arms only with the owner-accepted residual.",
+  "authoring": {
+    "existing_bake_verified": true,
+    "bake": [
+      "gate-config-active.sh",
+      "gate-install.sh",
+      "gate-remove.sh"
+    ],
+    "integrity_gates": "ok",
+    "receipt_ground_truth": "ok",
+    "build": "succeeded",
+    "warnings": 0,
+    "embedded_resources": "ok",
+    "bash_n_stage.sh": "ok",
+    "bash_n_snapshot.sh": "ok",
+    "bash_n_gate-install.sh": "ok",
+    "bash_n_gate-config-active.sh": "ok",
+    "bash_n_gate-remove.sh": "ok",
+    "ruff": "ok",
+    "cleanup": "carried bake retained byte-identically; synthetic bake/build were temp-tree only",
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0
+  },
+  "build": {
+    "command": [
+      "C:\\Users\\Kninetimmy\\.dotnet-sdks\\3.1.426\\dotnet.exe",
+      "build",
+      "C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\UepGateAgent.csproj",
+      "-c",
+      "Release",
+      "-f",
+      "netcoreapp3.1",
+      "-p:BaseIntermediateOutputPath=C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-r17-verification-20261110\\temp\\r14-seal-build-irsudvmd\\obj\\",
+      "-p:OutputPath=C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\build\\"
+    ],
+    "exit": 0,
+    "warnings": 0,
+    "DOTNET_MULTILEVEL_LOOKUP": "0",
+    "stdout": "Microsoft (R) Build Engine version 16.7.3+2f374e28e for .NET\r\nCopyright (C) Microsoft Corporation. All rights reserved.\r\n\r\n  Determining projects to restore...\r\n  Restored C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\UepGateAgent.csproj (in 49 ms).\r\n  UepGateAgent -> C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\build\\SamsungTvRootAgent.dll\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.55\r\n",
+    "stderr": ""
+  },
+  "inherited_install_sha256": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+  "stage_2_boot": "dc1477b5-295d-452b-90c4-ce10aec2f3c8",
+  "stage_1": "historical only; every gate entrypoint refused in r17",
+  "r16": {
+    "runner": "r16_checks.py",
+    "passed": 45,
+    "failed": 0,
+    "skipped": 0,
+    "TV_operations": 0,
+    "cases": [
+      "denial_good",
+      "denial_started",
+      "denial_masked",
+      "denial_wrong_errno",
+      "denial_masked_trailer",
+      "denial_marker",
+      "kernel_missing",
+      "kernel_old",
+      "kernel_wrong_path",
+      "kernel_outside",
+      "kernel_rotated",
+      "kernel_duplicate",
+      "typed_exception",
+      "duplicate_precheck",
+      "certification",
+      "certification-boot",
+      "certification-gate",
+      "certification-fresh-budget",
+      "certification-cleared",
+      "certification-missing-module",
+      "certification-unexpected-module",
+      "certification-backup",
+      "r17-backup-directory-good",
+      "r17-backup-directory-symlink",
+      "r17-backup-directory-non-directory",
+      "r17-backup-directory-missing",
+      "r17-backup-directory-owner",
+      "r17-backup-directory-group",
+      "r17-backup-directory-mode",
+      "r17-backup-directory-links",
+      "r17-backup-directory-stat-failure",
+      "r17-certification-evidence-fields",
+      "task46-good",
+      "task46-hash",
+      "task46-extra",
+      "task46-extra-newline",
+      "task46-hardlink",
+      "task46-owner",
+      "task46-mode",
+      "task46-size",
+      "task46-mtime",
+      "task46-symlink",
+      "denial-flow-EPERM",
+      "denial-flow-EACCES",
+      "denial-flow-missing-kernel"
+    ],
+    "r17_fixture_boundary": "uid901 DAC denial and POSIX metadata modeled explicitly; real Bash guards; no live TV validation"
+  },
+  "r17_backup_certification": "directory metadata only; creation hashes evidenced by gate-install.sh:65-71 GATE_BACKUP_COMPLETE",
+  "relay_standalone": {
+    "passed": 33,
+    "TV_operations": 0
+  },
+  "denial_managed": {
+    "SDK": "3.1.426",
+    "DOTNET_MULTILEVEL_LOOKUP": "0",
+    "builds": [
+      {
+        "command": [
+          "C:\\Users\\Kninetimmy\\.dotnet-sdks\\3.1.426\\dotnet.exe",
+          "build",
+          "C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\DenialRunner.csproj",
+          "-c",
+          "Release",
+          "-f",
+          "netcoreapp3.1",
+          "-p:BaseIntermediateOutputPath=C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-r17-verification-20261110\\temp\\r16-denial-build-_ru42tc3\\DenialRunner\\obj\\",
+          "-p:OutputPath=C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\build\\"
+        ],
+        "exit": 0,
+        "warnings": 0,
+        "stdout": "Microsoft (R) Build Engine version 16.7.3+2f374e28e for .NET\r\nCopyright (C) Microsoft Corporation. All rights reserved.\r\n\r\n  Determining projects to restore...\r\n  Restored C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\DenialRunner.csproj (in 47 ms).\r\n  DenialRunner -> C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\build\\DenialRunner.dll\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.54\r\n"
+      },
+      {
+        "command": [
+          "C:\\Users\\Kninetimmy\\.dotnet-sdks\\3.1.426\\dotnet.exe",
+          "build",
+          "C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\DenialSelfTest.csproj",
+          "-c",
+          "Release",
+          "-f",
+          "netcoreapp3.1",
+          "-p:BaseIntermediateOutputPath=C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-r17-verification-20261110\\temp\\r16-denial-build-_ru42tc3\\DenialSelfTest\\obj\\",
+          "-p:OutputPath=C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-r17-verification-20261110\\temp\\r16-denial-build-_ru42tc3\\selftest\\"
+        ],
+        "exit": 0,
+        "warnings": 0,
+        "stdout": "Microsoft (R) Build Engine version 16.7.3+2f374e28e for .NET\r\nCopyright (C) Microsoft Corporation. All rights reserved.\r\n\r\n  Determining projects to restore...\r\n  Restored C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-l4-deploy-20261117-r17\\DenialSelfTest.csproj (in 47 ms).\r\n  DenialSelfTest -> C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-r17-verification-20261110\\temp\\r16-denial-build-_ru42tc3\\selftest\\DenialSelfTest.dll\r\n\r\nBuild succeeded.\r\n    0 Warning(s)\r\n    0 Error(s)\r\n\r\nTime Elapsed 00:00:00.55\r\n"
+      }
+    ],
+    "selftest": {
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "skipped": 0,
+  "offline_passed_phases": 21,
+  "offline_failed_phases": 0
+}

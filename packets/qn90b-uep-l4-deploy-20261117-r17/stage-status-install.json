@@ -1,0 +1,9 @@
+{
+  "stage": "install",
+  "passed": true,
+  "utc": "2026-11-10T11:40:47.901696+00:00",
+  "fresh_boot": "dc1477b5-295d-452b-90c4-ce10aec2f3c8",
+  "fresh_proof_sha256": "38bcea864cd701b5826bd5a744a43f01b95922234cb2ac9cda6a45567b526f91",
+  "manager_sha": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+  "attempt_utc": "2026-11-10T11:37:20.610400+00:00"
+}

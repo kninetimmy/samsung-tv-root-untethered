@@ -1,0 +1,368 @@
+{
+  "counts": {
+    "added": 14,
+    "carried": 33,
+    "delta": 14,
+    "removed": 2
+  },
+  "entries": {
+    "DenialRunner.cs": {
+      "r15": null,
+      "r16": "05ef0f26801d10190d380df99ab3e104e82164e0ef1c61e5329fc1259cf21552",
+      "reason": "Account for refused-before-exec with errno and null native_exit; own bounded child if started",
+      "status": "added"
+    },
+    "DenialRunner.csproj": {
+      "r15": null,
+      "r16": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "reason": "Build packet-only netcoreapp3.1 managed helper; no new dependency",
+      "status": "added"
+    },
+    "DenialSelfTest.cs": {
+      "r15": null,
+      "r16": "765163f7c84609cb6e006b7ba02e99af691b0d842ab451a0eb92a19b6de54461",
+      "reason": "Exercise real accountant refusal and real started-child code paths on host",
+      "status": "added"
+    },
+    "DenialSelfTest.csproj": {
+      "r15": null,
+      "r16": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "reason": "Compile host self-test with exact production accountant source",
+      "status": "added"
+    },
+    "PLAN.md": {
+      "r15": "181b0038e504dc164212dde5db70efdee207f50a2459317b68d737670ea4703d",
+      "r16": "9a3e63b24f9ddb1693f1f7ce88b1ba8ccdedfeab1ef9394fd5b5857cca55fe1e",
+      "reason": "Replace obsolete gate/reboot plan with enforcing-only A-G certification and separate optional tidy",
+      "status": "delta"
+    },
+    "UepGateAgent.cs": {
+      "r15": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "r16": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "status": "carried"
+    },
+    "UepGateAgent.csproj": {
+      "r15": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "r16": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "status": "carried"
+    },
+    "active.py": {
+      "r15": "1cfd13666aad895c2d3c76ecb316f2855ad84d0a56b823ab74e7130d904f968b",
+      "r16": "187ade646d814309990d7ba13e44212e4e00028b0ea06d4e0261612dfa4f987e",
+      "reason": "Refuse CLI; retain regression code and precheck duplicate attempt before prerequisites",
+      "status": "delta"
+    },
+    "artifacts/FdetProbe.dll": {
+      "r15": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "r16": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.runtimeconfig.json": {
+      "r15": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r16": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.dll": {
+      "r15": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "r16": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.runtimeconfig.json": {
+      "r15": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r16": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/manager.dll": {
+      "r15": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "r16": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "status": "carried"
+    },
+    "artifacts/manager.runtimeconfig.json": {
+      "r15": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r16": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/uep-probe.elf": {
+      "r15": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "r16": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "status": "carried"
+    },
+    "authoring_checks.py": {
+      "r15": "8f7948f94c40fc2098a3115c938305695a204beba2b2b550c08ad68402181d20",
+      "r16": "10c5822c05b2baad99770c31e195cfaf9137256d3a6575bcd11132a2cc07dcf0",
+      "reason": "Retain all inherited authoring checks and report exact passed/failed/skipped group counts",
+      "status": "delta"
+    },
+    "bootstrap_sdk.py": {
+      "r15": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "r16": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "status": "carried"
+    },
+    "certify.py": {
+      "r15": null,
+      "r16": "0a883c3c838c31db3dfe9f34b3a6e347669162f1eca35e533051ec152692712e",
+      "reason": "Implement single-pass read-only anchored certification and single denial; no gate/reboot path",
+      "status": "added"
+    },
+    "denial.py": {
+      "r15": "6564bb14c0324ea15a38ec22533f741f8db7be9c45d2580d029800a7bd82f895",
+      "r16": "c313fc79a1357e84a469b45d051fe7b52b35f98ad1b5d3db56e64be44c0870ca",
+      "reason": "Replace shell/126 assertion and misleading exit accounting with direct errno and exact fresh kernel evidence",
+      "status": "delta"
+    },
+    "deploy.py": {
+      "r15": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "r16": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "status": "carried"
+    },
+    "disable.py": {
+      "r15": "a0552c9b7ae9f72549548b85568c3426da6b623943e5f66910a9421499731fe0",
+      "r16": "a451f73a324f37f7114580bfa3015e5e3d2ee4edbe534fca88aa23e55b2d7990",
+      "reason": "Refuse CLI; retain regression code, duplicate precheck and honest runtime-anchor documentation",
+      "status": "delta"
+    },
+    "driver_checks.py": {
+      "r15": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "r16": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "status": "carried"
+    },
+    "driver_shim.py": {
+      "r15": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "r16": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "status": "carried"
+    },
+    "evidence/FORENSIC.md": {
+      "r15": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "r16": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "status": "carried"
+    },
+    "evidence/R15-INCIDENT.md": {
+      "r15": null,
+      "r16": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "reason": "Record receipt citations, measurement caveat and unresolved EACCES-vs-EPERM observation",
+      "status": "added"
+    },
+    "evidence/R15-PLAN.md": {
+      "r15": null,
+      "r16": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "reason": "Retain original r15 plan under an explicitly historical non-authoritative heading",
+      "status": "added"
+    },
+    "evidence/anchored-proof.txt": {
+      "r15": null,
+      "r16": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "reason": "Extract byte-exact proof matching sealed CERTIFY_PROOF from historical r15 receipt6452 for real-hash host tests",
+      "status": "added"
+    },
+    "evidence/dmesg_grep.txt": {
+      "r15": null,
+      "r16": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "reason": "Carry authoritative kernel signature-denial measurement byte-identically",
+      "status": "added"
+    },
+    "evidence/measurement.json": {
+      "r15": null,
+      "r16": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "reason": "Carry authoritative errno measurement byte-identically, including its raw trailing-pipe caveat",
+      "status": "added"
+    },
+    "evidence/r14-evidence-digests.json": {
+      "r15": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "r16": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "status": "carried"
+    },
+    "evidence/r15-evidence-digests.json": {
+      "r15": null,
+      "r16": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "reason": "Preserve pinned predecessor sealed entries, STOP, receipts and runtime statuses",
+      "status": "added"
+    },
+    "flow_cases.py": {
+      "r15": "3618fd7b8fe4a883ae6b268d585ccf2210017798936121054a5d154d3c5fe579",
+      "r16": "3618fd7b8fe4a883ae6b268d585ccf2210017798936121054a5d154d3c5fe579",
+      "status": "carried"
+    },
+    "gate-config-active.sh": {
+      "r15": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "r16": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "status": "carried"
+    },
+    "gate-install.sh": {
+      "r15": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "r16": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "status": "carried"
+    },
+    "gate-remove.sh": {
+      "r15": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "r16": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "status": "carried"
+    },
+    "inspect_tv.py": {
+      "r15": "9010f640a22eb776f398c44d399d130341ab2e9a0e516ee9a5807f84ceb3b1f4",
+      "r16": "908b5800b8935729e8fde6fe3bdea9f79256da617f70c9a861e847343194fbd8",
+      "reason": "Refuse historical inspection CLI; shared transport/save retained",
+      "status": "delta"
+    },
+    "inspection.json": {
+      "r15": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "r16": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "status": "carried"
+    },
+    "install.py": {
+      "r15": "fdb0834089ef82a0a734d9030ab7c7eea9ecec6a3383f9516d7a2c87a7c98813",
+      "r16": "fdb0834089ef82a0a734d9030ab7c7eea9ecec6a3383f9516d7a2c87a7c98813",
+      "status": "carried"
+    },
+    "module/boot.sh": {
+      "r15": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "r16": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "status": "carried"
+    },
+    "module/module.json": {
+      "r15": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "r16": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "status": "carried"
+    },
+    "mutation_checks.py": {
+      "r15": "7beb907ddd9744e8550466cfe3b5cadd526501701986899afacaac224d1f0d51",
+      "r16": "f67a9a0cd5af083d4a68a556cd5f120eeeaf613400ce1050d702e14e8d8daa66",
+      "reason": "Record actual terminal exception type/message; add r16 safety mutants; update cosmetic guard anchors",
+      "status": "delta"
+    },
+    "offline_checks.py": {
+      "r15": "29d214a8cbed7830bd9c0941ff7d8486ccf277ceb708dc06bdc1c2e59feaa91f",
+      "r16": "0696cfb2c7c99960f986d1f961bf77c97f7f6922d0702de3847ff6cb465127e4",
+      "reason": "Run full inherited/new suites, helper self-tests and pinned builds before exact r16 seal",
+      "status": "delta"
+    },
+    "packet.py": {
+      "r15": "face9b60796a2951b1e5c474e16731f1e73105495763afda8dd38cbb1883c0a9",
+      "r16": "836c2b067dde1bb331b9682308596df7d4cef9fda1d8a048b7df0690577cf4c8",
+      "reason": "Restrict markers to certify/tidy; pin current and stale boots/proof and new seal entries",
+      "status": "delta"
+    },
+    "port-from-r14.json": {
+      "r15": "0c94618ddef2a60f2128b9c463e696f4d01738612c15a1065700a9a3c19b7183",
+      "r16": null,
+      "reason": "Supersede predecessor ledger with r15 -> r16 exhaustive ledger",
+      "status": "removed"
+    },
+    "port_from_r14.py": {
+      "r15": "8d5ef1ee7773030118aad6ae32e1619790d1037fbf342492c7d35abe860adbe8",
+      "r16": null,
+      "reason": "Supersede predecessor port tool; original remains immutable in r15",
+      "status": "removed"
+    },
+    "port_from_r15.py": {
+      "r15": null,
+      "r16": "3165cec113a5887b02cc35a16bf950218e94a755ae8f1aecb487726919bb15ec",
+      "reason": "Verify pinned predecessor seal, evidence immutability and every r16 delta",
+      "status": "added"
+    },
+    "prepare.py": {
+      "r15": "bf01da66bd445e4ab6219429ca82df7f362ecb541a2da635fe1c6d3cb07081f9",
+      "r16": "e8ac91d4c49e4f965ce0409d38f6536b8bec2d430777392494af4498241fdf2e",
+      "reason": "Refuse historical preparation CLI; pure bake helpers retained for all regressions",
+      "status": "delta"
+    },
+    "protected-register-20261108.json": {
+      "r15": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "r16": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "status": "carried"
+    },
+    "protected-register.json": {
+      "r15": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "r16": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "status": "carried"
+    },
+    "r16_checks.py": {
+      "r15": null,
+      "r16": "46415c1252a52022c657b6837ba46405b1bc0dbd067049d3f4161a85e033c047",
+      "reason": "Execute new certification/denial/exception/duplicate/tidy acceptance and refusal cases offline",
+      "status": "added"
+    },
+    "recovery.py": {
+      "r15": "11bce910f68df59793af4756476e7b49ded572064c4d2c31eb6c4c2d79594d04",
+      "r16": "ab3c50a53cb4207d10ac6233a19e50cd2bc8bc818b5f116adc1bfcb2d49eddaf",
+      "reason": "Check regular type separately so empty regular children fail on meaningful content/pid checks",
+      "status": "delta"
+    },
+    "relay_checks.py": {
+      "r15": "f4573c438b82bf33f75abf6102eda128cb99f42a06a362adc52078e1379c87f1",
+      "r16": "15e3bb888aa44c642d9f1e8e6f73a6a1d2c0296d9cd88a3e9dff1e6c9d06b522",
+      "reason": "Use resolved rehearsal TEMP and cover retained shared attempt/stat interfaces",
+      "status": "delta"
+    },
+    "sdk.py": {
+      "r15": "39e8e4462f25e7a29bd155f07caee31418ec05b5ec7973a60008858fdef84e3b",
+      "r16": "39e8e4462f25e7a29bd155f07caee31418ec05b5ec7973a60008858fdef84e3b",
+      "status": "carried"
+    },
+    "session_checks.py": {
+      "r15": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "r16": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "status": "carried"
+    },
+    "snapshot.sh": {
+      "r15": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "r16": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "status": "carried"
+    },
+    "stage-status-install.json": {
+      "r15": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "r16": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "status": "carried"
+    },
+    "stage.sh": {
+      "r15": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "r16": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "status": "carried"
+    },
+    "stage_common.py": {
+      "r15": "98090ddafe709b60cb2af617e5744566773164e2965194fb6d5e1cf002570268",
+      "r16": "5caddcaa98ee43f04c9dbfd2193a46e8fddd164527f44cddd4c5682b726c1f4d",
+      "reason": "Strip captured proof base64 newlines with literal octal 012 and pipefail",
+      "status": "delta"
+    },
+    "stage_lib.py": {
+      "r15": "3def4cf3ee20d04afc7050c64611df6fc82131fa4874d8bee1122ed3124240b2",
+      "r16": "b93932ad04d00937eef80d900a35692a81bdacebb16639410706c8292cfd9fd2",
+      "reason": "Share attempt-existence guard, including symlink, before any prerequisite can touch TV",
+      "status": "delta"
+    },
+    "stage_session.py": {
+      "r15": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "r16": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "status": "carried"
+    },
+    "stage_transport.py": {
+      "r15": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "r16": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "status": "carried"
+    },
+    "tidy.py": {
+      "r15": null,
+      "r16": "9d90fe350d0dead563c1c8ab56ef4dc27462fe7739a43943fdf4cd802a3d2a2f",
+      "reason": "Separate optional final exact-path task46 unlink/rmdir/fresh-session absence step",
+      "status": "added"
+    },
+    "trial.py": {
+      "r15": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "r16": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "status": "carried"
+    }
+  },
+  "predecessor": "qn90b-uep-l4-deploy-20261115-r15",
+  "predecessor_seal_sha256": "18d14375d0576fc52e0ba15647c2aebf2f8de1c6e13788d8b11c3d19f89c7e2e",
+  "regenerated": {
+    "build/DenialRunner.dll": "Build direct managed exec refusal accountant with SDK 3.1.426",
+    "build/DenialRunner.runtimeconfig.json": "Generate netcoreapp3.1 runtimeconfig for denial accountant",
+    "build/SamsungTvRootAgent.dll": "Build inherited agent with SDK 3.1.426 for regression verification only",
+    "build/SamsungTvRootAgent.runtimeconfig.json": "Regenerate inherited agent runtimeconfig",
+    "mutation-results.json": "Execute inherited and new mutants with typed exception accounting",
+    "offline-results.json": "Record all r16 offline suites, builds and no-TV boundary",
+    "r16-results.json": "Execute certification, denial evidence/accounting and task46 refusal cases",
+    "rehearsal-results.json": "Execute inherited gate-script host rehearsals again; not live authority",
+    "session-results.json": "Execute all inherited session and relay cases again"
+  }
+}
