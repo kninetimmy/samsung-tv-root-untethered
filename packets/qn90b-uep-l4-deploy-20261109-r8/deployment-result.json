@@ -1,0 +1,10 @@
+{
+  "installed": true,
+  "sha256": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+  "boot": "27959362-134c-4ba8-95f4-5c00dfb16eaf",
+  "backup": "/opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.dll.before-l4-20261108-r1",
+  "recovery_removed": true,
+  "cleanup_pending": [],
+  "UI_launches": 0,
+  "reboots": 0
+}
