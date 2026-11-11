@@ -1,0 +1,6 @@
+{
+  "stage": "dirread",
+  "passed": false,
+  "reason": "Stop: unexpected gate event: [2026-11-09T03:47:22.9591640Z] uep gate: payload check failed: dotnet missing (/usr/bin/dotnet) - fail closed (no action)",
+  "utc": "2026-11-09T03:47:28.016416+00:00"
+}
