@@ -1,0 +1,19 @@
+{
+  "old_sha": "eaeab5b3c3d1f5991952b83033be92328c07e2e3adade6fc55cfbeaad5095fc1",
+  "new_sha": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+  "fdet_reference": {
+    "sha256": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+    "runtimeconfig_sha256": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+    "home": "/opt/usr/share/selfroot/fdetprobe"
+  },
+  "gate_ops": [
+    "gate-readonly",
+    "gate-active",
+    "gate-remove"
+  ],
+  "boot": "27959362-134c-4ba8-95f4-5c00dfb16eaf",
+  "target": "/opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.dll",
+  "backup": "/opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.dll.before-l4-20261108-r1",
+  "stage": "/home/owner/share/tmp/sdk_tools/archive-root-a553e5ee83632f83",
+  "source_commit": "847443cfa62a6d160a712216c3835706b350752e"
+}
