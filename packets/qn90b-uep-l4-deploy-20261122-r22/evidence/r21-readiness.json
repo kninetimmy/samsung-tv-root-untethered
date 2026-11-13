@@ -1,0 +1,103 @@
+{
+  "source_packet": "qn90b-uep-l4-deploy-20261121-r21",
+  "source_seal_sha256": "07c92d93ebeb60c491107f991df7017fbd51d3c42836a752c445c31bcc449f89",
+  "source": "receipts.jsonl",
+  "source_sealed": false,
+  "source_sha256": "2494e1ae27ba023f4f974f96648df859a48166d477a6e3ae3ad9e302f630f39b",
+  "inherited": true,
+  "new_device_contact": false,
+  "rows": [
+    {
+      "line": 18,
+      "receipt": {
+        "utc": "2026-11-12T03:02:20.410802+00:00",
+        "event": "r16-certification",
+        "uid": "901",
+        "boot": "299d6f3f-c014-43e5-a487-59c47c833f6f",
+        "service": "active",
+        "manager_hash": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c  /opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.dll",
+        "manager_rc_hash": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38  /opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.runtimeconfig.json",
+        "gate": "absent",
+        "budget": "present",
+        "state_tmp": "absent",
+        "module": "present",
+        "backup": "present",
+        "proof_hash": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29  /home/owner/share/tmp/sdk_tools/selfroot-evidence/selfroot-proof.txt",
+        "log_size": "73855",
+        "manager_pids": "",
+        "port_config": "absent"
+      }
+    },
+    {
+      "line": 36,
+      "receipt": {
+        "utc": "2026-11-12T03:02:20.580161+00:00",
+        "event": "proof-captured",
+        "sha256": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+        "bytes": 1253
+      }
+    },
+    {
+      "line": 124,
+      "receipt": {
+        "utc": "2026-11-12T03:02:21.424408+00:00",
+        "event": "protected-hashes-verified",
+        "count": 24
+      }
+    },
+    {
+      "line": 212,
+      "receipt": {
+        "utc": "2026-11-12T03:02:23.060364+00:00",
+        "event": "r16-certification-end",
+        "uid": "901",
+        "boot": "299d6f3f-c014-43e5-a487-59c47c833f6f",
+        "service": "active",
+        "manager_hash": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c  /opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.dll",
+        "manager_rc_hash": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38  /opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.runtimeconfig.json",
+        "gate": "absent",
+        "budget": "present",
+        "state_tmp": "absent",
+        "module": "present",
+        "backup": "present",
+        "proof_hash": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29  /home/owner/share/tmp/sdk_tools/selfroot-evidence/selfroot-proof.txt",
+        "log_size": "73855",
+        "manager_pids": "",
+        "port_config": "absent"
+      }
+    },
+    {
+      "line": 213,
+      "receipt": {
+        "utc": "2026-11-12T03:02:23.061755+00:00",
+        "event": "r20-read-only-certified",
+        "boot": "299d6f3f-c014-43e5-a487-59c47c833f6f",
+        "proof": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+        "budget": "stale; never fresh",
+        "protected_files": 24,
+        "TV_writes": 0,
+        "backup_directory_meta": "directory:0:0:700:1",
+        "backup_pair_evidence": "gate-install.sh:65-71 GATE_BACKUP_COMPLETE under set -euo pipefail; evidence/FORENSIC.md r14 receipts.jsonl records 2264-2265 exit 0; stage-status-install.json sha256=be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+        "backup_certification": "root-only backup directory is the installed shape; not present-tense pair bytes"
+      }
+    },
+    {
+      "line": 214,
+      "receipt": {
+        "utc": "2026-11-12T03:02:23.214022+00:00",
+        "event": "r20-readiness-passed",
+        "boot": "299d6f3f-c014-43e5-a487-59c47c833f6f",
+        "attempts": 0,
+        "TV_writes": 0,
+        "backup_pair_evidence": "gate-install.sh:65-71 GATE_BACKUP_COMPLETE under set -euo pipefail; evidence/FORENSIC.md r14 receipts.jsonl records 2264-2265 exit 0; stage-status-install.json sha256=be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+        "backup_certification": "root-only backup directory is the installed shape; not present-tense pair bytes"
+      }
+    }
+  ],
+  "absent_runtime_paths": [
+    "STOP",
+    "SPENT",
+    "refusals.jsonl",
+    "execution"
+  ]
+}

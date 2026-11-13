@@ -1,0 +1,66 @@
+{
+  "historical_only": true,
+  "predecessor": "qn90b-uep-l4-deploy-20261117-r17",
+  "receipts_sha256": "0d953e3506d854de40fc1581ce85a9749d2cd684f1e2ba7f5fd6be73a510a5eb",
+  "stop": "Stage LIVE_ARM_CERTIFY failed; packet stops permanently (no replay).\n",
+  "attempt": "2026-11-11T01:39:42.566522+00:00\n",
+  "events": [
+    {
+      "receipt_line": 445,
+      "utc": "2026-11-11T01:39:49.445661+00:00",
+      "event": "denial-stage-created",
+      "path": "/home/owner/share/tmp/sdk_tools/denial-5bd20c32c9b13f14",
+      "receipt": "45845:25356"
+    },
+    {
+      "receipt_line": 463,
+      "utc": "2026-11-11T01:39:49.654367+00:00",
+      "event": "denial-uploaded",
+      "filename": "uep-probe.elf",
+      "sha256": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "size": 5196
+    },
+    {
+      "receipt_line": 481,
+      "utc": "2026-11-11T01:39:49.890826+00:00",
+      "event": "denial-uploaded",
+      "filename": "DenialRunner.dll",
+      "sha256": "dca73c8af979de32e27364cd3527ca28c7017b38b47058cfe3cc05896840ab57",
+      "size": 9216
+    },
+    {
+      "receipt_line": 499,
+      "utc": "2026-11-11T01:39:50.040553+00:00",
+      "event": "denial-uploaded",
+      "filename": "DenialRunner.runtimeconfig.json",
+      "sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "size": 154
+    },
+    {
+      "receipt_line": 534,
+      "utc": "2026-11-11T01:39:50.430379+00:00",
+      "event": "denial-kernel-before",
+      "uptime": 17486.1,
+      "path": "/opt/usr/home/owner/share/tmp/sdk_tools/denial-5bd20c32c9b13f14",
+      "bytes": 505101,
+      "lines": 7356,
+      "first": "[16755.012369] [wlan][646]:(REQ WARN) STA doesn't support this function",
+      "last": "[17486.329850] [ALSA-LKFS] dnse lkfs info: get (-80dB:-70dB) [920:ACCELEROMETER]"
+    },
+    {
+      "receipt_line": 551,
+      "utc": "2026-11-11T01:39:50.967692+00:00",
+      "event": "denial-output",
+      "wrapper_exit": 77,
+      "output": "{\"exec_started\":false,\"errno\":1,\"native_exit\":null,\"timed_out\":false,\"stdout\":\"\",\"stderr\":\"\"}"
+    },
+    {
+      "receipt_line": 586,
+      "utc": "2026-11-11T01:39:51.380971+00:00",
+      "event": "stage-failed",
+      "stage": "LIVE_ARM_CERTIFY",
+      "kind": "certify",
+      "reason": "Stop: kernel log attempt window lost its prefix; STOP; backup_pair_evidence=gate-install.sh:65-71 GATE_BACKUP_COMPLETE under set -euo pipefail; evidence/FORENSIC.md r14 receipts.jsonl records 2264-2265 exit 0; stage-status-install.json sha256=be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042; backup_certification=root-only backup directory is the installed shape; not present-tense pair bytes"
+    }
+  ]
+}
