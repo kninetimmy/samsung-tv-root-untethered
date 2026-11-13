@@ -1,0 +1,564 @@
+{
+  "counts": {
+    "added": 3,
+    "carried": 66,
+    "delta": 16,
+    "removed": 5
+  },
+  "directories": {
+    "r19": [
+      "artifacts",
+      "build",
+      "evidence",
+      "execution",
+      "execution/attempts",
+      "module"
+    ],
+    "r20": [
+      "artifacts",
+      "build",
+      "evidence",
+      "module"
+    ],
+    "removed": [
+      "execution",
+      "execution/attempts"
+    ]
+  },
+  "entries": {
+    "DenialRunner.cs": {
+      "r19": "36765d66c3a88d17f911a146e5087d28b1b668165ad9cfa3f5b162f168e6e0f8",
+      "r20": "1ecf5d578363e675bf37d999a89c24b6435d3950b68fb54541e205cee8b6db90",
+      "reason": "Exact measured identity constants, bounded offending read diagnostic before guards, retained post-profile before validation",
+      "status": "delta"
+    },
+    "DenialRunner.csproj": {
+      "r19": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "r20": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "status": "carried"
+    },
+    "DenialSelfTest.cs": {
+      "r19": "df2f02b912b886f05fdf2fb3e61ea3707d384c8317b5da13d2a00d7c71948ca8",
+      "r20": "bdd0b69b4e8ea5bba004af70f44d656ef9e2c17f0d7ffe61d30b38918c5f4e7b",
+      "reason": "Exercise identity drift, pre-drain parse failures and exact failed-read/post-profile retention",
+      "status": "delta"
+    },
+    "DenialSelfTest.csproj": {
+      "r19": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "r20": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "status": "carried"
+    },
+    "LIVE_ARM_CERTIFY": {
+      "r19": "4720f1c5ae91d430279925bf020a9404f5194856b094493aa39186aeed5c7027",
+      "r20": null,
+      "reason": "Never inherit predecessor runtime/cache/arming bytes; snapshot pins original",
+      "status": "removed"
+    },
+    "PLAN.md": {
+      "r19": "79b6cab13f24790d86d6616f1477e4cf32d2c318620cf539df3b6a5cfeedc10a",
+      "r20": "8a4a70839c5dfc64624e5a1d49e274f89f7860210b26b7f7fb68a13ac04413f2",
+      "reason": "Record owner-accepted measured helper residual, correct decision47 citation, diagnostic precedence, source pins and three-target tidy",
+      "status": "delta"
+    },
+    "STOP": {
+      "r19": "b1c854d518a29b88c7177a55e640f530eef02e5a911a135ed5c8c63a7575b44b",
+      "r20": null,
+      "reason": "Never inherit predecessor permanent STOP; r19 original remains unchanged",
+      "status": "removed"
+    },
+    "UepGateAgent.cs": {
+      "r19": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "r20": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "status": "carried"
+    },
+    "UepGateAgent.csproj": {
+      "r19": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "r20": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "status": "carried"
+    },
+    "active.py": {
+      "r19": "187ade646d814309990d7ba13e44212e4e00028b0ea06d4e0261612dfa4f987e",
+      "r20": "187ade646d814309990d7ba13e44212e4e00028b0ea06d4e0261612dfa4f987e",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.dll": {
+      "r19": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "r20": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.runtimeconfig.json": {
+      "r19": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r20": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.dll": {
+      "r19": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "r20": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.runtimeconfig.json": {
+      "r19": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r20": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/manager.dll": {
+      "r19": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "r20": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "status": "carried"
+    },
+    "artifacts/manager.runtimeconfig.json": {
+      "r19": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r20": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/uep-probe.elf": {
+      "r19": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "r20": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.dll": {
+      "r19": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "r20": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.runtimeconfig.json": {
+      "r19": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r20": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "authoring_checks.py": {
+      "r19": "1f0facfcb0c3a1506cfa7f0be882752da82ec2c967741c540ce3d201d788c1d8",
+      "r20": "d907c28ac418844425f83b785780fb9312ed5f4f7f32e4b2423b2fb2fa977947",
+      "reason": "Refuse stale authoring pin before builds; private build directories before compiler writes",
+      "status": "delta"
+    },
+    "bootstrap_sdk.py": {
+      "r19": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "r20": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "status": "carried"
+    },
+    "build/DenialRunner.deps.json": {
+      "r19": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "r20": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.dll": {
+      "r19": "fb14c09f962f04ce0fac430a191a7842d6481328413313c5286dbf61a0e79566",
+      "r20": "87537fefaac0a086879036a6630a3855e8239a218e29a5a9a09472ea055db727",
+      "reason": "Build exact measured identity gates and retained failure observations with SDK 3.1.426",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "build/DenialRunner.runtimeconfig.dev.json": {
+      "r19": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r20": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.runtimeconfig.json": {
+      "r19": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r20": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Generate denial helper netcoreapp3.1 runtimeconfig",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.deps.json": {
+      "r19": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "r20": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.dll": {
+      "r19": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "r20": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "reason": "Rebuild inherited regression-only agent with SDK 3.1.426",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": {
+      "r19": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r20": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.json": {
+      "r19": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r20": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Regenerate inherited regression agent runtimeconfig",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "certify.py": {
+      "r19": "f72706380060d5630bd0152f631f35a99fb8e90869c541538738234b493aa40e",
+      "r20": "3b63cec2ef1a686ca08eb649a018d743e45aa8e96ee9b3217b97a2d88c527e92",
+      "reason": "Identify r20 and replace the live HEAD equality with dependency digest preflight",
+      "status": "delta"
+    },
+    "denial.py": {
+      "r19": "86090516c9d7fb205a5d662b6952f4e619ae6dbcdd8040724f7144314c72d3a7",
+      "r20": "59c8c2cfc8fd196b010fada816a53e619ec6e531bce3e2ea1e26c2817af89faa",
+      "reason": "Assert exact measured CapEff/SMACK constants and independently compare observed post-profile",
+      "status": "delta"
+    },
+    "deploy.py": {
+      "r19": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "r20": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "status": "carried"
+    },
+    "disable.py": {
+      "r19": "a451f73a324f37f7114580bfa3015e5e3d2ee4edbe534fca88aa23e55b2d7990",
+      "r20": "a451f73a324f37f7114580bfa3015e5e3d2ee4edbe534fca88aa23e55b2d7990",
+      "status": "carried"
+    },
+    "driver_checks.py": {
+      "r19": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "r20": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "status": "carried"
+    },
+    "driver_shim.py": {
+      "r19": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "r20": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "status": "carried"
+    },
+    "evidence/FORENSIC.md": {
+      "r19": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "r20": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "status": "carried"
+    },
+    "evidence/R15-INCIDENT.md": {
+      "r19": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "r20": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "status": "carried"
+    },
+    "evidence/R15-PLAN.md": {
+      "r19": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "r20": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "status": "carried"
+    },
+    "evidence/anchored-proof.txt": {
+      "r19": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "r20": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "status": "carried"
+    },
+    "evidence/dmesg_grep.txt": {
+      "r19": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "r20": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "status": "carried"
+    },
+    "evidence/measurement.json": {
+      "r19": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "r20": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "status": "carried"
+    },
+    "evidence/r14-evidence-digests.json": {
+      "r19": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "r20": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "status": "carried"
+    },
+    "evidence/r15-evidence-digests.json": {
+      "r19": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "r20": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "status": "carried"
+    },
+    "evidence/r16-evidence-digests.json": {
+      "r19": "bd88869a312218e37ad632a997e3b57aff132dac4a0367e61b0356d757d71c5c",
+      "r20": "bd88869a312218e37ad632a997e3b57aff132dac4a0367e61b0356d757d71c5c",
+      "status": "carried"
+    },
+    "evidence/r17-evidence-digests.json": {
+      "r19": "25be850aed3f7325088dbb28b62aea6b3ebe58ac5b80a096b5eee9ee57118e59",
+      "r20": "25be850aed3f7325088dbb28b62aea6b3ebe58ac5b80a096b5eee9ee57118e59",
+      "status": "carried"
+    },
+    "evidence/r17-incident.json": {
+      "r19": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "r20": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "status": "carried"
+    },
+    "evidence/r18-evidence-digests.json": {
+      "r19": "e339d749e9fe75a454589f5bb66b06cfa339469a96f4a82aece6b0b4b8e76fc1",
+      "r20": "e339d749e9fe75a454589f5bb66b06cfa339469a96f4a82aece6b0b4b8e76fc1",
+      "status": "carried"
+    },
+    "evidence/r19-evidence-digests.json": {
+      "r19": null,
+      "r20": "dec58c4d48ae2000467d436a0e90f1999f05f798f4adf9ac0c5460d4e51432ce",
+      "reason": "Fresh complete r19 immutable whole-tree snapshot and seal digest",
+      "status": "added"
+    },
+    "evidence/r19-incident.json": {
+      "r19": null,
+      "r20": "bda7c4cda286b874076e3c6d06a22dcdaaf05a212df770c2405a192d26e9453c",
+      "reason": "Historical r19 refusal/creation/upload extracts bound to immutable snapshot; not new device validation",
+      "status": "added"
+    },
+    "evidence/r19-probe.json": {
+      "r19": "9907ac5176ebae9c7611e59756e772bec9bfcf9161367f62f843b575d44bd036",
+      "r20": "9907ac5176ebae9c7611e59756e772bec9bfcf9161367f62f843b575d44bd036",
+      "status": "carried"
+    },
+    "evidence/r19-proposal.md": {
+      "r19": "3ad12d1529ddc14a92d914236c3401550f7a04118504d743ee60b48225c5d202",
+      "r20": "3ad12d1529ddc14a92d914236c3401550f7a04118504d743ee60b48225c5d202",
+      "status": "carried"
+    },
+    "evidence/r8-fixture-receipts.json": {
+      "r19": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "r20": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "status": "carried"
+    },
+    "evidence/source-digests.json": {
+      "r19": null,
+      "r20": "ea4023f906caa912081651fab83559a4441260a9445908174e9fc442a857928c",
+      "reason": "Canonical working-byte dependency manifest and authoring HEAD provenance",
+      "status": "added"
+    },
+    "execution/attempts/LIVE_ARM_CERTIFY.attempt": {
+      "r19": "65f999cfa79ddaba19d7dc8a8c6da56b5569f3c15e38562954f25f3a57e02667",
+      "r20": null,
+      "reason": "Never inherit predecessor runtime/cache/arming bytes; snapshot pins original",
+      "status": "removed"
+    },
+    "flow_cases.py": {
+      "r19": "cb5edeaa8f7bd3feb577bf7f1aac44b1485948d0c5296279e3267fc54993a68c",
+      "r20": "cb5edeaa8f7bd3feb577bf7f1aac44b1485948d0c5296279e3267fc54993a68c",
+      "status": "carried"
+    },
+    "gate-config-active.sh": {
+      "r19": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "r20": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "status": "carried"
+    },
+    "gate-install.sh": {
+      "r19": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "r20": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "status": "carried"
+    },
+    "gate-remove.sh": {
+      "r19": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "r20": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "status": "carried"
+    },
+    "inspect_tv.py": {
+      "r19": "908b5800b8935729e8fde6fe3bdea9f79256da617f70c9a861e847343194fbd8",
+      "r20": "908b5800b8935729e8fde6fe3bdea9f79256da617f70c9a861e847343194fbd8",
+      "status": "carried"
+    },
+    "inspection.json": {
+      "r19": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "r20": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "status": "carried"
+    },
+    "install.py": {
+      "r19": "fdb0834089ef82a0a734d9030ab7c7eea9ecec6a3383f9516d7a2c87a7c98813",
+      "r20": "fdb0834089ef82a0a734d9030ab7c7eea9ecec6a3383f9516d7a2c87a7c98813",
+      "status": "carried"
+    },
+    "module/boot.sh": {
+      "r19": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "r20": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "status": "carried"
+    },
+    "module/module.json": {
+      "r19": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "r20": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "status": "carried"
+    },
+    "mutation-results.json": {
+      "r19": "b6678fefd9d7a94e03069f5880372443f2a06f177f87aed18ddce1dfbdffc55f",
+      "r20": "91f4baa07efde2e9addfc0cb29e2e375c9225819b2d8e681222c38751ee25c7a",
+      "reason": "Execute the full mutant catalog; count distinct transformations separately from fixtures",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "mutation_checks.py": {
+      "r19": "d1edf2be4d89686e2cc9b5c480f885b11c97d20f5e87fd80b6d31fbef5434dc5",
+      "r20": "ea5f368a8fc1923646fc550bda741098301e7d4cff5ad7a8d6c847f8a2f2a6bf",
+      "reason": "Kill schema/output, identity, diagnostic, tidy ACL and pin regressions; exact distinct-source accounting",
+      "status": "delta"
+    },
+    "offline_checks.py": {
+      "r19": "5f0cd877b2eb6f1d0da525fde69b30d13b69b4b4f6d79f385dc8dd54692087c2",
+      "r20": "bcde998d36f4ab8c45ab8ab11044f314a1f20cbece3914feb66e546b61d97f4a",
+      "reason": "Re-run complete r20 catalog, private builds, provenance guard and all four immutable predecessor snapshots",
+      "status": "delta"
+    },
+    "packet.py": {
+      "r19": "80aee0a3e8075bc462bd201ec7836ae75550a1ac5cefa7c0bab2e026bbf0294f",
+      "r20": "84dfb00ec86c18337456e6a0fae343db4e9b05d9cf0376d935d87de07dceb21a",
+      "reason": "Identify r20; current authoring COMMIT, canonical dependency digest and new sealed evidence",
+      "status": "delta"
+    },
+    "port_from_r15.py": {
+      "r19": "56e5deffd665bb24035d39c8bb7de6c71584b259d7cfbc51cd6a5efb603f75ff",
+      "r20": "636cae38a558e3faec27c417a54e7c835f3480bb8e42f1e3871ac56859ae103d",
+      "reason": "Retarget exhaustive ledger to sibling r19 -> r20 and verify every r16-r19 sealed member and whole-tree snapshot",
+      "status": "delta"
+    },
+    "prepare.py": {
+      "r19": "e8ac91d4c49e4f965ce0409d38f6536b8bec2d430777392494af4498241fdf2e",
+      "r20": "e8ac91d4c49e4f965ce0409d38f6536b8bec2d430777392494af4498241fdf2e",
+      "status": "carried"
+    },
+    "protected-register-20261108.json": {
+      "r19": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "r20": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "status": "carried"
+    },
+    "protected-register.json": {
+      "r19": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "r20": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "status": "carried"
+    },
+    "r16-results.json": {
+      "r19": "84bbd886295efec6bfe0afd71c5cde66f7ae35636f651b280afcd3d366767c25",
+      "r20": "a76a0c0e922db41247f42e3ee9782415abd61aa009704767c5990c091f40f755",
+      "reason": "Execute inherited and r20 identity/diagnostic/privacy/source/exec/tidy cases again",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "r16_checks.py": {
+      "r19": "c6d9d2def3d349b10275a135261fee2a66a2d38ab9d309438a6a6c1efd549e3d",
+      "r20": "21c3b9d5eea652d6b95113c16d8edbc9906d7356b24395e42b04d92319204320",
+      "reason": "Malformed exec fixtures, source-pin boundaries, exact identities, tidy ACL and third-directory real-Bash cases",
+      "status": "delta"
+    },
+    "receipts.jsonl": {
+      "r19": "958f0e8d4788260ed77014d339b9026290f4481d1d6725789b613135f2815495",
+      "r20": null,
+      "reason": "Never inherit predecessor runtime conversations as live input",
+      "status": "removed"
+    },
+    "recovery.py": {
+      "r19": "ab3c50a53cb4207d10ac6233a19e50cd2bc8bc818b5f116adc1bfcb2d49eddaf",
+      "r20": "ab3c50a53cb4207d10ac6233a19e50cd2bc8bc818b5f116adc1bfcb2d49eddaf",
+      "status": "carried"
+    },
+    "rehearsal-results.json": {
+      "r19": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "r20": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "reason": "Execute inherited host gate-script rehearsals again; never live authority",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "relay_checks.py": {
+      "r19": "56f1aad442b3e89fb585d8a17201423befae404150ce2819ce3f3b3360a499b9",
+      "r20": "56f1aad442b3e89fb585d8a17201423befae404150ce2819ce3f3b3360a499b9",
+      "status": "carried"
+    },
+    "sdk.py": {
+      "r19": "45760629b2c41efb029ae1dd16bf667469a51693cf0607728b7026392271f364",
+      "r20": "45760629b2c41efb029ae1dd16bf667469a51693cf0607728b7026392271f364",
+      "status": "carried"
+    },
+    "session-results.json": {
+      "r19": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "r20": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "reason": "Execute the entire inherited session catalog again",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "session_checks.py": {
+      "r19": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "r20": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "status": "carried"
+    },
+    "snapshot.sh": {
+      "r19": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "r20": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "status": "carried"
+    },
+    "stage-status-certify.json": {
+      "r19": "72613eddd732f76372428cfb2fab905319042c2e3dfbfc6791cb0bc35d7065d3",
+      "r20": null,
+      "reason": "Never inherit predecessor failed runtime certification status as a live input",
+      "status": "removed"
+    },
+    "stage-status-install.json": {
+      "r19": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "r20": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "status": "carried"
+    },
+    "stage.sh": {
+      "r19": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "r20": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "status": "carried"
+    },
+    "stage_common.py": {
+      "r19": "5caddcaa98ee43f04c9dbfd2193a46e8fddd164527f44cddd4c5682b726c1f4d",
+      "r20": "5caddcaa98ee43f04c9dbfd2193a46e8fddd164527f44cddd4c5682b726c1f4d",
+      "status": "carried"
+    },
+    "stage_lib.py": {
+      "r19": "b93932ad04d00937eef80d900a35692a81bdacebb16639410706c8292cfd9fd2",
+      "r20": "f55fd4cb017df743e2a2098817e0a73f06680854e712befccc69f159b05d940f",
+      "reason": "Refuse stale authoring HEAD pins; live marker gates depend on canonical source digest, not HEAD",
+      "status": "delta"
+    },
+    "stage_session.py": {
+      "r19": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "r20": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "status": "carried"
+    },
+    "stage_transport.py": {
+      "r19": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "r20": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "status": "carried"
+    },
+    "tidy.py": {
+      "r19": "9fa23103792b30b666e6f2b4a5a07d9e8694e0da3dd1b880d0b53406aa69f124",
+      "r20": "4dd62aeed833832f6c5576ac3a35ff43413526562822907e69ef0390311d41a0",
+      "reason": "Privacy preflight before attempt/SDK and receipt-pinned third directory; retain split inventory/metadata/hash guards",
+      "status": "delta"
+    },
+    "trial.py": {
+      "r19": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "r20": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "status": "carried"
+    }
+  },
+  "generated_metadata": {
+    "offline-results.json": {
+      "r19": "ab3f1038b29e026f3ea8ef399b745647e79a395822079fd5b5ec798aeb3434f8",
+      "r20_digest_source": "seal.json entry",
+      "reason": "Record r20 suites, pinned zero-warning builds and zero-TV boundary",
+      "status": "regenerated"
+    },
+    "port-from-r15.json": {
+      "r19": "060912b8dba3373821ed32e5f9e613f2d868d86f68d027c96112d6655aa64b62",
+      "r20_digest_source": "seal.json entry",
+      "reason": "Regenerate exhaustive r19 -> r20 ledger; digest lives in seal.json",
+      "status": "regenerated"
+    },
+    "seal.json": {
+      "r19": "18d47bdd6a344fa24a0ef4311fbdf1aaf322b2606fe7f0edf47e4de08cfff509",
+      "r20_digest_source": "external seal digest",
+      "reason": "Generate exact r20 manifest; report external SHA-256 (no self-hash)",
+      "status": "regenerated"
+    }
+  },
+  "predecessor": "qn90b-uep-l4-deploy-20261119-r19",
+  "predecessor_seal_sha256": "18d47bdd6a344fa24a0ef4311fbdf1aaf322b2606fe7f0edf47e4de08cfff509",
+  "regenerated": {
+    "build/DenialRunner.deps.json": "Unsealed compiler auxiliary; never a live input",
+    "build/DenialRunner.dll": "Build exact measured identity gates and retained failure observations with SDK 3.1.426",
+    "build/DenialRunner.runtimeconfig.dev.json": "Unsealed compiler auxiliary; never a live input",
+    "build/DenialRunner.runtimeconfig.json": "Generate denial helper netcoreapp3.1 runtimeconfig",
+    "build/SamsungTvRootAgent.deps.json": "Unsealed compiler auxiliary; never a live input",
+    "build/SamsungTvRootAgent.dll": "Rebuild inherited regression-only agent with SDK 3.1.426",
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": "Unsealed compiler auxiliary; never a live input",
+    "build/SamsungTvRootAgent.runtimeconfig.json": "Regenerate inherited regression agent runtimeconfig",
+    "mutation-results.json": "Execute the full mutant catalog; count distinct transformations separately from fixtures",
+    "offline-results.json": "Record r20 suites, pinned zero-warning builds and zero-TV boundary",
+    "port-from-r15.json": "Regenerate exhaustive r19 -> r20 ledger; digest lives in seal.json",
+    "r16-results.json": "Execute inherited and r20 identity/diagnostic/privacy/source/exec/tidy cases again",
+    "rehearsal-results.json": "Execute inherited host gate-script rehearsals again; never live authority",
+    "seal.json": "Generate exact r20 manifest; report external SHA-256 (no self-hash)",
+    "session-results.json": "Execute the entire inherited session catalog again"
+  }
+}
