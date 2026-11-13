@@ -1,0 +1,44 @@
+{
+  "runner": "r21_checks.py",
+  "passed": 30,
+  "failed": 0,
+  "skipped": 0,
+  "TV_operations": 0,
+  "rounds": [
+    [
+      "import-graph",
+      "cache-policy",
+      "bytecode-prefix",
+      "bytecode-preflight",
+      "refusal-resume-readiness",
+      "refusal-resume-certify",
+      "refusal-resume-tidy",
+      "refusal-storage-success",
+      "refusal-storage-failure",
+      "retired-install",
+      "retired-active",
+      "retired-disable",
+      "retired-inspect_tv",
+      "retired-prepare",
+      "encoded-hash"
+    ],
+    [
+      "import-graph",
+      "cache-policy",
+      "bytecode-prefix",
+      "bytecode-preflight",
+      "refusal-resume-readiness",
+      "refusal-resume-certify",
+      "refusal-resume-tidy",
+      "refusal-storage-success",
+      "refusal-storage-failure",
+      "retired-install",
+      "retired-active",
+      "retired-disable",
+      "retired-inspect_tv",
+      "retired-prepare",
+      "encoded-hash"
+    ]
+  ],
+  "real_source_caches_absent": true
+}
