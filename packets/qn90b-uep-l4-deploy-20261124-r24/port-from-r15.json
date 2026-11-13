@@ -1,0 +1,632 @@
+{
+  "counts": {
+    "added": 3,
+    "carried": 55,
+    "delta": 35,
+    "removed": 6
+  },
+  "directories": {
+    "r23": [
+      "artifacts",
+      "build",
+      "evidence",
+      "execution",
+      "execution/attempts",
+      "module"
+    ],
+    "r24": [
+      "artifacts",
+      "build",
+      "evidence",
+      "module"
+    ],
+    "removed": [
+      "execution",
+      "execution/attempts"
+    ]
+  },
+  "entries": {
+    "DenialRunner.cs": {
+      "r23": "1ecf5d578363e675bf37d999a89c24b6435d3950b68fb54541e205cee8b6db90",
+      "r24": "6511dae42084c3f85bdf6c84df71fb0cb11ca2f9b47080a043654a745f29a49c",
+      "reason": "Implement gated once-only durable pre-baseline resync, raw syscall provenance, phase EPIPE names, truthful same_fd, final-call bounds and pre-open buffer",
+      "status": "delta"
+    },
+    "DenialRunner.csproj": {
+      "r23": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "r24": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "status": "carried"
+    },
+    "DenialSelfTest.cs": {
+      "r23": "bdd0b69b4e8ea5bba004af70f44d656ef9e2c17f0d7ffe61d30b38918c5f4e7b",
+      "r24": "0d3c6e6bbb52d070ed109b79d415363411a9c121d1dc249cf4462970f3af6d19",
+      "reason": "Exercise all resync gates, fatal later failures, persistence ordering/failure, provenance and final-call time limits",
+      "status": "delta"
+    },
+    "DenialSelfTest.csproj": {
+      "r23": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "r24": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "status": "carried"
+    },
+    "LIVE_ARM_CERTIFY": {
+      "r23": "1d1b0d5f9d090a439ac6d1c62f87c4c114f4447b76afa990a322e7f30db44cb8",
+      "r24": null,
+      "reason": "Do not carry predecessor runtime artifacts; bind their unchanged bytes in evidence/r23-evidence-digests.json",
+      "status": "removed"
+    },
+    "NuGet.Config": {
+      "r23": null,
+      "r24": "964302159308872b9729e1828a1ba897f30634f7bd751cde11ea8e6fed8cfb97",
+      "reason": "Clear package sources explicitly so pinned SDK builds cannot query network feeds",
+      "status": "added"
+    },
+    "PLAN.md": {
+      "r23": "1e5611b5f793987736a50ede413500861584825c091cdfed2fdba8104e0ff490",
+      "r24": "a878117cec546f5c3057bd7c7a1d42c27b027a9307b01cbfe605256fe03327b6",
+      "reason": "Preserve original accepted clause verbatim and explicitly amend under decision 50; document journal, evidence limits, unchanged bounds and named fourth-stage residual",
+      "status": "delta"
+    },
+    "STOP": {
+      "r23": "b1c854d518a29b88c7177a55e640f530eef02e5a911a135ed5c8c63a7575b44b",
+      "r24": null,
+      "reason": "Do not carry predecessor runtime artifacts; bind their unchanged bytes in evidence/r23-evidence-digests.json",
+      "status": "removed"
+    },
+    "UepGateAgent.cs": {
+      "r23": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "r24": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "status": "carried"
+    },
+    "UepGateAgent.csproj": {
+      "r23": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "r24": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "status": "carried"
+    },
+    "active.py": {
+      "r23": "ad6ed48acb2645c5d9df6d5723a99685b2fffe6d2f01702568166364288028fd",
+      "r24": "9eab2f33ff27968efadce08b8ce0a6e3dbed2e847bb125ba17b66477bc2c3429",
+      "reason": "Rename bootstrap to r24 and use relocated historical install evidence in regression-only predecessor guard",
+      "status": "delta"
+    },
+    "artifacts/FdetProbe.dll": {
+      "r23": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "r24": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.runtimeconfig.json": {
+      "r23": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r24": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.dll": {
+      "r23": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "r24": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.runtimeconfig.json": {
+      "r23": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r24": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/manager.dll": {
+      "r23": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "r24": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "status": "carried"
+    },
+    "artifacts/manager.runtimeconfig.json": {
+      "r23": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r24": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/uep-probe.elf": {
+      "r23": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "r24": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.dll": {
+      "r23": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "r24": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.runtimeconfig.json": {
+      "r23": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r24": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "authoring_checks.py": {
+      "r23": "77f6f4379d585b27b8655f699267f7d103cf80e592c8b2e53ae87a05cc55485e",
+      "r24": "0cac52c05f95db4bdf4245625e541aabc1069d6c81a703d368cd78ce04f7848f",
+      "reason": "Rename bootstrap to r24; build/test actual new helper before host flows and disable NuGet network feeds",
+      "status": "delta"
+    },
+    "bootstrap_sdk.py": {
+      "r23": "e90ec08b9179c9e34e8671d7023dfc92d402d55253c7112771bdef0ef294d437",
+      "r24": "ee7a746e456ec55bdbb641a991fd29b578bb22a1624f9567d0d6404b31f16c7a",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "build/DenialRunner.deps.json": {
+      "r23": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "r24": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.dll": {
+      "r23": "87537fefaac0a086879036a6630a3855e8239a218e29a5a9a09472ea055db727",
+      "r24": "30049beb699f3b3a24ca8c17e5eafc6571349c6ec630c8cc6181d3fb8158ad7e",
+      "reason": "Rebuild decision-50 one-shot resync helper with SDK 3.1.426",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "build/DenialRunner.runtimeconfig.dev.json": {
+      "r23": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r24": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.runtimeconfig.json": {
+      "r23": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r24": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Regenerate denial helper netcoreapp3.1 runtimeconfig",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.deps.json": {
+      "r23": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "r24": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.dll": {
+      "r23": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "r24": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "reason": "Rebuild unchanged regression-only agent with SDK 3.1.426",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": {
+      "r23": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r24": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.json": {
+      "r23": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r24": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Regenerate inherited regression agent runtimeconfig",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "certify.py": {
+      "r23": "3d7c0f8ff679eaecfcaffab97bb673528a93f74ab39fd75fc5faa61ae94a3424",
+      "r24": "63f6955f0667f39a3f3b6dbba34b5e177fb40e14a0de87231adb86f7fc213488",
+      "reason": "Rename bootstrap and 11 current labels to r24; cite relocated historical install receipt without changing its hash",
+      "status": "delta"
+    },
+    "denial.py": {
+      "r23": "691d1ccef6fb610af54f03cefbaf097663dbbbb0a0daed09f417ae398a31373f",
+      "r24": "31cbe15361a72727a84ae94c60e67c9a80d41342500a5c28435a934f22b059fe",
+      "reason": "Rename bootstrap/attempt attribution to r24/r23; independently validate resync gates, durability and phase refusals; verify optional journal before guarded cleanup",
+      "status": "delta"
+    },
+    "deploy.py": {
+      "r23": "ef8842a4a30b118cd285184074b6fae4b9d90004369d716b5c73c8c1cb6932f1",
+      "r24": "db58f472e6f495a52685f92f13ca445daa4aeedabd5be3efb4c67dcbc790f81c",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "disable.py": {
+      "r23": "eac157436d0b64a596ed2b37648469851b0ca0e5fef7dc1c706600566256c8e3",
+      "r24": "c850b3de17f4e66e71ff0025579611b15193132e5972fb12f31eae66adeb0738",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "driver_checks.py": {
+      "r23": "b0636ae923af7bbe1fbcf9ad90b17f4b03c5f4f104c38f85af4e5913a578783b",
+      "r24": "e07baf4b8d266d0ce7d81a5b7f2374bcd334e3eda1bb00b4902525aaf57d9e14",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "driver_shim.py": {
+      "r23": "539a6130c2a97bb4a06f07c26d9c2a86b49fab5d87b225e2ef6860ab643f1300",
+      "r24": "191aa73043a5d813391514e4a793045da1f1924ce3d829ad4c8b617ee6b7c2d0",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "evidence/FORENSIC.md": {
+      "r23": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "r24": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "status": "carried"
+    },
+    "evidence/R15-INCIDENT.md": {
+      "r23": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "r24": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "status": "carried"
+    },
+    "evidence/R15-PLAN.md": {
+      "r23": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "r24": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "status": "carried"
+    },
+    "evidence/anchored-proof.txt": {
+      "r23": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "r24": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "status": "carried"
+    },
+    "evidence/dmesg_grep.txt": {
+      "r23": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "r24": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "status": "carried"
+    },
+    "evidence/inherited-install.json": {
+      "r23": null,
+      "r24": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "reason": "Carry exact historical stage-status-install bytes under evidence-only name and unchanged digest",
+      "status": "added"
+    },
+    "evidence/measurement.json": {
+      "r23": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "r24": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "status": "carried"
+    },
+    "evidence/r14-evidence-digests.json": {
+      "r23": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "r24": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "status": "carried"
+    },
+    "evidence/r15-evidence-digests.json": {
+      "r23": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "r24": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "status": "carried"
+    },
+    "evidence/r16-evidence-digests.json": {
+      "r23": "bd88869a312218e37ad632a997e3b57aff132dac4a0367e61b0356d757d71c5c",
+      "r24": "bd88869a312218e37ad632a997e3b57aff132dac4a0367e61b0356d757d71c5c",
+      "status": "carried"
+    },
+    "evidence/r17-evidence-digests.json": {
+      "r23": "25be850aed3f7325088dbb28b62aea6b3ebe58ac5b80a096b5eee9ee57118e59",
+      "r24": "25be850aed3f7325088dbb28b62aea6b3ebe58ac5b80a096b5eee9ee57118e59",
+      "status": "carried"
+    },
+    "evidence/r17-incident.json": {
+      "r23": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "r24": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "status": "carried"
+    },
+    "evidence/r18-evidence-digests.json": {
+      "r23": "e339d749e9fe75a454589f5bb66b06cfa339469a96f4a82aece6b0b4b8e76fc1",
+      "r24": "e339d749e9fe75a454589f5bb66b06cfa339469a96f4a82aece6b0b4b8e76fc1",
+      "status": "carried"
+    },
+    "evidence/r19-evidence-digests.json": {
+      "r23": "dec58c4d48ae2000467d436a0e90f1999f05f798f4adf9ac0c5460d4e51432ce",
+      "r24": "dec58c4d48ae2000467d436a0e90f1999f05f798f4adf9ac0c5460d4e51432ce",
+      "status": "carried"
+    },
+    "evidence/r19-incident.json": {
+      "r23": "bda7c4cda286b874076e3c6d06a22dcdaaf05a212df770c2405a192d26e9453c",
+      "r24": "bda7c4cda286b874076e3c6d06a22dcdaaf05a212df770c2405a192d26e9453c",
+      "status": "carried"
+    },
+    "evidence/r19-probe.json": {
+      "r23": "9907ac5176ebae9c7611e59756e772bec9bfcf9161367f62f843b575d44bd036",
+      "r24": "9907ac5176ebae9c7611e59756e772bec9bfcf9161367f62f843b575d44bd036",
+      "status": "carried"
+    },
+    "evidence/r19-proposal.md": {
+      "r23": "3ad12d1529ddc14a92d914236c3401550f7a04118504d743ee60b48225c5d202",
+      "r24": "3ad12d1529ddc14a92d914236c3401550f7a04118504d743ee60b48225c5d202",
+      "status": "carried"
+    },
+    "evidence/r20-evidence-digests.json": {
+      "r23": "165f92edd4e1846ba8ecebb24c69a1aa6d2fecce60cd0d9720b3b316a0ae793e",
+      "r24": "165f92edd4e1846ba8ecebb24c69a1aa6d2fecce60cd0d9720b3b316a0ae793e",
+      "status": "carried"
+    },
+    "evidence/r21-evidence-digests.json": {
+      "r23": "bd117fed063e2cd4796ab03590e811501bb3a202652200bca17deb1e48a9a3ee",
+      "r24": "bd117fed063e2cd4796ab03590e811501bb3a202652200bca17deb1e48a9a3ee",
+      "status": "carried"
+    },
+    "evidence/r21-readiness.json": {
+      "r23": "50ca14fc731c152cb5d6116567acacc54c0d985fe65b890e7a11ff6cc18a6491",
+      "r24": "50ca14fc731c152cb5d6116567acacc54c0d985fe65b890e7a11ff6cc18a6491",
+      "status": "carried"
+    },
+    "evidence/r22-evidence-digests.json": {
+      "r23": "8e3f34a635c6d402096fca054d9c13678ab988770d5cebfd95ffc9ac70afd5bf",
+      "r24": "8e3f34a635c6d402096fca054d9c13678ab988770d5cebfd95ffc9ac70afd5bf",
+      "status": "carried"
+    },
+    "evidence/r23-evidence-digests.json": {
+      "r23": null,
+      "r24": "6262da6427b150c7ff7d01040c182aa8e1bcd08f9f4cec3a82f7af1989228ee5",
+      "reason": "Bind complete immutable r23 whole tree including unsealed STOP, marker, receipts, status and attempt; no device contact",
+      "status": "added"
+    },
+    "evidence/r8-fixture-receipts.json": {
+      "r23": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "r24": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "status": "carried"
+    },
+    "evidence/source-digests.json": {
+      "r23": "ea4023f906caa912081651fab83559a4441260a9445908174e9fc442a857928c",
+      "r24": "ea4023f906caa912081651fab83559a4441260a9445908174e9fc442a857928c",
+      "status": "carried"
+    },
+    "execution/attempts/LIVE_ARM_CERTIFY.attempt": {
+      "r23": "6dab002f9b4cac47b387d9b33afa541aea5165d43326500d3bb28473bcfe8468",
+      "r24": null,
+      "reason": "Do not carry predecessor runtime artifacts; bind their unchanged bytes in evidence/r23-evidence-digests.json",
+      "status": "removed"
+    },
+    "flow_cases.py": {
+      "r23": "7424fa8779ec364ec8c0c850626dbe0428aa4a9eb0fa7eecb6a2bccb374a4c52",
+      "r24": "428288a67b18795881e004a383b7d9f1750ad611ed342bda19fd30946b51af07",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "gate-config-active.sh": {
+      "r23": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "r24": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "status": "carried"
+    },
+    "gate-install.sh": {
+      "r23": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "r24": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "status": "carried"
+    },
+    "gate-remove.sh": {
+      "r23": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "r24": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "status": "carried"
+    },
+    "inspect_tv.py": {
+      "r23": "be92eb4dac7917839b1ba4ff47fa09fd58b22ba24b57c6b3dfb4586e7109a2ae",
+      "r24": "2b4a6da9afeb7cb3117c4c471e2f84d61be2d4a5ac20418c16031b57967afb97",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "inspection.json": {
+      "r23": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "r24": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "status": "carried"
+    },
+    "install.py": {
+      "r23": "874253697c24051b348813a2201df12f784b6102e3745d13316a268b2287046e",
+      "r24": "5174dfce4c52c73380270a9d5738918bd38004f89054ef756445572f2d63675c",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "module/boot.sh": {
+      "r23": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "r24": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "status": "carried"
+    },
+    "module/module.json": {
+      "r23": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "r24": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "status": "carried"
+    },
+    "mutation-results.json": {
+      "r23": "364b0764b3917e6bc8abfa42be70c614def99eb16c53c883d274f33ceb9c30e5",
+      "r24": "88b6c86a952459522092ae3df5b0562cd3c5a1f76008d8a297c2b45b79a9de34",
+      "reason": "Execute inherited catalog plus one-shot resync, provenance, phase naming, final-read bounds and journal mutants; count distinct transformations separately",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "mutation_checks.py": {
+      "r23": "4d1afdb561fb7a9f50939a8c2d1111d7c8a73a4dd33ccd89f4e73805fade4334",
+      "r24": "2432dd1a1c46f7bb0ed4acd8990635079e389e8d0b7ae8dd52cc9046211f03aa",
+      "reason": "Update current attribution and changed predicate anchors; add intended-reason resync, provenance, final-bound and journal mutants",
+      "status": "delta"
+    },
+    "offline_checks.py": {
+      "r23": "7ac6e2c814d836c6bfa8c89710759882627a08b39c84b5095b6b442291f93759",
+      "r24": "c99a16f332cc63fefc7755b72b856bd7987051ce03a2f7d4dfc7f500fc19f367",
+      "reason": "Require expanded r24 named test catalogs, relocated install bytes, exact amended contract gates and immutable r16-r23 snapshots before sealing",
+      "status": "delta"
+    },
+    "packet.py": {
+      "r23": "9cd8f06d858935a3d08a4344ce4e49538eb5ed55b3c72f760649070cd8db4fee",
+      "r24": "c3d6b7d8ee0b3906a685d83fa0d91cafa7dccac706a44cab2fcc35122f65bac5",
+      "reason": "Rename packet/bootstrap identity to r24; seal r23 whole-tree snapshot and relocate historical install receipt out of stage-status namespace",
+      "status": "delta"
+    },
+    "port_from_r15.py": {
+      "r23": "b4b8d70ccc52dbe5b3c8ef2b09358f2df2f41ac1aee211a1720434b592e4807c",
+      "r24": "fef2035df1d0b6a3651d4c90f3d023aea9da095ae352afbbf2a36807cbbb3f7a",
+      "reason": "Manifest-driven r23 -> r24 derivation and exhaustive delta ledger; snapshot every r23 runtime byte without carrying runtime files",
+      "status": "delta"
+    },
+    "prepare.py": {
+      "r23": "166a1dda85d6cc4e8e08d41044464a4554cf61e90ffa3442197db80123297273",
+      "r24": "ea088d5965bb639fbf6824a327a35a0273e27e54d15154dd22cd7c30649d2c65",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "protected-register-20261108.json": {
+      "r23": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "r24": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "status": "carried"
+    },
+    "protected-register.json": {
+      "r23": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "r24": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "status": "carried"
+    },
+    "r16-results.json": {
+      "r23": "a76a0c0e922db41247f42e3ee9782415abd61aa009704767c5990c091f40f755",
+      "r24": "1cefa7918bf9999c0e3bdbd603af393ae2d125566e0650c5003d8019c5b95de1",
+      "reason": "Execute inherited and r24 host/journal/phase regressions with r24 labels",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "r16_checks.py": {
+      "r23": "aab3fbb1f7fe4e79f187702b49af35affa438f0ee13b659d351f91c61409074a",
+      "r24": "4810788072404d21aab738135c41ac41d838bd4f9e7a5db00ca38f80468ce1ed",
+      "reason": "Rename bootstrap/readiness expectation; add exact host phase/resync refusals, journal flow and durable-evidence assertions",
+      "status": "delta"
+    },
+    "r21-results.json": {
+      "r23": "bca2957d130d1e629c7544ead3195f8f4afd2352817227996b25572a136b783e",
+      "r24": "bca2957d130d1e629c7544ead3195f8f4afd2352817227996b25572a136b783e",
+      "reason": "Execute 19 directly registered cases twice, including seal-wide literal emission and packet/predecessor attribution guard",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "r21_checks.py": {
+      "r23": "d746ea44895232d0330a2ec091ae53baa855871d1cdc2aa38486822df0ff5e53",
+      "r24": "8eb07f2a94eef7267b3c70f89742ed1bdf2161425e4f6ba2cbea0221b7c8dd4e",
+      "reason": "Rename only current receipt/bootstrap/import-fixture/ACL-fixture identity to r24; preserve historical suite and evidence names",
+      "status": "delta"
+    },
+    "receipts.jsonl": {
+      "r23": "ca8493182d98fa15bdbfb9a560ad69e5ec9e54fa2aed70c6efedcc840b5ba0b8",
+      "r24": null,
+      "reason": "Do not carry predecessor runtime artifacts; bind their unchanged bytes in evidence/r23-evidence-digests.json",
+      "status": "removed"
+    },
+    "recovery.py": {
+      "r23": "15c843927ee7309eca0e1cd01e5796094ba40d215dafaf05161985961b093147",
+      "r24": "c9a384644f01a9d9766a637bc9cf9f957b414680b34ecb4d139220cb5a8a9d62",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "rehearsal-results.json": {
+      "r23": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "r24": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "reason": "Execute inherited host gate-script rehearsals again; never live authority",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "relay_checks.py": {
+      "r23": "2abfa5a2ce2290795d965b01994f61a5257e8849ab0a93226f89cfb20386c4d6",
+      "r24": "c595bd166b4f5dc59b2b2a77f5757044532a07cb10d83ddd6a4a315431e7ec70",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "sdk.py": {
+      "r23": "e6caf8beadb33c8a3465c4c936e29f2dccaae8c6bd29903ee97ef9be4a69f00f",
+      "r24": "ca3bc18dfd4f3f2c9727c0715ee899acb2d42adb85a7ec004d81418bc9a48c04",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "session-results.json": {
+      "r23": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "r24": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "reason": "Execute the entire inherited session catalog again",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "session_checks.py": {
+      "r23": "db0668de1414bbb4064a9d0ed181226182b2c60669dae6a4ab5ad1fd58037d5f",
+      "r24": "a7a100578ef3c7ead1b883719f6ce4a13925f3a40a0a36cb7fc0c90f59f15dbb",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "snapshot.sh": {
+      "r23": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "r24": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "status": "carried"
+    },
+    "stage-status-certify.json": {
+      "r23": "feb58df7b3fb83f4b2ee4c79c9749a45147951563361267ba00d25961a79076a",
+      "r24": null,
+      "reason": "Do not carry predecessor runtime artifacts; bind their unchanged bytes in evidence/r23-evidence-digests.json",
+      "status": "removed"
+    },
+    "stage-status-install.json": {
+      "r23": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "r24": null,
+      "reason": "Do not carry predecessor runtime artifacts; bind their unchanged bytes in evidence/r23-evidence-digests.json",
+      "status": "removed"
+    },
+    "stage.sh": {
+      "r23": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "r24": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "status": "carried"
+    },
+    "stage_common.py": {
+      "r23": "6e7eec086a09ebad1da811dd611901db0e8dd0698d141feb9481e90682e48a94",
+      "r24": "b9c850ed2a747d6b4b0e94438f12eb0ef0f9b811b0923acceed52662440570b5",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "stage_lib.py": {
+      "r23": "65bbb16ba6f7b18fa597426218dd03e823eeb6f7792a064a0bb0b4b9816e734e",
+      "r24": "67538a274a2096d27682357434f4a68de48f0b79205a7f695280790ee9cf4725",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "stage_session.py": {
+      "r23": "6a108124009dde498c1b006cbbbcc46edda94d27c0c023ce7b87d11553a97a9a",
+      "r24": "c1ebbe739bcfb23ffdc1656d81d4c04f915cf367fd54d1b8645eb4e0a2a52507",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "stage_transport.py": {
+      "r23": "944776019abe2d640916680b9b67ee345ab0c5c625b347e8dcf2698a4c939c53",
+      "r24": "eba4a4df9b742a95e899c06eb24b69d0d1cd3c09e5cf10f9af827f66d68f6362",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    },
+    "tidy.py": {
+      "r23": "121a0a8fe5c051fb0916eca77d38182aa5d772ae5f50cd0e86cfc85adfa3392d",
+      "r24": "e9b6e2db06722d97bc71a250bf8f227c93c15696262f5c1fb9ebe935373b452e",
+      "reason": "Rename bootstrap and SPENT attribution to r24 only; deliberately retain the exact three-directory scope",
+      "status": "delta"
+    },
+    "trial.py": {
+      "r23": "27404ebdec89c13f5c165d327dfe972dfb69702900551185d81a387946a636b2",
+      "r24": "250b7db81ef44606d0a1f2d7f4e1f80246bf8d637dbd3cf1b3219480c1ab2264",
+      "reason": "Rename only the current packet bootstrap cache prefix from r23 to r24",
+      "status": "delta"
+    }
+  },
+  "generated_metadata": {
+    "offline-results.json": {
+      "r23": "be47d783f98dc7e2d5b840e0e155a7d4a7f654d8493c02b56023efbd039dd003",
+      "r24_digest_source": "seal.json entry",
+      "reason": "Record r24 suites, pinned zero-warning builds and zero-TV boundary",
+      "status": "regenerated"
+    },
+    "port-from-r15.json": {
+      "r23": "cad8d397f81dca3e4a42dfb4cf8892c49b07cb1f48397709cecae90f789c2c34",
+      "r24_digest_source": "seal.json entry",
+      "reason": "Regenerate exhaustive r23 -> r24 ledger; digest lives in seal.json",
+      "status": "regenerated"
+    },
+    "seal.json": {
+      "r23": "c4db777e5ab97ff69e0c02552b7e493f50c8145ae5eff042f5f43511ea595804",
+      "r24_digest_source": "external seal digest",
+      "reason": "Generate exact 91-member r24 manifest; report external SHA-256 (no self-hash)",
+      "status": "regenerated"
+    }
+  },
+  "predecessor": "qn90b-uep-l4-deploy-20261123-r23",
+  "predecessor_seal_sha256": "c4db777e5ab97ff69e0c02552b7e493f50c8145ae5eff042f5f43511ea595804",
+  "regenerated": {
+    "build/DenialRunner.deps.json": "Unsealed compiler auxiliary; never a live input",
+    "build/DenialRunner.dll": "Rebuild decision-50 one-shot resync helper with SDK 3.1.426",
+    "build/DenialRunner.runtimeconfig.dev.json": "Unsealed compiler auxiliary; never a live input",
+    "build/DenialRunner.runtimeconfig.json": "Regenerate denial helper netcoreapp3.1 runtimeconfig",
+    "build/SamsungTvRootAgent.deps.json": "Unsealed compiler auxiliary; never a live input",
+    "build/SamsungTvRootAgent.dll": "Rebuild unchanged regression-only agent with SDK 3.1.426",
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": "Unsealed compiler auxiliary; never a live input",
+    "build/SamsungTvRootAgent.runtimeconfig.json": "Regenerate inherited regression agent runtimeconfig",
+    "mutation-results.json": "Execute inherited catalog plus one-shot resync, provenance, phase naming, final-read bounds and journal mutants; count distinct transformations separately",
+    "offline-results.json": "Record r24 suites, pinned zero-warning builds and zero-TV boundary",
+    "port-from-r15.json": "Regenerate exhaustive r23 -> r24 ledger; digest lives in seal.json",
+    "r16-results.json": "Execute inherited and r24 host/journal/phase regressions with r24 labels",
+    "r21-results.json": "Execute 19 directly registered cases twice, including seal-wide literal emission and packet/predecessor attribution guard",
+    "rehearsal-results.json": "Execute inherited host gate-script rehearsals again; never live authority",
+    "seal.json": "Generate exact 91-member r24 manifest; report external SHA-256 (no self-hash)",
+    "session-results.json": "Execute the entire inherited session catalog again"
+  }
+}
