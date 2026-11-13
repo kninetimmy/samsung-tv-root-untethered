@@ -1,0 +1,516 @@
+{
+  "counts": {
+    "added": 3,
+    "carried": 61,
+    "delta": 18,
+    "removed": 0
+  },
+  "directories": {
+    "r18": [
+      "artifacts",
+      "build",
+      "evidence",
+      "module"
+    ],
+    "r19": [
+      "artifacts",
+      "build",
+      "evidence",
+      "module"
+    ],
+    "removed": []
+  },
+  "entries": {
+    "DenialRunner.cs": {
+      "r18": "05ef0f26801d10190d380df99ab3e104e82164e0ef1c61e5329fc1259cf21552",
+      "r19": "36765d66c3a88d17f911a146e5087d28b1b668165ad9cfa3f5b162f168e6e0f8",
+      "reason": "One persistent nonblocking libc cursor, profile preflight, bounded EAGAIN fences and one direct Attempt",
+      "status": "delta"
+    },
+    "DenialRunner.csproj": {
+      "r18": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "r19": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "status": "carried"
+    },
+    "DenialSelfTest.cs": {
+      "r18": "765163f7c84609cb6e006b7ba02e99af691b0d842ab451a0eb92a19b6de54461",
+      "r19": "df2f02b912b886f05fdf2fb3e61ea3707d384c8317b5da13d2a00d7c71948ca8",
+      "reason": "Injected open/read/errno/clock transcripts plus real inherited exec/child/timeout tests",
+      "status": "delta"
+    },
+    "DenialSelfTest.csproj": {
+      "r18": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "r19": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "status": "carried"
+    },
+    "PLAN.md": {
+      "r18": "ac543a35422134d32f03cfdea7820e1859bab7cdffeec4fc817209749b46b5c0",
+      "r19": "79b6cab13f24790d86d6616f1477e4cf32d2c318620cf539df3b6a5cfeedc10a",
+      "reason": "Quote owner-accepted task52 replacement; document committed-record authority, independent raw/wire bounds and device-unproven ABI",
+      "status": "delta"
+    },
+    "UepGateAgent.cs": {
+      "r18": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "r19": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "status": "carried"
+    },
+    "UepGateAgent.csproj": {
+      "r18": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "r19": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "status": "carried"
+    },
+    "active.py": {
+      "r18": "187ade646d814309990d7ba13e44212e4e00028b0ea06d4e0261612dfa4f987e",
+      "r19": "187ade646d814309990d7ba13e44212e4e00028b0ea06d4e0261612dfa4f987e",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.dll": {
+      "r18": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "r19": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.runtimeconfig.json": {
+      "r18": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r19": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.dll": {
+      "r18": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "r19": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.runtimeconfig.json": {
+      "r18": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r19": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/manager.dll": {
+      "r18": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "r19": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "status": "carried"
+    },
+    "artifacts/manager.runtimeconfig.json": {
+      "r18": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r19": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/uep-probe.elf": {
+      "r18": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "r19": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.dll": {
+      "r18": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "r19": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.runtimeconfig.json": {
+      "r18": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r19": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "authoring_checks.py": {
+      "r18": "10c5822c05b2baad99770c31e195cfaf9137256d3a6575bcd11132a2cc07dcf0",
+      "r19": "1f0facfcb0c3a1506cfa7f0be882752da82ec2c967741c540ce3d201d788c1d8",
+      "reason": "Set isolated Ruff target to py312, matching project requires-python >=3.12, without changing repository configuration",
+      "status": "delta"
+    },
+    "bootstrap_sdk.py": {
+      "r18": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "r19": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "status": "carried"
+    },
+    "build/DenialRunner.deps.json": {
+      "r18": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "r19": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "reason": "Unsealed compiler byproduct; not a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.dll": {
+      "r18": "dca73c8af979de32e27364cd3527ca28c7017b38b47058cfe3cc05896840ab57",
+      "r19": "fb14c09f962f04ce0fac430a191a7842d6481328413313c5286dbf61a0e79566",
+      "reason": "Build direct managed exec refusal accountant with SDK 3.1.426",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "build/DenialRunner.runtimeconfig.dev.json": {
+      "r18": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r19": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler byproduct; not a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.runtimeconfig.json": {
+      "r18": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r19": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Generate netcoreapp3.1 runtimeconfig for denial accountant",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.deps.json": {
+      "r18": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "r19": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "reason": "Unsealed compiler byproduct; not a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.dll": {
+      "r18": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "r19": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "reason": "Build inherited agent with SDK 3.1.426 for regression verification only",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": {
+      "r18": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r19": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler byproduct; not a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.json": {
+      "r18": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r19": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Regenerate inherited agent runtimeconfig",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "certify.py": {
+      "r18": "80925be08ae6706c3e0fe8a5e46a0d84adf1f9279f4ed469cf702e2ff1ef28a8",
+      "r19": "f72706380060d5630bd0152f631f35a99fb8e90869c541538738234b493aa40e",
+      "reason": "Describe complete committed-record bracket and verify this packet/evidence ACLs before attempt or SDK construction",
+      "status": "delta"
+    },
+    "denial.py": {
+      "r18": "2829cff54ba72012e136bcb426c32a417398710038c103bf4198df3bec537faa",
+      "r19": "86090516c9d7fb205a5d662b6952f4e619ae6dbcdd8040724f7144314c72d3a7",
+      "reason": "Persist the versioned envelope before independent raw framing, sequence, profile, counters and semantic checks; no dmesg authority",
+      "status": "delta"
+    },
+    "deploy.py": {
+      "r18": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "r19": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "status": "carried"
+    },
+    "disable.py": {
+      "r18": "a451f73a324f37f7114580bfa3015e5e3d2ee4edbe534fca88aa23e55b2d7990",
+      "r19": "a451f73a324f37f7114580bfa3015e5e3d2ee4edbe534fca88aa23e55b2d7990",
+      "status": "carried"
+    },
+    "driver_checks.py": {
+      "r18": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "r19": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "status": "carried"
+    },
+    "driver_shim.py": {
+      "r18": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "r19": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "status": "carried"
+    },
+    "evidence/FORENSIC.md": {
+      "r18": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "r19": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "status": "carried"
+    },
+    "evidence/R15-INCIDENT.md": {
+      "r18": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "r19": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "status": "carried"
+    },
+    "evidence/R15-PLAN.md": {
+      "r18": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "r19": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "status": "carried"
+    },
+    "evidence/anchored-proof.txt": {
+      "r18": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "r19": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "status": "carried"
+    },
+    "evidence/dmesg_grep.txt": {
+      "r18": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "r19": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "status": "carried"
+    },
+    "evidence/measurement.json": {
+      "r18": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "r19": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "status": "carried"
+    },
+    "evidence/r14-evidence-digests.json": {
+      "r18": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "r19": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "status": "carried"
+    },
+    "evidence/r15-evidence-digests.json": {
+      "r18": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "r19": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "status": "carried"
+    },
+    "evidence/r16-evidence-digests.json": {
+      "r18": "32e96ea35b0f376a41807094d1e513f7d0ad0a71b2ba60bc77f62584790cbc4d",
+      "r19": "bd88869a312218e37ad632a997e3b57aff132dac4a0367e61b0356d757d71c5c",
+      "reason": "Fresh complete immutable r16 file/directory snapshot with recorded seal digest",
+      "status": "delta"
+    },
+    "evidence/r17-evidence-digests.json": {
+      "r18": "6fd6d93119958cc2c6bc0b54fd07e547def683147d15079005aba104c24a4c80",
+      "r19": "25be850aed3f7325088dbb28b62aea6b3ebe58ac5b80a096b5eee9ee57118e59",
+      "reason": "Fresh complete immutable r17 file/directory snapshot with recorded seal digest",
+      "status": "delta"
+    },
+    "evidence/r17-incident.json": {
+      "r18": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "r19": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "status": "carried"
+    },
+    "evidence/r18-evidence-digests.json": {
+      "r18": null,
+      "r19": "e339d749e9fe75a454589f5bb66b06cfa339469a96f4a82aece6b0b4b8e76fc1",
+      "reason": "Complete immutable r18 file/directory snapshot including its recorded 77-member seal",
+      "status": "added"
+    },
+    "evidence/r19-probe.json": {
+      "r18": null,
+      "r19": "9907ac5176ebae9c7611e59756e772bec9bfcf9161367f62f843b575d44bd036",
+      "reason": "Copy completed read-only probe evidence; no new device operation",
+      "status": "added"
+    },
+    "evidence/r19-proposal.md": {
+      "r18": null,
+      "r19": "3ad12d1529ddc14a92d914236c3401550f7a04118504d743ee60b48225c5d202",
+      "reason": "Carry design of record; its future gates are historical, owner decisions are recorded in PLAN",
+      "status": "added"
+    },
+    "evidence/r8-fixture-receipts.json": {
+      "r18": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "r19": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "status": "carried"
+    },
+    "flow_cases.py": {
+      "r18": "cb5edeaa8f7bd3feb577bf7f1aac44b1485948d0c5296279e3267fc54993a68c",
+      "r19": "cb5edeaa8f7bd3feb577bf7f1aac44b1485948d0c5296279e3267fc54993a68c",
+      "status": "carried"
+    },
+    "gate-config-active.sh": {
+      "r18": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "r19": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "status": "carried"
+    },
+    "gate-install.sh": {
+      "r18": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "r19": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "status": "carried"
+    },
+    "gate-remove.sh": {
+      "r18": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "r19": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "status": "carried"
+    },
+    "inspect_tv.py": {
+      "r18": "908b5800b8935729e8fde6fe3bdea9f79256da617f70c9a861e847343194fbd8",
+      "r19": "908b5800b8935729e8fde6fe3bdea9f79256da617f70c9a861e847343194fbd8",
+      "status": "carried"
+    },
+    "inspection.json": {
+      "r18": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "r19": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "status": "carried"
+    },
+    "install.py": {
+      "r18": "fdb0834089ef82a0a734d9030ab7c7eea9ecec6a3383f9516d7a2c87a7c98813",
+      "r19": "fdb0834089ef82a0a734d9030ab7c7eea9ecec6a3383f9516d7a2c87a7c98813",
+      "status": "carried"
+    },
+    "module/boot.sh": {
+      "r18": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "r19": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "status": "carried"
+    },
+    "module/module.json": {
+      "r18": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "r19": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "status": "carried"
+    },
+    "mutation-results.json": {
+      "r18": "9714e1d08537ea0def55aab2ff758047a9c32c8a89ad45f81cd2f7d6211917e4",
+      "r19": "b6678fefd9d7a94e03069f5880372443f2a06f177f87aed18ddce1dfbdffc55f",
+      "reason": "Execute inherited and new mutants; count distinct sources separately from cases",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "mutation_checks.py": {
+      "r18": "52248cbed19435af9706671921a907ac229329e7ff10c2ac8cc3324d83bf2113",
+      "r19": "d1edf2be4d89686e2cc9b5c480f885b11c97d20f5e87fd80b6d31fbef5434dc5",
+      "reason": "Independent sequence/fence/reader/transport guards and split count-only/comparison-only inventory mutants; report every distinct transformed source and survivor",
+      "status": "delta"
+    },
+    "offline_checks.py": {
+      "r18": "3e08369189fd2ded40520cb08f6a909002d476590484ff3b89fb91e60ff63f19",
+      "r19": "5f0cd877b2eb6f1d0da525fde69b30d13b69b4b4f6d79f385dc8dd54692087c2",
+      "reason": "Run named complete suites with zero warnings, no mutation minima, and verify all three immutable predecessors",
+      "status": "delta"
+    },
+    "packet.py": {
+      "r18": "9bcd22868ab3f3733471a9249c44798042d53e52c4cd16319beb90a1d78f7adc",
+      "r19": "80aee0a3e8075bc462bd201ec7836ae75550a1ac5cefa7c0bab2e026bbf0294f",
+      "reason": "Identify r19 and seal probe/design and all three predecessor snapshots; shipped pins unchanged",
+      "status": "delta"
+    },
+    "port_from_r15.py": {
+      "r18": "014049bd25695730dfdea8dbccbb9acc2a8ca42036071ee146e54645f0b62549",
+      "r19": "56e5deffd665bb24035d39c8bb7de6c71584b259d7cfbc51cd6a5efb603f75ff",
+      "reason": "Retarget exhaustive ledger to r18 -> r19 and verify r16/r17/r18 seals and whole-tree snapshots",
+      "status": "delta"
+    },
+    "prepare.py": {
+      "r18": "e8ac91d4c49e4f965ce0409d38f6536b8bec2d430777392494af4498241fdf2e",
+      "r19": "e8ac91d4c49e4f965ce0409d38f6536b8bec2d430777392494af4498241fdf2e",
+      "status": "carried"
+    },
+    "protected-register-20261108.json": {
+      "r18": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "r19": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "status": "carried"
+    },
+    "protected-register.json": {
+      "r18": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "r19": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "status": "carried"
+    },
+    "r16-results.json": {
+      "r18": "3c1afb4dc8023e2e371fa4ff76cd246bbb6cf2a3905c7fce2d5472fadb81ab9b",
+      "r19": "84bbd886295efec6bfe0afd71c5cde66f7ae35636f651b280afcd3d366767c25",
+      "reason": "Execute inherited and r19 sequence/transport/inventory/privacy cases; no inherited green results",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "r16_checks.py": {
+      "r18": "64572598901c5127b570349ea88139d980136c6399a91d034cb4670ac323d3b6",
+      "r19": "c6d9d2def3d349b10275a135261fee2a66a2d38ab9d309438a6a6c1efd549e3d",
+      "reason": "Sequenced controls/gaps/order, split real-Bash inventory, fake-stream partial transport and save-before-failure cases",
+      "status": "delta"
+    },
+    "recovery.py": {
+      "r18": "ab3c50a53cb4207d10ac6233a19e50cd2bc8bc818b5f116adc1bfcb2d49eddaf",
+      "r19": "ab3c50a53cb4207d10ac6233a19e50cd2bc8bc818b5f116adc1bfcb2d49eddaf",
+      "status": "carried"
+    },
+    "rehearsal-results.json": {
+      "r18": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "r19": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "reason": "Execute inherited gate-script host rehearsals again; not live authority",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "relay_checks.py": {
+      "r18": "56f1aad442b3e89fb585d8a17201423befae404150ce2819ce3f3b3360a499b9",
+      "r19": "56f1aad442b3e89fb585d8a17201423befae404150ce2819ce3f3b3360a499b9",
+      "status": "carried"
+    },
+    "sdk.py": {
+      "r18": "39e8e4462f25e7a29bd155f07caee31418ec05b5ec7973a60008858fdef84e3b",
+      "r19": "45760629b2c41efb029ae1dd16bf667469a51693cf0607728b7026392271f364",
+      "reason": "Denial-only byte-exact bounded incomplete prefix after accepted tag, exactly once after teardown and before propagating failure",
+      "status": "delta"
+    },
+    "session-results.json": {
+      "r18": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "r19": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "reason": "Execute all inherited session and relay cases again",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "session_checks.py": {
+      "r18": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "r19": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "status": "carried"
+    },
+    "snapshot.sh": {
+      "r18": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "r19": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "status": "carried"
+    },
+    "stage-status-install.json": {
+      "r18": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "r19": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "status": "carried"
+    },
+    "stage.sh": {
+      "r18": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "r19": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "status": "carried"
+    },
+    "stage_common.py": {
+      "r18": "5caddcaa98ee43f04c9dbfd2193a46e8fddd164527f44cddd4c5682b726c1f4d",
+      "r19": "5caddcaa98ee43f04c9dbfd2193a46e8fddd164527f44cddd4c5682b726c1f4d",
+      "status": "carried"
+    },
+    "stage_lib.py": {
+      "r18": "b93932ad04d00937eef80d900a35692a81bdacebb16639410706c8292cfd9fd2",
+      "r19": "b93932ad04d00937eef80d900a35692a81bdacebb16639410706c8292cfd9fd2",
+      "status": "carried"
+    },
+    "stage_session.py": {
+      "r18": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "r19": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "status": "carried"
+    },
+    "stage_transport.py": {
+      "r18": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "r19": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "status": "carried"
+    },
+    "tidy.py": {
+      "r18": "2b765cfbd397e00169062ceb5e1bd04959afe2d039cb9c85b244d5d539e1a9e0",
+      "r19": "9fa23103792b30b666e6f2b4a5a07d9e8694e0da3dd1b880d0b53406aa69f124",
+      "reason": "Identify r19 spent receipt; both production inventory predicates and receipt-pinned deletion guards unchanged",
+      "status": "delta"
+    },
+    "trial.py": {
+      "r18": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "r19": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "status": "carried"
+    }
+  },
+  "generated_metadata": {
+    "offline-results.json": {
+      "r18": "0c4710579203236029d56284b886953ca5692d0f70165c79201e8d4e3aebe33f",
+      "r19_digest_source": "seal.json entry",
+      "reason": "Record all r19 offline suites, builds and no-TV boundary",
+      "status": "regenerated"
+    },
+    "port-from-r15.json": {
+      "r18": "50eac3414ec73dcad3bd65364033f726373762ad103ed034a013b20ac216bedf",
+      "r19_digest_source": "seal.json entry",
+      "reason": "Regenerate this exhaustive r18 -> r19 ledger; digest is in seal.json",
+      "status": "regenerated"
+    },
+    "seal.json": {
+      "r18": "7edfc1af5f4a91c51c6aa106dc68430a1b857ab8bb8270aaaf841a71b20eca4d",
+      "r19_digest_source": "external seal digest",
+      "reason": "Regenerate exact r19 manifest; verify its digest externally (no self-hash)",
+      "status": "regenerated"
+    }
+  },
+  "predecessor": "qn90b-uep-l4-deploy-20261118-r18",
+  "predecessor_seal_sha256": "7edfc1af5f4a91c51c6aa106dc68430a1b857ab8bb8270aaaf841a71b20eca4d",
+  "regenerated": {
+    "build/DenialRunner.deps.json": "Unsealed compiler byproduct; not a live input",
+    "build/DenialRunner.dll": "Build direct managed exec refusal accountant with SDK 3.1.426",
+    "build/DenialRunner.runtimeconfig.dev.json": "Unsealed compiler byproduct; not a live input",
+    "build/DenialRunner.runtimeconfig.json": "Generate netcoreapp3.1 runtimeconfig for denial accountant",
+    "build/SamsungTvRootAgent.deps.json": "Unsealed compiler byproduct; not a live input",
+    "build/SamsungTvRootAgent.dll": "Build inherited agent with SDK 3.1.426 for regression verification only",
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": "Unsealed compiler byproduct; not a live input",
+    "build/SamsungTvRootAgent.runtimeconfig.json": "Regenerate inherited agent runtimeconfig",
+    "mutation-results.json": "Execute inherited and new mutants; count distinct sources separately from cases",
+    "offline-results.json": "Record all r19 offline suites, builds and no-TV boundary",
+    "port-from-r15.json": "Regenerate this exhaustive r18 -> r19 ledger; digest is in seal.json",
+    "r16-results.json": "Execute inherited and r19 sequence/transport/inventory/privacy cases; no inherited green results",
+    "rehearsal-results.json": "Execute inherited gate-script host rehearsals again; not live authority",
+    "seal.json": "Regenerate exact r19 manifest; verify its digest externally (no self-hash)",
+    "session-results.json": "Execute all inherited session and relay cases again"
+  }
+}

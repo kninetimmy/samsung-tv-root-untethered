@@ -1,0 +1,337 @@
+"""Offline real-entrypoint imports and modeled stage preflights; never device contact."""
+import ast
+import asyncio
+import base64
+import hashlib
+import importlib.util
+import json
+import marshal
+import os
+import shutil
+import struct
+import subprocess
+import sys
+import tempfile
+from contextlib import ExitStack, contextmanager
+from datetime import datetime
+from pathlib import Path
+from unittest.mock import patch
+
+import packet as p
+
+HOST_TEMP = Path(tempfile.gettempdir()).resolve(strict=True)
+IMPORT_ENTRIES = ('certify', 'tidy', 'inspect_tv', 'bootstrap_sdk', 'stage_session',
+                  'install', 'active', 'disable')
+
+
+def real_caches_absent():
+    assert not [str(x) for root in p.SOURCE_ROOTS for x in (p.REPO / root).rglob('*')
+                if x.name == '__pycache__' or x.suffix == '.pyc'], 'real SOURCE_ROOTS cache was repopulated'
+
+
+@contextmanager
+def sandbox():
+    """All poison and credentials stay in a private host copy, removed on exit."""
+    real_caches_absent()
+    with tempfile.TemporaryDirectory(prefix='r21-fixture-', dir=HOST_TEMP) as temp:
+        root = Path(temp) / 'repo'
+        p.make_private_directory(root)
+        pack = root / '.memhub/prep' / p.HERE.name
+        pack.mkdir(parents=True)
+        for name in p.SEAL_ENTRIES:
+            source = p.HERE / name
+            if source.is_file() and source.suffix in ('.py', '.json'):
+                target = pack / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(source, target)
+        controller = root / '.memhub/prep/qn90b-evidence-reboot-20261101-r1/controller'
+        controller.mkdir(parents=True)
+        for name in ('packet.py', 'baseline.json'):
+            shutil.copyfile(p.TOOLS_DIR / name, controller / name)
+        local = root / '.memhub/local'
+        local.mkdir()
+        shutil.copyfile(p.REPO / '.memhub/local/tv.env', local / 'tv.env')
+        for name in p.SOURCE_ROOTS:
+            (root / name).mkdir(parents=True, exist_ok=True)
+        for source in (p.REPO / 'src/samsung_tv_root').rglob('*.py'):
+            target = root / source.relative_to(p.REPO)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(source, target)
+        try:
+            yield root, pack
+        finally:
+            real_caches_absent()
+    assert not Path(temp).exists(), 'isolated poison fixture survived cleanup'
+    real_caches_absent()
+
+
+def child(pack, code):
+    # Run the actual entrypoint module bodies. A guard is installed before them;
+    # only the established PowerShell ACL helper may launch a host subprocess.
+    hook = '''import sys, pathlib, os, subprocess
+acl_shell = pathlib.Path(os.environ['SystemRoot']) / 'System32/WindowsPowerShell/v1.0/powershell.exe'
+def no_device(event, args):
+    if event in ('socket.connect', 'socket.bind', 'socket.getaddrinfo'):
+        raise AssertionError('offline fixture attempted network access')
+    if event == 'subprocess.Popen':
+        executable, command = args[:2]
+        allowed = (pathlib.Path(executable) == acl_shell if executable is not None else
+                   isinstance(command, str) and command.startswith(subprocess.list2cmdline([str(acl_shell)]) + ' '))
+        if not allowed:
+            raise AssertionError('offline fixture attempted non-ACL process')
+sys.addaudithook(no_device)
+sys.path.insert(0, str(pathlib.Path.cwd()))
+'''
+    env = dict(os.environ)
+    env.pop('PYTHONPYCACHEPREFIX', None)
+    result = subprocess.run([sys.executable, '-B', '-u', '-c', hook + code],
+                            cwd=pack, env=env, capture_output=True, text=True)
+    return result
+
+
+def poison(root):
+    source = root / 'src/samsung_tv_root/sdb.py'
+    raw = source.read_bytes()
+    code = compile(raw + b'\ndef build_shell_injection(command, gate_token=None):\n    return "R21_POISON_EXECUTED"\n', str(source), 'exec')
+    stat = source.stat()
+    header = importlib.util.MAGIC_NUMBER + struct.pack('<III', 0, int(stat.st_mtime) & 0xffffffff, stat.st_size)
+    cache = source.parent / '__pycache__' / ('sdb.' + sys.implementation.cache_tag + '.pyc')
+    cache.parent.mkdir()
+    cache.write_bytes(header + marshal.dumps(code))
+    assert cache.read_bytes()[:16] == header and len(header) == 16
+    return cache
+
+
+def bytecode_case(kind):
+    with sandbox() as (root, pack):
+        cache = poison(root)
+        original_poison = cache.read_bytes()
+        packet = pack / 'packet.py'
+        source = packet.read_text(encoding='utf-8')
+        if kind == 'prefix':
+            # Remove ONLY the preflight call: the private prefix must stand alone.
+            call = '    require_empty_source_caches()\n'
+            assert source.count(call) == 1, 'cache preflight call is not unique'
+            packet.write_text(source.replace(call, '    pass  # isolated prefix-only fixture\n'), encoding='utf-8')
+        for entry in IMPORT_ENTRIES:
+            code = ('import runpy\nrunpy.run_module(' + repr(entry) + ', run_name="r21_import_fixture")\n'
+                    'import samsung_tv_root.sdb as sdb\n'
+                    'print(sdb.build_shell_injection("printf reviewed", "0123456789abcdef"))\n')
+            out = child(pack, code)
+            if kind == 'prefix':
+                script = '/bin/mkdir /tmp/s-0123456789abcdef 2>/dev/null&&{ printf reviewed;}'
+                expected = 'new2.tpk`printf${IFS}%s${IFS}' + base64.b64encode(script.encode()).decode() + '|base64${IFS}-d|bash`.tpk'
+                assert out.returncode == 0 and out.stdout.strip() == expected, 'private prefix did not isolate poisoned source cache: ' + entry + ': ' + out.stderr[-800:]
+            else:
+                assert out.returncode != 0 and 'source-cache-populated: ' + str(cache.parent) in out.stderr, 'populated-cache preflight missing: ' + entry
+                assert 'R21_POISON_EXECUTED' not in out.stdout
+                stream = pack / 'refusals.jsonl'
+                assert stream.is_file(), 'import preflight refusal was not recorded'
+                rows = [json.loads(line) for line in stream.read_text().splitlines()]
+                assert len(rows) == IMPORT_ENTRIES.index(entry) + 1 and rows[-1]['consumed'] is False
+                assert_no_consumption(pack)
+            assert cache.read_bytes() == original_poison, 'preflight erased or altered poison evidence'
+        if kind == 'prefix':
+            # Positive control: exactly the same header-valid poison is load-bearing
+            # when both defenses are absent. No source or entrypoint toy substitute.
+            text = packet.read_text(encoding='utf-8')
+            packet.write_text(text.replace('    sys.pycache_prefix = str(prefix)', '    sys.pycache_prefix = None'), encoding='utf-8')
+            out = child(pack, 'import certify\nimport samsung_tv_root.sdb as sdb\nprint(sdb.build_shell_injection("x"))\n')
+            assert out.returncode == 0 and out.stdout.strip() == 'R21_POISON_EXECUTED', 'poison positive control was not load-bearing'
+
+
+def cache_policy():
+    """Fresh prefix, real ACL, write suppression even without interpreter -B."""
+    with sandbox() as (root, pack):
+        code = ('sys.dont_write_bytecode = False\nimport packet, json, sys\n'
+                'packet.private_acl(pathlib.Path(sys.pycache_prefix))\n'
+                'print(json.dumps([sys.pycache_prefix, sys.dont_write_bytecode]))\n')
+        prefixes = []
+        for _ in range(2):
+            out = child(pack, code)
+            assert out.returncode == 0, out.stderr
+            prefix, disabled = json.loads(out.stdout)
+            assert disabled is True, 'packet bytecode writes were not disabled'
+            assert not Path(prefix).is_relative_to(root) and not Path(prefix).is_relative_to(p.REPO)
+            assert Path(prefix).is_dir() and not list(Path(prefix).iterdir())
+            prefixes.append(prefix)
+        assert prefixes[0] != prefixes[1], 'private cache prefix reused between runs'
+        assert not list((root / 'src').rglob('__pycache__'))
+
+
+def import_graph():
+    """Exhaust all sealed Python imports; every path to repo source passes packet."""
+    modules = {Path(name).stem: ast.parse((p.HERE / name).read_text(encoding='utf-8'))
+               for name in p.SEAL_ENTRIES if name.endswith('.py')}
+    direct = set()
+    def walk(name, guarded, visiting):
+        if name in visiting:
+            return guarded
+        if name == 'packet':
+            assert not any(isinstance(n, ast.ImportFrom) and (n.module or '').startswith('samsung_tv_root')
+                           for n in ast.walk(modules[name]))
+            return True
+        for node in modules[name].body:
+            names = [a.name for a in node.names] if isinstance(node, ast.Import) else [node.module] if isinstance(node, ast.ImportFrom) else []
+            for imported in names:
+                if imported.startswith('samsung_tv_root'):
+                    direct.add(name)
+                    assert guarded, 'source import precedes packet guard: ' + name
+                elif imported in modules:
+                    guarded = walk(imported, guarded, visiting | {name})
+        return guarded
+    for name in modules:
+        walk(name, False, set())
+    assert direct == {'bootstrap_sdk', 'inspect_tv', 'stage_session'}, 'source-importing surface changed'
+    controller = ast.parse((p.TOOLS_DIR / 'packet.py').read_text())
+    imports = {n.module if isinstance(n, ast.ImportFrom) else a.name
+               for n in ast.walk(controller) if isinstance(n, (ast.Import, ast.ImportFrom))
+               for a in n.names}
+    assert imports == {'hashlib', 'json', 'os', 're', 'sqlite3', 'subprocess', 'pathlib'}
+
+
+def assert_no_consumption(root):
+    assert not (root / 'STOP').exists() and not (root / 'SPENT').exists(), 'refusal consumed packet'
+    assert not (root / 'execution').exists(), 'refusal wrote attempt tree'
+    assert not list(root.glob('LIVE_ARM_*')), 'refusal wrote arming marker'
+
+
+def refusal_case(kind):
+    import certify
+    import tidy
+    import stage_lib as sl
+    module = tidy if kind == 'tidy' else certify
+    with tempfile.TemporaryDirectory(prefix='r21-refusal-', dir=HOST_TEMP) as temp:
+        root = Path(temp) / 'packet'
+        p.make_private_directory(root)
+        prior = dict(stage='certify', passed=True, boot=p.CERTIFY_BOOT, proof_sha256=p.CERTIFY_PROOF)
+        status = root / certify.STATUS
+        status.write_text(json.dumps(prior))
+        before = status.read_bytes()
+        events = []
+        class SDK:
+            def __init__(self, save): events.append('sdk')
+            async def connect(self): pass
+            async def disconnect(self): pass
+        async def readonly(sdk): return p.CERTIFY_PROOF
+        async def denied(*a): pass
+        async def captured(sdk, label, command):
+            return tidy.removal_receipt() if label == 'denial-stages-unlink-rmdir' else 'DENIAL_STAGES_ABSENT_FRESH_SESSION'
+        def refusal(): raise p.Stop('modeled fatal preflight refusal')
+        def invoke():
+            return asyncio.run(module.main(**({'readiness': kind == 'readiness'} if module is certify else {})))
+        with ExitStack() as stack:
+            for obj, name, value in (
+                (p, 'HERE', root), (p, 'private_acl', lambda *a: None),
+                (p, 'require_source_integrity', lambda: None), (p, 'clear_marker', lambda *a: None),
+                (module, 'marker_for', lambda *a: None), (module, 'BridgeSDK', SDK),
+                (module, 'protect_seal', refusal), (certify, 'read_only', readonly),
+                (certify.denial, 'run', denied), (tidy, 'capture', captured), (sl, 'save', lambda *a, **k: None)):
+                stack.enter_context(patch.object(obj, name, value))
+            try:
+                invoke()
+            except p.Stop as error:
+                assert str(error) == 'modeled fatal preflight refusal'
+            else:
+                raise AssertionError('modeled preflight did not refuse')
+            assert not events, 'refusal constructed SDK'
+            assert_no_consumption(root)
+            assert status.read_bytes() == before and not (root / tidy.STATUS).exists(), 'refusal touched stage status'
+            stream = root / 'refusals.jsonl'
+            rows = [json.loads(line) for line in stream.read_text().splitlines()] if stream.exists() else []
+            assert len(rows) == 1, 'fatal preflight did not persist exactly one refusal: ' + kind
+            row = rows[0]
+            assert set(row) == {'stage', 'kind', 'reason', 'utc', 'consumed'} and row['consumed'] is False, 'refusal outcome schema drift'
+            assert row['stage'] == module.STAGE and row['kind'] == kind
+            assert row['reason'] == 'Stop: modeled fatal preflight refusal'
+            assert datetime.fromisoformat(row['utc']).utcoffset().total_seconds() == 0
+            saved = stream.read_bytes()
+            with patch.object(module, 'protect_seal', lambda: None):
+                invoke()  # Same packet: real unused/stopped gates, attempt and status writer.
+            assert stream.read_bytes() == saved, 'successful run altered refusal stream'
+            assert events, 'post-refusal successful run never reached modeled SDK'
+            if kind == 'readiness':
+                assert_no_consumption(root)
+                assert status.read_bytes() == before
+            else:
+                assert (root / 'execution/attempts' / (module.STAGE + '.attempt')).is_file()
+                assert json.loads((root / module.STATUS).read_text())['passed'] is True
+
+
+def refusal_storage(kind):
+    with tempfile.TemporaryDirectory(prefix='r21-storage-', dir=HOST_TEMP) as temp:
+        root = Path(temp)
+        synced = []
+        def fsync(fd):
+            synced.append(fd)
+            if kind == 'failure': raise OSError('modeled refusal fsync failure')
+        original = p.Stop('modeled refusal')
+        with patch.object(p, 'HERE', root), patch.object(p.os, 'fsync', fsync):
+            try:
+                with p.preflight('fixture', 'storage'):
+                    raise original
+            except BaseExceptionGroup as error:
+                assert kind == 'failure' and error.exceptions[0] is original
+                assert isinstance(error.exceptions[1], OSError) and str(error.exceptions[1]) == 'modeled refusal fsync failure'
+            except p.Stop:
+                assert kind == 'success', 'refusal persistence failure was hidden'
+            else:
+                raise AssertionError('preflight swallowed fatal exception')
+        assert len(synced) == 1, 'refusal row was not fsynced exactly once'
+        assert_no_consumption(root)
+        if kind == 'success':
+            first = (root / 'refusals.jsonl').read_bytes()
+            with patch.object(p, 'HERE', root):
+                p.record_refusal('fixture', 'second', p.Stop('second refusal'))
+            raw = (root / 'refusals.jsonl').read_bytes()
+            assert raw.startswith(first) and len(raw.splitlines()) == 2, 'refusal stream is not append-only'
+
+
+def retired_case(entry):
+    with sandbox() as (_, pack):
+        out = child(pack, 'import runpy\nrunpy.run_module(' + repr(entry) + ', run_name="__main__")\n')
+        assert out.returncode != 0, 'retired entrypoint ran'
+        stream = pack / 'refusals.jsonl'
+        rows = [json.loads(line) for line in stream.read_text().splitlines()] if stream.exists() else []
+        assert len(rows) == 1 and rows[0]['consumed'] is False, 'retired entrypoint refusal missing: ' + entry
+        assert_no_consumption(pack)
+
+
+def encoded_hash():
+    import denial
+    events = []
+    encoded = 'invalid envelope \u00e9\n'
+    try:
+        denial.kernel_log(encoded, lambda event, **data: events.append((event, data)))
+    except (p.Stop, ValueError):
+        pass
+    assert events and events[0] == ('denial-evidence-transport', dict(encoded=encoded,
+        sha256=hashlib.sha256(encoded.encode('utf-8')).hexdigest())), 'encoded transport digest missing or covers different bytes'
+
+
+def run():
+    cases = []
+    def check(name, fn):
+        fn()
+        cases.append(name)
+    check('import-graph', import_graph)
+    check('cache-policy', cache_policy)
+    for kind in ('prefix', 'preflight'):
+        check('bytecode-' + kind, lambda kind=kind: bytecode_case(kind))
+    for kind in ('readiness', 'certify', 'tidy'):
+        check('refusal-resume-' + kind, lambda kind=kind: refusal_case(kind))
+    for kind in ('success', 'failure'):
+        check('refusal-storage-' + kind, lambda kind=kind: refusal_storage(kind))
+    for entry in ('install', 'active', 'disable', 'inspect_tv', 'prepare'):
+        check('retired-' + entry, lambda entry=entry: retired_case(entry))
+    check('encoded-hash', encoded_hash)
+    real_caches_absent()
+    return cases
+
+
+if __name__ == '__main__':
+    rounds = [run(), run()]
+    result = dict(runner='r21_checks.py', passed=sum(map(len, rounds)), failed=0, skipped=0,
+                  TV_operations=0, rounds=rounds, real_source_caches_absent=True)
+    (p.HERE / 'r21-results.json').write_text(json.dumps(result, indent=2) + '\n', newline='\n')
+    print(json.dumps(result))

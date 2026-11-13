@@ -1,0 +1,87 @@
+{
+  "authority": "Historical evidence only; no new TV contact or native attempt during r20 authoring",
+  "decoded_envelope": {
+    "exec": null,
+    "kernel_capture": {
+      "baseline": null,
+      "capacity_state": "unknown",
+      "capture_complete": false,
+      "errno": 0,
+      "failure": "kernel-access-helper-identity-drift",
+      "post_bytes": 0,
+      "post_eagain": false,
+      "pre_bytes": 0,
+      "pre_eagain": false,
+      "pre_records": 0,
+      "profile": {
+        "CapAmb": "0000000000000000",
+        "CapBnd": "0000003fffffffff",
+        "CapEff": "0000000000200040",
+        "CapInh": "00000000002000e2",
+        "CapPrm": "0000000000200040",
+        "Gid": "901\t901\t901\t901",
+        "Groups": "29 44 201 901 1051 1901 6525 10001 10013 10014 10212 10501 10502 10503 10704 10705 10711 10901 10903 11103 11201",
+        "NoNewPrivs": "0",
+        "Uid": "901\t901\t901\t901",
+        "boot": "299d6f3f-c014-43e5-a487-59c47c833f6f",
+        "dmesg_restrict": "0",
+        "smack": "User"
+      },
+      "records": [],
+      "same_fd": true
+    },
+    "version": 1
+  },
+  "owner_supplied_measurement": {
+    "CapEff": "0000000000200040",
+    "smack": "User",
+    "source": "Owner-accepted delegation 2026-11-11; same measured profile as historical helper envelope"
+  },
+  "predecessor": "qn90b-uep-l4-deploy-20261119-r19",
+  "predecessor_seal_sha256": "18d47bdd6a344fa24a0ef4311fbdf1aaf322b2606fe7f0edf47e4de08cfff509",
+  "receipt_extracts": {
+    "446": {
+      "event": "denial-stage-created",
+      "path": "/home/owner/share/tmp/sdk_tools/denial-ec6cf65890501d00",
+      "receipt": "45845:32788",
+      "utc": "2026-11-11T19:44:57.724561+00:00"
+    },
+    "464": {
+      "event": "denial-uploaded",
+      "filename": "uep-probe.elf",
+      "sha256": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "size": 5196,
+      "utc": "2026-11-11T19:44:57.948947+00:00"
+    },
+    "482": {
+      "event": "denial-uploaded",
+      "filename": "DenialRunner.dll",
+      "sha256": "fb14c09f962f04ce0fac430a191a7842d6481328413313c5286dbf61a0e79566",
+      "size": 22016,
+      "utc": "2026-11-11T19:44:58.338260+00:00"
+    },
+    "500": {
+      "event": "denial-uploaded",
+      "filename": "DenialRunner.runtimeconfig.json",
+      "sha256": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "size": 154,
+      "utc": "2026-11-11T19:44:58.473809+00:00"
+    },
+    "534": {
+      "event": "denial-output",
+      "output": "H4sIAAAAAAAAA32SS0/jMBCA/0rlcyPZebSkt12EEBfEhROsItcZg1XHjsYOLEL97zu2S1csWkbyaGa+eST2vLMXwGC8YzuxZvAbFNu5xdo1OwA6sIOSc1wQ2O6dncxB+Wm2ECmmpQ2wTkAqE9+GEGUKs8UdnH91bM1m9NrYXH5vRkI9F4/xk6Ks628Q+mUOROt+1barmosVgZXgHalkbbq6I5fnIBdN1i3pWtQprSTzYie65W3WqWorEi0N+0SFyLrOsy/lfOOeaTY/S00H6sLucPrCWl7Yldb/ZT/deGaN/pDCfkz7T3VFiN36W3i9Q/OS7iIFwiTVgez7AEju3vuYb6kfN7rRlaJLqNoGukq2F9uq61W7VRdNozdp0jhBeBoQQkSjYu54TI8FA8gnadz5aWcf4r+xICcYNP1DxIXcvQxgjYOPxUFQHkf6zIdfpeU5wIu/f4tw8lL3vy4gOp8tLY3NW3daw0oqBSFUz2BnwMqM4CItXDWi0ZEdj38A3ADQzccCAAA=",
+      "utc": "2026-11-11T19:44:59.184091+00:00",
+      "wrapper_exit": 79
+    },
+    "555": {
+      "event": "stage-failed",
+      "kind": "certify",
+      "reason": "Stop: kernel-capture-incomplete: kernel-access-helper-identity-drift; backup_pair_evidence=gate-install.sh:65-71 GATE_BACKUP_COMPLETE under set -euo pipefail; evidence/FORENSIC.md r14 receipts.jsonl records 2264-2265 exit 0; stage-status-install.json sha256=be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042; backup_certification=root-only backup directory is the installed shape; not present-tense pair bytes",
+      "stage": "LIVE_ARM_CERTIFY",
+      "utc": "2026-11-11T19:44:59.427965+00:00"
+    }
+  },
+  "receipts_sha256": "958f0e8d4788260ed77014d339b9026290f4481d1d6725789b613135f2815495",
+  "status_sha256": "72613eddd732f76372428cfb2fab905319042c2e3dfbfc6791cb0bc35d7065d3",
+  "stop_sha256": "b1c854d518a29b88c7177a55e640f530eef02e5a911a135ed5c8c63a7575b44b"
+}

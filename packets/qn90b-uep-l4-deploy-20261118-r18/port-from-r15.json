@@ -1,0 +1,560 @@
+{
+  "counts": {
+    "added": 5,
+    "carried": 60,
+    "delta": 14,
+    "removed": 9
+  },
+  "directories": {
+    "r17": [
+      "__pycache__",
+      "artifacts",
+      "build",
+      "evidence",
+      "execution",
+      "execution/attempts",
+      "module"
+    ],
+    "r18": [
+      "artifacts",
+      "build",
+      "evidence",
+      "module"
+    ],
+    "removed": [
+      "__pycache__",
+      "execution",
+      "execution/attempts"
+    ]
+  },
+  "entries": {
+    "DenialRunner.cs": {
+      "r17": "05ef0f26801d10190d380df99ab3e104e82164e0ef1c61e5329fc1259cf21552",
+      "r18": "05ef0f26801d10190d380df99ab3e104e82164e0ef1c61e5329fc1259cf21552",
+      "status": "carried"
+    },
+    "DenialRunner.csproj": {
+      "r17": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "r18": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "status": "carried"
+    },
+    "DenialSelfTest.cs": {
+      "r17": "765163f7c84609cb6e006b7ba02e99af691b0d842ab451a0eb92a19b6de54461",
+      "r18": "765163f7c84609cb6e006b7ba02e99af691b0d842ab451a0eb92a19b6de54461",
+      "status": "carried"
+    },
+    "DenialSelfTest.csproj": {
+      "r17": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "r18": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "status": "carried"
+    },
+    "LIVE_ARM_CERTIFY": {
+      "r17": "4720f1c5ae91d430279925bf020a9404f5194856b094493aa39186aeed5c7027",
+      "r18": null,
+      "reason": "Never carry predecessor runtime/cache/arming bytes; immutable snapshot pins original",
+      "status": "removed"
+    },
+    "PLAN.md": {
+      "r17": "aa423638554b59931844bb85f3b21b969144bfaafcf540cecfe25400b7ece498",
+      "r18": "ac543a35422134d32f03cfdea7820e1859bab7cdffeec4fc817209749b46b5c0",
+      "reason": "Record approved retention decision, actual r17 incident/spent attempt, corrected r16 history and two-directory tidy",
+      "status": "delta"
+    },
+    "STOP": {
+      "r17": "b1c854d518a29b88c7177a55e640f530eef02e5a911a135ed5c8c63a7575b44b",
+      "r18": null,
+      "reason": "Never carry predecessor permanent STOP into a new packet; original remains untouched",
+      "status": "removed"
+    },
+    "UepGateAgent.cs": {
+      "r17": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "r18": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "status": "carried"
+    },
+    "UepGateAgent.csproj": {
+      "r17": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "r18": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "status": "carried"
+    },
+    "__pycache__/denial.cpython-314.pyc": {
+      "r17": "ee2d61e1b99637535e7a6e2f769e94f346b0574b529721676dcf3017d89f2c97",
+      "r18": null,
+      "reason": "Never carry predecessor runtime/cache/arming bytes; immutable snapshot pins original",
+      "status": "removed"
+    },
+    "__pycache__/inspect_tv.cpython-314.pyc": {
+      "r17": "194ec8ba8e4bb1049db7ee20ed2aead0b50944c7dc5008091550b6da6bf0639b",
+      "r18": null,
+      "reason": "Never carry predecessor runtime/cache/arming bytes; immutable snapshot pins original",
+      "status": "removed"
+    },
+    "__pycache__/packet.cpython-314.pyc": {
+      "r17": "55eef0719afefdf4f538ac2382a180930f1aa65ec4c343fc41e13b5764d86821",
+      "r18": null,
+      "reason": "Never carry predecessor runtime/cache/arming bytes; immutable snapshot pins original",
+      "status": "removed"
+    },
+    "__pycache__/stage_lib.cpython-314.pyc": {
+      "r17": "8b9b33defc7b4287b32a59f342d109c9a3d96f8bd0b2a0637af4298e9a446f4a",
+      "r18": null,
+      "reason": "Never carry predecessor runtime/cache/arming bytes; immutable snapshot pins original",
+      "status": "removed"
+    },
+    "active.py": {
+      "r17": "187ade646d814309990d7ba13e44212e4e00028b0ea06d4e0261612dfa4f987e",
+      "r18": "187ade646d814309990d7ba13e44212e4e00028b0ea06d4e0261612dfa4f987e",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.dll": {
+      "r17": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "r18": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.runtimeconfig.json": {
+      "r17": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r18": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.dll": {
+      "r17": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "r18": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.runtimeconfig.json": {
+      "r17": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r18": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/manager.dll": {
+      "r17": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "r18": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "status": "carried"
+    },
+    "artifacts/manager.runtimeconfig.json": {
+      "r17": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r18": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/uep-probe.elf": {
+      "r17": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "r18": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.dll": {
+      "r17": null,
+      "r18": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "reason": "Host-only v5.18 fixture copied from pruned ZIP; verified against r8 seal and archive commit",
+      "status": "added"
+    },
+    "artifacts/v518-manager.runtimeconfig.json": {
+      "r17": null,
+      "r18": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "reason": "Host-only v5.18 runtimeconfig copied from pruned ZIP; verified against r8 seal and archive commit",
+      "status": "added"
+    },
+    "authoring_checks.py": {
+      "r17": "10c5822c05b2baad99770c31e195cfaf9137256d3a6575bcd11132a2cc07dcf0",
+      "r18": "10c5822c05b2baad99770c31e195cfaf9137256d3a6575bcd11132a2cc07dcf0",
+      "status": "carried"
+    },
+    "bootstrap_sdk.py": {
+      "r17": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "r18": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "status": "carried"
+    },
+    "build/DenialRunner.deps.json": {
+      "r17": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "r18": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "reason": "Unsealed compiler byproduct; not a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.dll": {
+      "r17": "dca73c8af979de32e27364cd3527ca28c7017b38b47058cfe3cc05896840ab57",
+      "r18": "dca73c8af979de32e27364cd3527ca28c7017b38b47058cfe3cc05896840ab57",
+      "reason": "Build direct managed exec refusal accountant with SDK 3.1.426",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.runtimeconfig.dev.json": {
+      "r17": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r18": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler byproduct; not a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.runtimeconfig.json": {
+      "r17": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r18": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Generate netcoreapp3.1 runtimeconfig for denial accountant",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.deps.json": {
+      "r17": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "r18": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "reason": "Unsealed compiler byproduct; not a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.dll": {
+      "r17": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "r18": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "reason": "Build inherited agent with SDK 3.1.426 for regression verification only",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": {
+      "r17": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r18": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler byproduct; not a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.json": {
+      "r17": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r18": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Regenerate inherited agent runtimeconfig",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "certify.py": {
+      "r17": "661c8d697414cdf41ae0527bc5007b3c6183ee2da6a407680cc98046b69e9f17",
+      "r18": "80925be08ae6706c3e0fe8a5e46a0d84adf1f9279f4ed469cf702e2ff1ef28a8",
+      "reason": "Identify the additional r18 denial after spent r17; use single-read retained-window status wording",
+      "status": "delta"
+    },
+    "denial.py": {
+      "r17": "c313fc79a1357e84a469b45d051fe7b52b35f98ad1b5d3db56e64be44c0870ca",
+      "r18": "2829cff54ba72012e136bcb426c32a417398710038c103bf4198df3bec537faa",
+      "reason": "Single post-attempt dmesg read, save before assertions, endpoint retention diagnostics; no byte saturation policy",
+      "status": "delta"
+    },
+    "deploy.py": {
+      "r17": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "r18": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "status": "carried"
+    },
+    "disable.py": {
+      "r17": "a451f73a324f37f7114580bfa3015e5e3d2ee4edbe534fca88aa23e55b2d7990",
+      "r18": "a451f73a324f37f7114580bfa3015e5e3d2ee4edbe534fca88aa23e55b2d7990",
+      "status": "carried"
+    },
+    "driver_checks.py": {
+      "r17": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "r18": "14b3588ea7ea7aeb4dc438485b6bc2af3fedeb14a4e585e78d1d6910363943f5",
+      "status": "carried"
+    },
+    "driver_shim.py": {
+      "r17": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "r18": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "status": "carried"
+    },
+    "evidence/FORENSIC.md": {
+      "r17": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "r18": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "status": "carried"
+    },
+    "evidence/R15-INCIDENT.md": {
+      "r17": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "r18": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "status": "carried"
+    },
+    "evidence/R15-PLAN.md": {
+      "r17": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "r18": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "status": "carried"
+    },
+    "evidence/anchored-proof.txt": {
+      "r17": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "r18": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "status": "carried"
+    },
+    "evidence/dmesg_grep.txt": {
+      "r17": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "r18": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "status": "carried"
+    },
+    "evidence/measurement.json": {
+      "r17": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "r18": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "status": "carried"
+    },
+    "evidence/r14-evidence-digests.json": {
+      "r17": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "r18": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "status": "carried"
+    },
+    "evidence/r15-evidence-digests.json": {
+      "r17": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "r18": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "status": "carried"
+    },
+    "evidence/r16-evidence-digests.json": {
+      "r17": "32e96ea35b0f376a41807094d1e513f7d0ad0a71b2ba60bc77f62584790cbc4d",
+      "r18": "32e96ea35b0f376a41807094d1e513f7d0ad0a71b2ba60bc77f62584790cbc4d",
+      "status": "carried"
+    },
+    "evidence/r17-evidence-digests.json": {
+      "r17": null,
+      "r18": "6fd6d93119958cc2c6bc0b54fd07e547def683147d15079005aba104c24a4c80",
+      "reason": "Pin every r17 file/directory, including STOP, spent attempt, marker, receipts and seal, without carrying runtime bytes",
+      "status": "added"
+    },
+    "evidence/r17-incident.json": {
+      "r17": null,
+      "r18": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "reason": "Historical receipt extracts and retention diagnostics, never runtime authority or a new attempt",
+      "status": "added"
+    },
+    "evidence/r8-fixture-receipts.json": {
+      "r17": null,
+      "r18": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "reason": "Authoring receipts record ZIP members, archive commit, verified seal/asset digests and non-shipping provenance",
+      "status": "added"
+    },
+    "execution/attempts/LIVE_ARM_CERTIFY.attempt": {
+      "r17": "831f3a9643b87fe95dc30a958d187dbcc99c14f95dfe95c039ab2923ec09d4af",
+      "r18": null,
+      "reason": "Never carry predecessor runtime/cache/arming bytes; immutable snapshot pins original",
+      "status": "removed"
+    },
+    "flow_cases.py": {
+      "r17": "3618fd7b8fe4a883ae6b268d585ccf2210017798936121054a5d154d3c5fe579",
+      "r18": "cb5edeaa8f7bd3feb577bf7f1aac44b1485948d0c5296279e3267fc54993a68c",
+      "reason": "Retarget only r18 host fixture paths to verified r8 v5.18 bytes after predecessor working-tree pruning",
+      "status": "delta"
+    },
+    "gate-config-active.sh": {
+      "r17": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "r18": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "status": "carried"
+    },
+    "gate-install.sh": {
+      "r17": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "r18": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "status": "carried"
+    },
+    "gate-remove.sh": {
+      "r17": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "r18": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "status": "carried"
+    },
+    "inspect_tv.py": {
+      "r17": "908b5800b8935729e8fde6fe3bdea9f79256da617f70c9a861e847343194fbd8",
+      "r18": "908b5800b8935729e8fde6fe3bdea9f79256da617f70c9a861e847343194fbd8",
+      "status": "carried"
+    },
+    "inspection.json": {
+      "r17": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "r18": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "status": "carried"
+    },
+    "install.py": {
+      "r17": "fdb0834089ef82a0a734d9030ab7c7eea9ecec6a3383f9516d7a2c87a7c98813",
+      "r18": "fdb0834089ef82a0a734d9030ab7c7eea9ecec6a3383f9516d7a2c87a7c98813",
+      "status": "carried"
+    },
+    "module/boot.sh": {
+      "r17": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "r18": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "status": "carried"
+    },
+    "module/module.json": {
+      "r17": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "r18": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "status": "carried"
+    },
+    "mutation-results.json": {
+      "r17": "6e55ac2e62845e92145dcad55b6713db6ee6897b1cc3063ae3c6b13d7e3f8341",
+      "r18": "9714e1d08537ea0def55aab2ff758047a9c32c8a89ad45f81cd2f7d6211917e4",
+      "reason": "Execute inherited and new mutants; count distinct sources separately from cases",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "mutation_checks.py": {
+      "r17": "f67a9a0cd5af083d4a68a556cd5f120eeeaf613400ce1050d702e14e8d8daa66",
+      "r18": "52248cbed19435af9706671921a907ac229329e7ff10c2ac8cc3324d83bf2113",
+      "reason": "Separate distinct source mutation counts and add retention/save/empty-child regressions. The inventory count guard and exact-set comparison are one unit under test; the count guard is a fail-fast optimization inside it, not an independently observable defense. One distinct transformation removes both guards; tidy.py is unchanged by this recast.",
+      "status": "delta"
+    },
+    "offline_checks.py": {
+      "r17": "123de56183cda4d4c4a63924f3e2e5af51b50dc2c98da18385998fc9314683ea",
+      "r18": "3e08369189fd2ded40520cb08f6a909002d476590484ff3b89fb91e60ff63f19",
+      "reason": "Run all suites freshly and verify the r17 -> r18 ledger and both immutable predecessors",
+      "status": "delta"
+    },
+    "packet.py": {
+      "r17": "f394c1aaa946389a1d96d503cf4eaf04f78d71756ab65599e8ac54089690f5ee",
+      "r18": "9bcd22868ab3f3733471a9249c44798042d53e52c4cd16319beb90a1d78f7adc",
+      "reason": "Identify r18 and seal immutable r17 snapshot and receipt extracts; no shipped pin change",
+      "status": "delta"
+    },
+    "port_from_r15.py": {
+      "r17": "00a495ce0be755b926c9f365a4247c6008b76140382a438321800d9571f5e28b",
+      "r18": "014049bd25695730dfdea8dbccbb9acc2a8ca42036071ee146e54645f0b62549",
+      "reason": "Retarget inherited ledger to immutable r17 and verify r16 remains unchanged too",
+      "status": "delta"
+    },
+    "prepare.py": {
+      "r17": "e8ac91d4c49e4f965ce0409d38f6536b8bec2d430777392494af4498241fdf2e",
+      "r18": "e8ac91d4c49e4f965ce0409d38f6536b8bec2d430777392494af4498241fdf2e",
+      "status": "carried"
+    },
+    "protected-register-20261108.json": {
+      "r17": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "r18": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "status": "carried"
+    },
+    "protected-register.json": {
+      "r17": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "r18": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "status": "carried"
+    },
+    "r16-results.json": {
+      "r17": "3a1f0a17d6b056eb887d5243bd069df49b72fb18a0367011a4d71032abaf934b",
+      "r18": "3c1afb4dc8023e2e371fa4ff76cd246bbb6cf2a3905c7fce2d5472fadb81ab9b",
+      "reason": "Execute inherited cases plus r18 retention, save ordering and two-directory tidy regressions",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "r16_checks.py": {
+      "r17": "852485134b3729b4b4bb8d22d9d0df26594f7402accf61b4568b1bd46b5dcc6e",
+      "r18": "64572598901c5127b570349ea88139d980136c6399a91d034cb4670ac323d3b6",
+      "reason": "Exercise retention diagnostics, size neutrality, single-read saving and both exact tidy inventories",
+      "status": "delta"
+    },
+    "receipts.jsonl": {
+      "r17": "0d953e3506d854de40fc1581ce85a9749d2cd684f1e2ba7f5fd6be73a510a5eb",
+      "r18": null,
+      "reason": "Never carry predecessor runtime conversations into a new packet",
+      "status": "removed"
+    },
+    "recovery.py": {
+      "r17": "ab3c50a53cb4207d10ac6233a19e50cd2bc8bc818b5f116adc1bfcb2d49eddaf",
+      "r18": "ab3c50a53cb4207d10ac6233a19e50cd2bc8bc818b5f116adc1bfcb2d49eddaf",
+      "status": "carried"
+    },
+    "rehearsal-results.json": {
+      "r17": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "r18": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "reason": "Execute inherited gate-script host rehearsals again; not live authority",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "relay_checks.py": {
+      "r17": "15e3bb888aa44c642d9f1e8e6f73a6a1d2c0296d9cd88a3e9dff1e6c9d06b522",
+      "r18": "56f1aad442b3e89fb585d8a17201423befae404150ce2819ce3f3b3360a499b9",
+      "reason": "Empty dll/runtimeconfig/PID cases must reach hash/PID refusal",
+      "status": "delta"
+    },
+    "sdk.py": {
+      "r17": "39e8e4462f25e7a29bd155f07caee31418ec05b5ec7973a60008858fdef84e3b",
+      "r18": "39e8e4462f25e7a29bd155f07caee31418ec05b5ec7973a60008858fdef84e3b",
+      "status": "carried"
+    },
+    "session-results.json": {
+      "r17": "1d438f1af1ca2876d844bac6319d5938b8c2f166e4951c1c5ab4e553e432d66d",
+      "r18": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "reason": "Execute all inherited session and relay cases again",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "session_checks.py": {
+      "r17": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "r18": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "status": "carried"
+    },
+    "snapshot.sh": {
+      "r17": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "r18": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "status": "carried"
+    },
+    "stage-status-certify.json": {
+      "r17": "44d0e5a38c9dbfe8c8e704d9f21cca7f8358833d4366ddcc3115bed465e65cb8",
+      "r18": null,
+      "reason": "Never carry failed predecessor runtime certification status",
+      "status": "removed"
+    },
+    "stage-status-install.json": {
+      "r17": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "r18": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "status": "carried"
+    },
+    "stage.sh": {
+      "r17": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "r18": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "status": "carried"
+    },
+    "stage_common.py": {
+      "r17": "5caddcaa98ee43f04c9dbfd2193a46e8fddd164527f44cddd4c5682b726c1f4d",
+      "r18": "5caddcaa98ee43f04c9dbfd2193a46e8fddd164527f44cddd4c5682b726c1f4d",
+      "status": "carried"
+    },
+    "stage_lib.py": {
+      "r17": "b93932ad04d00937eef80d900a35692a81bdacebb16639410706c8292cfd9fd2",
+      "r18": "b93932ad04d00937eef80d900a35692a81bdacebb16639410706c8292cfd9fd2",
+      "status": "carried"
+    },
+    "stage_session.py": {
+      "r17": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "r18": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "status": "carried"
+    },
+    "stage_transport.py": {
+      "r17": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "r18": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "status": "carried"
+    },
+    "tidy.py": {
+      "r17": "9d90fe350d0dead563c1c8ab56ef4dc27462fe7739a43943fdf4cd802a3d2a2f",
+      "r18": "2b765cfbd397e00169062ceb5e1bd04959afe2d039cb9c85b244d5d539e1a9e0",
+      "reason": "Validate both exact directories and all receipt-pinned assets before unlink; verify fresh-session absence",
+      "status": "delta"
+    },
+    "trial.py": {
+      "r17": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "r18": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "status": "carried"
+    }
+  },
+  "generated_metadata": {
+    "offline-results.json": {
+      "r17": "3ae2eda76cb2a8ec53d723a8a3e1a8fba29d14fbe8be24a0a433158ecfa30921",
+      "r18_digest_source": "seal.json entry",
+      "reason": "Record all r18 offline suites, builds and no-TV boundary",
+      "status": "regenerated"
+    },
+    "port-from-r15.json": {
+      "r17": "44877a3ba1f5926acce346c2d050f450c5f07400d3bd1968802adeac938c9add",
+      "r18_digest_source": "seal.json entry",
+      "reason": "Regenerate this exhaustive r17 -> r18 ledger; digest is in seal.json",
+      "status": "regenerated"
+    },
+    "seal.json": {
+      "r17": "0170d27c141ce5332206ae07bdca530e7ee3bf9defdd07ea29737b5e409f1508",
+      "r18_digest_source": "external seal digest",
+      "reason": "Regenerate exact r18 manifest; verify its digest externally (no self-hash)",
+      "status": "regenerated"
+    }
+  },
+  "predecessor": "qn90b-uep-l4-deploy-20261117-r17",
+  "predecessor_seal_sha256": "0170d27c141ce5332206ae07bdca530e7ee3bf9defdd07ea29737b5e409f1508",
+  "regenerated": {
+    "build/DenialRunner.deps.json": "Unsealed compiler byproduct; not a live input",
+    "build/DenialRunner.dll": "Build direct managed exec refusal accountant with SDK 3.1.426",
+    "build/DenialRunner.runtimeconfig.dev.json": "Unsealed compiler byproduct; not a live input",
+    "build/DenialRunner.runtimeconfig.json": "Generate netcoreapp3.1 runtimeconfig for denial accountant",
+    "build/SamsungTvRootAgent.deps.json": "Unsealed compiler byproduct; not a live input",
+    "build/SamsungTvRootAgent.dll": "Build inherited agent with SDK 3.1.426 for regression verification only",
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": "Unsealed compiler byproduct; not a live input",
+    "build/SamsungTvRootAgent.runtimeconfig.json": "Regenerate inherited agent runtimeconfig",
+    "mutation-results.json": "Execute inherited and new mutants; count distinct sources separately from cases",
+    "offline-results.json": "Record all r18 offline suites, builds and no-TV boundary",
+    "port-from-r15.json": "Regenerate this exhaustive r17 -> r18 ledger; digest is in seal.json",
+    "r16-results.json": "Execute inherited cases plus r18 retention, save ordering and two-directory tidy regressions",
+    "rehearsal-results.json": "Execute inherited gate-script host rehearsals again; not live authority",
+    "seal.json": "Regenerate exact r18 manifest; verify its digest externally (no self-hash)",
+    "session-results.json": "Execute all inherited session and relay cases again"
+  }
+}

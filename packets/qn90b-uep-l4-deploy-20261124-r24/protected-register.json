@@ -1,0 +1,37 @@
+{
+  "files": {
+    "/bin/bash": "b4bec8b5061b4686372113b69fb957d82609ab27bcf84f1a42d0ab0ec632d148",
+    "/etc/passwd": "279566bb88a6eec47760734d2d64a96e0d938cab6e677934488df73416038387",
+    "/opt/usr/apps/com.samsung.tv.ghservice/author-signature.xml": "8ca25676147ef0e64922b55af1d004149df74e4e7b8adebfe356cbe6526eb0cb",
+    "/opt/usr/apps/com.samsung.tv.ghservice/bin/GHServiceLibAPIPlugIn.dll": "8f20859c7ab7577746f68c0e6b1e6c8a0ee315e4b8ad7e79d80c90a6bc191657",
+    "/opt/usr/apps/com.samsung.tv.ghservice/bin/GHServiceLibAPIPlugIn.pdb": "9e4da7cd18ff96f58453b058cbeb58ab83e2c056f95633f314c49764d72afba6",
+    "/opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.runtimeconfig.json": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+    "/opt/usr/apps/com.samsung.tv.ghservice/com.samsung.tv.ghservice.deps.json": "c1d923618bb9a283d30830d899e2529582b7bfa1211c217615f91d89a8e5b838",
+    "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot/SamsungTvArchiveRoot.dll": "e68cb38fb7c2c55e8e7f54d312cc028c80e8c781f348fd30fa5262c848729946",
+    "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot/SamsungTvArchiveRoot.runtimeconfig.json": "68cf6feb5470704dcc78260c6eac1ac026fb5345faf919458b3196e32e949c66",
+    "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot/archive-root-00b0000000000001.tar.gz": "efbe4616dd02b1b886f8cca70f7c426d7d69bf8bad09e4e6c08272a7b5152c98",
+    "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot/archive-root-00b0000000000001.tar.gz.signature": "4f68c6c46001f2ce709c84beb31000f2b0bf6f10f7174cddcd2466762fd443f6",
+    "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot/passwd": "3f84e1849b4aa0e9572c539204a7862e1268f245f06e654009a26006c961f004",
+    "/opt/usr/apps/com.samsung.tv.ghservice/res/selfroot/public.pem": "2e21c4844744e618c36f1c7dbb6a115321b937804f99ceccac6a180df16325ee",
+    "/opt/usr/apps/com.samsung.tv.ghservice/shared/images/tizen-icon.png": "c7a26d7e1bd79075942d68b1a162bb78b5c48c23a298b0965eb0a53c7f717b1b",
+    "/opt/usr/apps/com.samsung.tv.ghservice/shared/lib/netcoreapp2.0/GHServiceLibAPIPlugIn.deps.json": "b90af4c92e9d3cf94da06210a7309fa78e8796368886788c206993d5abfd5035",
+    "/opt/usr/apps/com.samsung.tv.ghservice/shared/lib/netcoreapp2.0/GHServiceLibAPIPlugIn.dll": "8f20859c7ab7577746f68c0e6b1e6c8a0ee315e4b8ad7e79d80c90a6bc191657",
+    "/opt/usr/apps/com.samsung.tv.ghservice/shared/lib/netcoreapp2.0/GHServiceLibAPIPlugIn.pdb": "9e4da7cd18ff96f58453b058cbeb58ab83e2c056f95633f314c49764d72afba6",
+    "/opt/usr/apps/com.samsung.tv.ghservice/tizen-manifest.xml": "d28b8c565cea1f486211fb1478c4c2b447bb5a991c81d0e93d093f91b9755bdb",
+    "/opt/usr/share/selfroot/fdetprobe/FdetProbe.dll": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+    "/opt/usr/share/selfroot/fdetprobe/FdetProbe.runtimeconfig.json": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+    "/opt/usr/share/selfroot/modules/bridge-service/TvRootBridgeRelay.dll": "ef42c7590ecb5e67b794295939e2be9658520b1b3b1222095063f93a5049f541",
+    "/opt/usr/share/selfroot/modules/bridge-service/TvRootBridgeRelay.runtimeconfig.json": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+    "/opt/usr/share/selfroot/modules/bridge-service/boot.sh": "112cdf61412f61b43806e569b48b9a731d634489cb1625b05e8e8f21551199a4",
+    "/opt/usr/share/selfroot/modules/bridge-service/module.json": "a417a8950c7fecfff8f57d947e8231f6beab8b35314040ca8b01fa3d1c240f9b",
+    "/usr/share/sdbd/public.pem": "c83cab64331f092ba99f666b8bb20a49dd1fff04030336c2ea34f6b55ca09d09",
+    "/opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.dll": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a"
+  },
+  "target": {
+    "/opt/usr/apps/com.samsung.tv.ghservice/bin/com.samsung.tv.ghservice.dll": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a"
+  },
+  "captured": {
+    "boot": "0404f29a-1277-44bb-bee7-5b77a0b3b6bc",
+    "proof_hash": "e52b1f19024e42cf80cc8d41b4cb45cb7b106b07a8de5340f22c3c6c0caf2a05  /home/owner/share/tmp/sdk_tools/selfroot-evidence/selfroot-proof.txt"
+  }
+}

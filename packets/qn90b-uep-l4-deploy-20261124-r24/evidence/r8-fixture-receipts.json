@@ -1,0 +1,30 @@
+{
+  "event": "offline-v518-fixtures-carried-forward",
+  "TV_operations": 0,
+  "source_archive": ".memhub/pruned-r1-r15-20261111.zip",
+  "source_packet": "qn90b-uep-l4-deploy-20261109-r8",
+  "archive_commit": "abef4d7fa394cacf64aa27db444780e95559c32d",
+  "archive_commit_message": "Archive r8 sealed packet (seal e6e64a7f2e26cdfb41a9f376a42e9bc3798f37994a888f1edc87d15bc4acf7ea)",
+  "source_seal_path": "qn90b-uep-l4-deploy-20261109-r8/seal.json",
+  "verified_source_seal_sha256": "e6e64a7f2e26cdfb41a9f376a42e9bc3798f37994a888f1edc87d15bc4acf7ea",
+  "verification": "source seal SHA-256 equals archive commit message; each source asset SHA-256 equals its own r8 seal entry",
+  "reason": "v5.18 host-only fixtures carried forward because r8 working tree was pruned on 2026-11-11; NOT shipped by r18",
+  "assets": [
+    {
+      "source_packet": "qn90b-uep-l4-deploy-20261109-r8",
+      "source_archive": ".memhub/pruned-r1-r15-20261111.zip",
+      "source_path": "qn90b-uep-l4-deploy-20261109-r8/artifacts/manager.dll",
+      "target_path": "artifacts/v518-manager.dll",
+      "verified_sha256": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "bytes": 61952
+    },
+    {
+      "source_packet": "qn90b-uep-l4-deploy-20261109-r8",
+      "source_archive": ".memhub/pruned-r1-r15-20261111.zip",
+      "source_path": "qn90b-uep-l4-deploy-20261109-r8/artifacts/manager.runtimeconfig.json",
+      "target_path": "artifacts/v518-manager.runtimeconfig.json",
+      "verified_sha256": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "bytes": 260
+    }
+  ]
+}

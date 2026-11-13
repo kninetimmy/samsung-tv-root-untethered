@@ -47,9 +47,18 @@ be identified against any surviving copy.
 | qn90b-uep-l4-deploy-20261115-r15 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
 | qn90b-uep-l4-deploy-20261116-r16 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
 | qn90b-uep-l4-deploy-20261117-r17 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
+| qn90b-uep-l4-deploy-20261118-r18 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
+| qn90b-uep-l4-deploy-20261119-r19 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
+| qn90b-uep-l4-deploy-20261120-r20 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
+| qn90b-uep-l4-deploy-20261121-r21 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
+| qn90b-uep-l4-deploy-20261122-r22 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
+| qn90b-uep-l4-deploy-20261123-r23 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
+| qn90b-uep-l4-deploy-20261124-r24 | `UepGateAgent.cs` | `870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3` |
 
-Archived packets: 17 (909 files). The live set is r19 plus its predecessor
-r18; every older packet is archived here.
+Archived packets: 24 (1,510 files). r27 is sealed but was reviewed not fit, so
+it is not a usable fallback: the operational live pair is r26 plus its
+predecessor r25, and r27 is retained only as the port source for its successor.
+Every older packet is archived here.
 
-_Last updated 2026-11-11._
+_Last updated 2026-11-13._
 

@@ -1,0 +1,60 @@
+SELFROOT-PROOF uid=0 gid=0
+BOOT_ID=299d6f3f-c014-43e5-a487-59c47c833f6f
+---STATUS---
+Name:	cat
+Umask:	0000
+State:	R (running)
+Tgid:	3015
+Ngid:	0
+Pid:	3015
+PPid:	3002
+TracerPid:	0
+Uid:	0	0	0	0
+Gid:	0	0	0	0
+FDSize:	32
+Groups:	0 29 44 201 1901 6509 6525 10001 10002 10013 10014 10212 10501 10502 10503 10704 10705 10711 10901 10903 11103 11201 
+NStgid:	3015
+NSpid:	3015
+NSpgid:	2663
+NSsid:	2663
+VmPeak:	    5156 kB
+VmSize:	    5156 kB
+VmLck:	       0 kB
+VmPin:	       0 kB
+VmHWM:	     304 kB
+VmRSS:	     304 kB
+RssAnon:	      56 kB
+RssFile:	     248 kB
+RssShmem:	       0 kB
+VmData:	     168 kB
+VmStk:	     132 kB
+VmExe:	      12 kB
+VmLib:	    1428 kB
+VmPTE:	      12 kB
+VmSwap:	       0 kB
+CoreDumping:	0
+THP_enabled:	0
+Threads:	1
+SigQ:	2/11700
+SigPnd:	0000000000000000
+ShdPnd:	0000000000000000
+SigBlk:	0000000000000000
+SigIgn:	0000000000001000
+SigCgt:	0000000000000000
+CapInh:	00000000002000e2
+CapPrm:	0000003fffffffff
+CapEff:	0000003fffffffff
+CapBnd:	0000003fffffffff
+CapAmb:	0000000000000000
+NoNewPrivs:	0
+Seccomp:	0
+Speculation_Store_Bypass:	unknown
+Cpus_allowed:	f
+Cpus_allowed_list:	0-3
+Mems_allowed:	1
+Mems_allowed_list:	0
+voluntary_ctxt_switches:	0
+nonvoluntary_ctxt_switches:	2
+---PASSWD-VIEW---
+owner:x:0:0:owner:/home/owner:/bin/sh
+---DONE---

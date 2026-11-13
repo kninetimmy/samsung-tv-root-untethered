@@ -1,0 +1,4 @@
+482:[   54.209208] [SfdUepCheckFileType] unknown file type(#che)
+1662:[   95.244381] [Verification fail] file /opt/usr/home/owner/share/tmp/sdk_tools/denial-fd9fa25930776ce9/uep-probe.elf is not signed. Sign it.(fsname:vdfs, mnt_flags:1020)
+2368:[  151.152190] [SfdUepCheckFileType] unknown file type(echo)
+2376:[  151.549628] [SfdUepCheckFileType] unknown file type(#RPA)

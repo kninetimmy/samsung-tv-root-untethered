@@ -1,0 +1,76 @@
+{
+  "utc": "2026-11-11T15:50:55.114445+00:00",
+  "purpose": "read-only uid901 /dev/kmsg access and toolkit probe",
+  "reads_only": true,
+  "elf_executed": false,
+  "device_writes": false,
+  "p1": {
+    "uid": "901|",
+    "id": "uid=901(sdk) gid=901(sdk) groups=29(audio),44(video),201(display),901(sdk),1051(system_share),1901(log),6525(usb_device),10001(priv_externalstorage),10013(priv_tee_client),10014(priv_peripheralio),10212(priv_platform),10501(priv_camera),10502(priv_mediastorage),10503(priv_recorder),10704(priv_intern",
+    "boot": "299d6f3f-c014-43e5-a487-59c47c833f6f|",
+    "status": "Uid:\t901\t901\t901\t901|Gid:\t901\t901\t901\t901|CapInh:\t00000000002000e2|CapPrm:\t0000000000000000|CapEff:\t0000000000000000|CapBnd:\t0000003fffffffff|CapAmb:\t0000000000000000|NoNewPrivs:\t0|",
+    "label": "System",
+    "dmesg_restrict": "0|",
+    "kmsg_stat": "character special file:0:1901:660:1:b|",
+    "kmsg_label": "/dev/kmsg access=\"*\"|",
+    "kmsg_readable_r": "yes|",
+    "kmsg_open": "ok|",
+    "dmesg": {
+      "path": "/usr/bin/dmesg",
+      "real": "/usr/bin/dmesg|",
+      "version": "dmesg from util-linux 2.36 ",
+      "help": "\nUsage:\n dmesg [options]\n\nDisplay or control the kernel ring buffer.\n\nOptions:\n -C, --clear                 clear the kernel ring buffer\n -c, --read-clear            read and clear all messages\n -D, --console-off           disable printing messages to console\n -E, --console-on            enable printing messages to console\n -F, --file <file>           use the file instead of the kernel log buffer\n -f, --facility <list>       restrict output to defined facilities\n -H, --human                 human readable output\n -k, --kernel                display kernel messages\n -L, --color[=<when>]        colorize messages (auto, always or never)\n                               colors are enabled by default\n -l, --level <list>          restrict output to defined levels\n -n, --console-level <level> set level of messages printed to console\n -P, --nopager               do not pipe output into a pager\n -p, --force-prefix          force timestamp output on each line of multi-line messages\n -r, --raw                   print the raw message buffer\n     --noescape              don't escape unprintable character\n -S, --syslog                force to use syslog(2) rather than /dev/kmsg\n -s, --buffer-size "
+    },
+    "find": {
+      "path": "/usr/bin/find",
+      "real": "/usr/bin/find|",
+      "version": "GNU find version 4.3.8 Built using GNU gnulib version 2007-05-26 Features enabled: D_TYPE O_NOFOLLOW(enabled) LEAF_OPTIMISATION FTS() CBO(level=0)  ",
+      "help": "Usage: /usr/bin/find [-H] [-L] [-P] [-Olevel] [-D help|tree|search|stat|rates|opt|exec] [path...] [expression]\n\ndefault path is the current directory; default expression is -print\nexpression may consist of: operators, options, tests, and actions:\n\noperators (decreasing precedence; -and is implicit where no others are given):\n      ( EXPR )   ! EXPR   -not EXPR   EXPR1 -a EXPR2   EXPR1 -and EXPR2\n      EXPR1 -o EXPR2   EXPR1 -or EXPR2   EXPR1 , EXPR2\n\npositional options (always true): -daystart -follow -regextype\n\nnormal options (always true, specified before other expressions):\n      -depth --help -maxdepth LEVELS -mindepth LEVELS -mount -noleaf\n      --version -xdev -ignore_readdir_race -noignore_readdir_race\n\ntests (N can be +N or -N or N): -amin N -anewer FILE -atime N -cmin N\n      -cnewer FILE -ctime N -empty -false -fstype TYPE -gid N -group NAME\n      -ilname PATTERN -iname PATTERN -inum N -iwholename PATTERN -iregex PATTERN\n      -links N -lname PATTERN -mmin N -mtime N -name PATTERN -newer FILE\n      -nouser -nogroup -path PATTERN -perm [+-]MODE -regex PATTERN\n      -readable -writable -executable\n      -wholename PATTERN -size N[bcwkMG] -true -type [bcdpflsD] -uid N\n     "
+    },
+    "sort": {
+      "path": "/usr/bin/sort",
+      "real": "/usr/bin/sort|",
+      "version": "sort (GNU coreutils) 6.9 Copyright (C) 2007 Free Software Foundation, Inc. This is free software.  You may redistribute copies of it under the terms of the GNU General Public License <http://www.gnu.o",
+      "help": "Usage: /usr/bin/sort [OPTION]... [FILE]...\nWrite sorted concatenation of all FILE(s) to standard output.\n\nMandatory arguments to long options are mandatory for short options too.\nOrdering options:\n\n  -b, --ignore-leading-blanks  ignore leading blanks\n  -d, --dictionary-order      consider only blanks and alphanumeric characters\n  -f, --ignore-case           fold lower case to upper case characters\n  -g, --general-numeric-sort  compare according to general numerical value\n  -i, --ignore-nonprinting    consider only printable characters\n  -M, --month-sort            compare (unknown) < `JAN' < ... < `DEC'\n  -n, --numeric-sort          compare according to string numerical value\n  -R, --random-sort           sort by random hash of keys\n      --random-source=FILE    get random bytes from FILE (default /dev/urandom)\n  -r, --reverse               reverse the result of comparisons\n\nOther options:\n\n  -c, --check, --check=diagnose-first  check for sorted input; do not sort\n  -C, --check=quiet, --check=silent  like -c, but do not report first bad line\n      --compress-program=PROG  compress temporaries with PROG;\n                              decompress them with PROG -d\n  -k, --key=POS1[,PO"
+    },
+    "dd": {
+      "path": "/usr/bin/dd",
+      "real": "/usr/bin/dd|",
+      "version": "dd (coreutils) 6.9 Copyright (C) 2007 Free Software Foundation, Inc. This is free software.  You may redistribute copies of it under the terms of the GNU General Public License <http://www.gnu.org/lic",
+      "help": "Usage: /usr/bin/dd [OPERAND]...\n  or:  /usr/bin/dd OPTION\nCopy a file, converting and formatting according to the operands.\n\n  bs=BYTES        force ibs=BYTES and obs=BYTES\n  cbs=BYTES       convert BYTES bytes at a time\n  conv=CONVS      convert the file as per the comma separated symbol list\n  count=BLOCKS    copy only BLOCKS input blocks\n  ibs=BYTES       read BYTES bytes at a time\n  if=FILE         read from FILE instead of stdin\n  iflag=FLAGS     read as per the comma separated symbol list\n  obs=BYTES       write BYTES bytes at a time\n  of=FILE         write to FILE instead of stdout\n  oflag=FLAGS     write as per the comma separated symbol list\n  seek=BLOCKS     skip BLOCKS obs-sized blocks at start of output\n  skip=BLOCKS     skip BLOCKS ibs-sized blocks at start of input\n  status=noxfer   suppress transfer statistics\n\nBLOCKS and BYTES may be followed by the following multiplicative suffixes:\nxM M, c 1, w 2, b 512, kB 1000, K 1024, MB 1000*1000, M 1024*1024,\nGB 1000*1000*1000, G 1024*1024*1024, and so on for T, P, E, Z, Y.\n\nEach CONV symbol may be:\n\n  ascii     from EBCDIC to ASCII\n  ebcdic    from ASCII to EBCDIC\n  ibm       from ASCII to alternate EBCDIC\n  block     pad ne"
+    },
+    "base64": {
+      "path": "/usr/bin/base64",
+      "real": "/usr/bin/base64|",
+      "version": "base64 (GNU coreutils) 6.9 Copyright (C) 2007 Free Software Foundation, Inc. This is free software.  You may redistribute copies of it under the terms of the GNU General Public License <http://www.gnu",
+      "help": "Usage: /usr/bin/base64 [OPTION] [FILE]\nBase64 encode or decode FILE, or standard input, to standard output.\n\n  -w, --wrap=COLS       Wrap encoded lines after COLS character (default 76).\n                        Use 0 to disable line wrapping.\n\n  -d, --decode          Decode data.\n  -i, --ignore-garbage  When decoding, ignore non-alphabet characters.\n\n      --help            Display this help and exit.\n      --version         Output version information and exit.\n\nWith no FILE, or when FILE is -, read standard input.\n\nThe data are encoded as described for the base64 alphabet in RFC 3548.\nWhen decoding, the input may contain newlines in addition to the bytes of\nthe formal base64 alphabet.  Use --ignore-garbage to attempt to recover\nfrom any other non-alphabet bytes in the encoded stream.\n\nReport bugs to <bug-coreutils@gnu.org>.\n"
+    }
+  },
+  "p2": {
+    "sdk_exit": 0,
+    "bytes": 771,
+    "dd_exit": "0",
+    "records": 8,
+    "first_header": "3,312350,66329869761,-;[sdp_runtime_pm] sdp_dp_main: calls in suspend from CRSThread.",
+    "sequence_deltas": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "raw_path": "C:\\Users\\Kninetimmy\\samtv\\.memhub\\prep\\qn90b-uep-r19-probe-20261111\\kmsg-sample.txt",
+    "sequences": [
+      312350,
+      312351,
+      312352,
+      312353,
+      312354,
+      312355,
+      312356,
+      312357
+    ]
+  }
+}

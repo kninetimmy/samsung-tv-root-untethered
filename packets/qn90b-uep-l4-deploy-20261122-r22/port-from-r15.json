@@ -1,0 +1,579 @@
+{
+  "counts": {
+    "added": 2,
+    "carried": 56,
+    "delta": 32,
+    "removed": 1
+  },
+  "directories": {
+    "r21": [
+      "artifacts",
+      "build",
+      "evidence",
+      "module"
+    ],
+    "r22": [
+      "artifacts",
+      "build",
+      "evidence",
+      "module"
+    ],
+    "removed": []
+  },
+  "entries": {
+    "DenialRunner.cs": {
+      "r21": "1ecf5d578363e675bf37d999a89c24b6435d3950b68fb54541e205cee8b6db90",
+      "r22": "1ecf5d578363e675bf37d999a89c24b6435d3950b68fb54541e205cee8b6db90",
+      "status": "carried"
+    },
+    "DenialRunner.csproj": {
+      "r21": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "r22": "c0e3c4f70f65ebdd2bae5a7a25cc189138f696ddff6394a395dfb7c7e29d62b8",
+      "status": "carried"
+    },
+    "DenialSelfTest.cs": {
+      "r21": "bdd0b69b4e8ea5bba004af70f44d656ef9e2c17f0d7ffe61d30b38918c5f4e7b",
+      "r22": "bdd0b69b4e8ea5bba004af70f44d656ef9e2c17f0d7ffe61d30b38918c5f4e7b",
+      "status": "carried"
+    },
+    "DenialSelfTest.csproj": {
+      "r21": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "r22": "5e4d0aea56e67d3cf0b2f631178f4e361b7a3498830d7ef7d8113a9c7e353692",
+      "status": "carried"
+    },
+    "PLAN.md": {
+      "r21": "d449004d521d020eddffe62457d65322c61ee351529944adcd72445b2ab09da1",
+      "r22": "b65bb46c5bc1d7eaf0ea63bd02e64289d998f2661e05235cdd50d9cc1641bf17",
+      "reason": "Describe r21 M1/m1 closures, inherited readiness evidence, exact bootstrap and refusal boundaries",
+      "status": "delta"
+    },
+    "UepGateAgent.cs": {
+      "r21": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "r22": "870178c94344d6f910a888fa2fa1a44396abf348e24ba3594c6bb28e472c4bb3",
+      "status": "carried"
+    },
+    "UepGateAgent.csproj": {
+      "r21": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "r22": "068a9b747aeac9366bae29bf49c28dd5d30e6229133082087da6b1daab862cc0",
+      "status": "carried"
+    },
+    "active.py": {
+      "r21": "968a551ed8bc9eb2ee99911f7af0033578bebb533d425519d1d15f42f7797c17",
+      "r22": "a890b76e2a93101326d989a933974f481cb07a5192a98a50763fb1d5fe57e71c",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "artifacts/FdetProbe.dll": {
+      "r21": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "r22": "2cfec6d19ab3ddcc7eb5ec4fe0cb511bf45864994cf990daf2e1ea722b88a8bb",
+      "status": "carried"
+    },
+    "artifacts/FdetProbe.runtimeconfig.json": {
+      "r21": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r22": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.dll": {
+      "r21": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "r22": "3b1e3a80dcb4b6aab8ad4c97bea6bf24ae536fe3a90b633e9e6a3755cf217d1f",
+      "status": "carried"
+    },
+    "artifacts/UepGateHost.runtimeconfig.json": {
+      "r21": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r22": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/manager.dll": {
+      "r21": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "r22": "449cf034c0b5ad26852740fdb5046f5301d7116610008abb0c15e185a196f86c",
+      "status": "carried"
+    },
+    "artifacts/manager.runtimeconfig.json": {
+      "r21": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r22": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "status": "carried"
+    },
+    "artifacts/uep-probe.elf": {
+      "r21": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "r22": "d1b87cbaf563e6a454fb85903727e497109ec219693e1ec0183cea817e5c266d",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.dll": {
+      "r21": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "r22": "e2b14b4935328f06282966c44624d9f8237048f677a159404253300edcc8184a",
+      "status": "carried"
+    },
+    "artifacts/v518-manager.runtimeconfig.json": {
+      "r21": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "r22": "2c6dd6135c044b210aa1168389205f5c4c2b6d721328f15a69d4dbde3510030b",
+      "status": "carried"
+    },
+    "authoring_checks.py": {
+      "r21": "d907c28ac418844425f83b785780fb9312ed5f4f7f32e4b2423b2fb2fa977947",
+      "r22": "226c57a1e797c24e24cb9f1e7072e9e46dd7635a649461da4b272265e008a5ec",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "bootstrap_sdk.py": {
+      "r21": "452351a64915e654e6b9577ad06f5a6170c6d7c408bbbbf0b717192f537781bb",
+      "r22": "1e91bce7eff9a462cb2cbf01de28b7b4a9634b370610f5c8b1061fbfeb8d4def",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "build/DenialRunner.deps.json": {
+      "r21": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "r22": "70dd5787391e1e2f8835b978063cd688510e12ad3b972fdf3229d0068ddc3f1d",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.dll": {
+      "r21": "87537fefaac0a086879036a6630a3855e8239a218e29a5a9a09472ea055db727",
+      "r22": "87537fefaac0a086879036a6630a3855e8239a218e29a5a9a09472ea055db727",
+      "reason": "Rebuild unchanged denial helper with SDK 3.1.426",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.runtimeconfig.dev.json": {
+      "r21": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r22": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/DenialRunner.runtimeconfig.json": {
+      "r21": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r22": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Regenerate denial helper netcoreapp3.1 runtimeconfig",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.deps.json": {
+      "r21": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "r22": "aeced84e34e84c52f7ff2d15294a52efdddc33f981cda819cb057af7f4551173",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.dll": {
+      "r21": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "r22": "97dca7c0dab614bf4a273b6d8e424f61fd1b15f8749685207d1af2ff9ccff467",
+      "reason": "Rebuild unchanged regression-only agent with SDK 3.1.426",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": {
+      "r21": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "r22": "d8b456110795d28b8678439550b38184260c27fc438ff95e3457c946b27fa4d0",
+      "reason": "Unsealed compiler auxiliary; never a live input",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "build/SamsungTvRootAgent.runtimeconfig.json": {
+      "r21": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "r22": "ed69fdc80437b2d0fd2b177d018a6e800517200e4fb6dd54705f5a62a908ec38",
+      "reason": "Regenerate inherited regression agent runtimeconfig",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "certify.py": {
+      "r21": "213c6fa24dbadac58e5a3858fa85c384fec9c364dd8db2af6ef7d3ac6ce31bff",
+      "r22": "222ee62c719ab6820367c22b11b4a11fb9c5d36d489db4aa34aaf0d8bd16146d",
+      "reason": "Pre-import bootstrap plus current r22 event names, without changing device pins",
+      "status": "delta"
+    },
+    "denial.py": {
+      "r21": "889e8f892e3408f9ed56caeb1b15e68d4f8b9d94fc4acb724659c07d897082b8",
+      "r22": "99d9bf771f1d3829e77d080b03f46bd9daa3d0b00716c24ca2ad6c4bc0a94e36",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "deploy.py": {
+      "r21": "a009ef04e593a8d145b80a02c25d6298056a536b57950098bb66cf2a09ab3203",
+      "r22": "bd52ef24eecfd588b0fa7c4db053bf57f39c99f3caf182fb784530db852af50d",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "disable.py": {
+      "r21": "c0eb57d23ff2e8bb087f61aa9d8f844eb05909b872f91e29787c73a6c851465a",
+      "r22": "58fc94e16163aafcea824a8d6212b060ecf5ee2dc92e7e70e2ded6c66f36eace",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "driver_checks.py": {
+      "r21": "32689c33e5f086c5badca4643a9a7d9b188b7b4a6b759ccd3ec097b8c6ea99b9",
+      "r22": "79d06f4b04acc8fe3591bcd329a171a3fd8c5e443f6ba15f7c73663b50b09c28",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "driver_shim.py": {
+      "r21": "a69330ea5efb253868e5ee0987afe97f111fd535019115c70db0aa5bd0fc078f",
+      "r22": "aed7d1d77d050f776c627a7c68565e63f58640240484cfa7ced229501846f3b8",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "evidence/FORENSIC.md": {
+      "r21": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "r22": "baf60e5046f5e3e1792645ae4e281b651746551a3c4951eaa39cfa465d5f7e2a",
+      "status": "carried"
+    },
+    "evidence/R15-INCIDENT.md": {
+      "r21": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "r22": "f55c4c71f5d348301d2469fc4f5fa1239fa50f13b829873578d32be0cb876441",
+      "status": "carried"
+    },
+    "evidence/R15-PLAN.md": {
+      "r21": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "r22": "ef51bbdd47027f66ce4edd86d616a68ab411be7e3b6972e6603bb909c676684a",
+      "status": "carried"
+    },
+    "evidence/anchored-proof.txt": {
+      "r21": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "r22": "90dd4328ec810b4646745d4940b39652dd4d519e9b247c59ea5f517372aefc29",
+      "status": "carried"
+    },
+    "evidence/dmesg_grep.txt": {
+      "r21": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "r22": "62e5eddc205cc1c28a37709477b7814745f4d1496ea4968e10a19e93c50068f9",
+      "status": "carried"
+    },
+    "evidence/measurement.json": {
+      "r21": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "r22": "11721bd3e0ba9328b30c2b81b9a9c8e57c082ef56d23b015a68ef2c48429140b",
+      "status": "carried"
+    },
+    "evidence/r14-evidence-digests.json": {
+      "r21": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "r22": "53002e0fcaa885b3063a44ff1f463b531f74c26c992b4a375afa11e540296ae6",
+      "status": "carried"
+    },
+    "evidence/r15-evidence-digests.json": {
+      "r21": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "r22": "6d2c2e33daa626f739fbdfdc2777824e3fda46b3183b0684f90fc3982420198f",
+      "status": "carried"
+    },
+    "evidence/r16-evidence-digests.json": {
+      "r21": "bd88869a312218e37ad632a997e3b57aff132dac4a0367e61b0356d757d71c5c",
+      "r22": "bd88869a312218e37ad632a997e3b57aff132dac4a0367e61b0356d757d71c5c",
+      "status": "carried"
+    },
+    "evidence/r17-evidence-digests.json": {
+      "r21": "25be850aed3f7325088dbb28b62aea6b3ebe58ac5b80a096b5eee9ee57118e59",
+      "r22": "25be850aed3f7325088dbb28b62aea6b3ebe58ac5b80a096b5eee9ee57118e59",
+      "status": "carried"
+    },
+    "evidence/r17-incident.json": {
+      "r21": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "r22": "54e6c52481b71b6f7ece6f99c1ec0da9259d70ea64b55bf17525744af9d8d5da",
+      "status": "carried"
+    },
+    "evidence/r18-evidence-digests.json": {
+      "r21": "e339d749e9fe75a454589f5bb66b06cfa339469a96f4a82aece6b0b4b8e76fc1",
+      "r22": "e339d749e9fe75a454589f5bb66b06cfa339469a96f4a82aece6b0b4b8e76fc1",
+      "status": "carried"
+    },
+    "evidence/r19-evidence-digests.json": {
+      "r21": "dec58c4d48ae2000467d436a0e90f1999f05f798f4adf9ac0c5460d4e51432ce",
+      "r22": "dec58c4d48ae2000467d436a0e90f1999f05f798f4adf9ac0c5460d4e51432ce",
+      "status": "carried"
+    },
+    "evidence/r19-incident.json": {
+      "r21": "bda7c4cda286b874076e3c6d06a22dcdaaf05a212df770c2405a192d26e9453c",
+      "r22": "bda7c4cda286b874076e3c6d06a22dcdaaf05a212df770c2405a192d26e9453c",
+      "status": "carried"
+    },
+    "evidence/r19-probe.json": {
+      "r21": "9907ac5176ebae9c7611e59756e772bec9bfcf9161367f62f843b575d44bd036",
+      "r22": "9907ac5176ebae9c7611e59756e772bec9bfcf9161367f62f843b575d44bd036",
+      "status": "carried"
+    },
+    "evidence/r19-proposal.md": {
+      "r21": "3ad12d1529ddc14a92d914236c3401550f7a04118504d743ee60b48225c5d202",
+      "r22": "3ad12d1529ddc14a92d914236c3401550f7a04118504d743ee60b48225c5d202",
+      "status": "carried"
+    },
+    "evidence/r20-evidence-digests.json": {
+      "r21": "165f92edd4e1846ba8ecebb24c69a1aa6d2fecce60cd0d9720b3b316a0ae793e",
+      "r22": "165f92edd4e1846ba8ecebb24c69a1aa6d2fecce60cd0d9720b3b316a0ae793e",
+      "status": "carried"
+    },
+    "evidence/r21-evidence-digests.json": {
+      "r21": null,
+      "r22": "bd117fed063e2cd4796ab03590e811501bb3a202652200bca17deb1e48a9a3ee",
+      "reason": "Fresh complete r21 immutable whole-tree snapshot including unsealed readiness receipts",
+      "status": "added"
+    },
+    "evidence/r21-readiness.json": {
+      "r21": null,
+      "r22": "50ca14fc731c152cb5d6116567acacc54c0d985fe65b890e7a11ff6cc18a6491",
+      "reason": "Exact selected inherited device receipt rows with line citations and whole-stream digest; not a new probe",
+      "status": "added"
+    },
+    "evidence/r8-fixture-receipts.json": {
+      "r21": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "r22": "7be1fbfb5ee8ea960bd455839af1ea0c0aaf410794abec93ccb81b1a417e2bac",
+      "status": "carried"
+    },
+    "evidence/source-digests.json": {
+      "r21": "ea4023f906caa912081651fab83559a4441260a9445908174e9fc442a857928c",
+      "r22": "ea4023f906caa912081651fab83559a4441260a9445908174e9fc442a857928c",
+      "status": "carried"
+    },
+    "flow_cases.py": {
+      "r21": "cb5edeaa8f7bd3feb577bf7f1aac44b1485948d0c5296279e3267fc54993a68c",
+      "r22": "1a5566cf59e2a46f4689818098006cef1e1525e7afe8802e6532b76263081824",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "gate-config-active.sh": {
+      "r21": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "r22": "251d055058cc48c373e7a39ac4b6dc4efbb452a46bd46ef2af8ecbcf4c0eba82",
+      "status": "carried"
+    },
+    "gate-install.sh": {
+      "r21": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "r22": "9e7764b40b88f7243b90a0f9ea2ce1d7a7760888d6d98298fc58532ff549cb30",
+      "status": "carried"
+    },
+    "gate-remove.sh": {
+      "r21": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "r22": "00dd8db6a75c3ea41934f58dbc24952b7050f0fa1228e982e34a42ba7906b409",
+      "status": "carried"
+    },
+    "inspect_tv.py": {
+      "r21": "a99300d50df869963998b9e546209fac5fcc504e2cdcf434add670d36201fe02",
+      "r22": "d8a372af7da2e4aaad688524917c37c952c42c3151b834730d4700d679153b20",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "inspection.json": {
+      "r21": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "r22": "6928bff02df66321f675636308588ae73f4041b9c5b0c13f9c69b6c02ffccc5b",
+      "status": "carried"
+    },
+    "install.py": {
+      "r21": "b0ed8735cd210ebd4106a64c8016862165012ca345f422dd7faf24a3518902c4",
+      "r22": "130a803421d7cc8f4df9ee11fb83370c159c369cf020ef602d2f38871929e7df",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "module/boot.sh": {
+      "r21": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "r22": "1afd5b7c8c4158714726e627f70ef72adcb394e0e3db3eb563609fd41d2456b0",
+      "status": "carried"
+    },
+    "module/module.json": {
+      "r21": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "r22": "63b13c8439e4bcf94cd186406641a2a81368896cf43c8355b67352e6294177f5",
+      "status": "carried"
+    },
+    "mutation-results.json": {
+      "r21": "e2bcbfb58cd4b5383c1c3ba18661e32e0496e2f25dd700bdbf708d112b384aac",
+      "r22": "663c463460014ce44ba3cea4e414f58c305991de0bff2e87c84c1769a6038744",
+      "reason": "Execute full catalog including bootstrap and refusal-route mutants; count distinct transformations separately",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "mutation_checks.py": {
+      "r21": "5d6e44069d6befa6b1e9d1f3dbe1d8c55cd5d7a1605ad56f308d8020d7f9af7c",
+      "r22": "6631b495f6e7001f8d53a636da060b44bd26766cce0976f8bc1b4f0ef0e8d154",
+      "reason": "Pre-import bootstrap; kill bootstrap, packet-cache, refusal-route and missing-case-registration defects for intended reasons",
+      "status": "delta"
+    },
+    "offline_checks.py": {
+      "r21": "5ced8b72138392ce511ec614d0aebe00e49ba4aad29d13a0e9066bce98dfaea6",
+      "r22": "7311882124cd7a1a91f0969541b317106213871edbed4553400f9e12d99e904c",
+      "reason": "Pre-import bootstrap; verify extended regressions and immutable r16-r21 trees before sealing",
+      "status": "delta"
+    },
+    "packet.py": {
+      "r21": "22ed44c602d446c82369a71eefd229877a3e68a465987a55c7d65dc47be635cc",
+      "r22": "aa32096e7745c2079e18b9ee3fc719333cfac1caae90a7ed2420942f48ac39f8",
+      "reason": "Adopt and harden bootstrap prefix; verify privacy before refusal writes and name private fallback; extend seal set",
+      "status": "delta"
+    },
+    "port_from_r15.py": {
+      "r21": "42144cf4e3940feee33a169ba9d8f8f9df0da1f1ee279bc34d2ecd6183bb7e67",
+      "r22": "ee62e654acbb91f6f2e4948cdea6f5fde94badebf4d247792143e8660f906a8b",
+      "reason": "Manifest-driven r21 -> r22 derivation, inherited readiness extraction and exhaustive delta ledger",
+      "status": "delta"
+    },
+    "prepare.py": {
+      "r21": "29c8451d212a52ac9eafb1de6409788ff37e660e86792092b6c2367cd3a9fbd4",
+      "r22": "dfbd218401865712d84487e142aed993b027ae164ec34f364f4706d30f0a05d4",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "protected-register-20261108.json": {
+      "r21": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "r22": "c8eb094676e0513b0e193c469f6e7b11ac6263154b00d75310df908cffe314e2",
+      "status": "carried"
+    },
+    "protected-register.json": {
+      "r21": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "r22": "20dddbdfd49f5b7f95816c69149ef9e1f2c155201ab696ebbeb0de57b6f83cd2",
+      "status": "carried"
+    },
+    "r16-results.json": {
+      "r21": "a76a0c0e922db41247f42e3ee9782415abd61aa009704767c5990c091f40f755",
+      "r22": "a76a0c0e922db41247f42e3ee9782415abd61aa009704767c5990c091f40f755",
+      "reason": "Execute all inherited regressions with r22 receipt labels",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "r16_checks.py": {
+      "r21": "6032a6b3dead379960b54acc4d5f53f2517330beb1754a300ec169e117cdd383",
+      "r22": "be7be756bd0ba1837e5a4999bbc4804628808ac70f85a2a220a967a7852f187e",
+      "reason": "Pre-import bootstrap and current r22 event expectations; preserve inherited regression guards",
+      "status": "delta"
+    },
+    "r21-results.json": {
+      "r21": "f8a4511da5f486f6043976b0047267cc0b0674330898ae2d8eb518c96f7b73a1",
+      "r22": "2e878ecd1817c830b66d01f1194de21f066a591fad4807e9bc6e285f6cbddb80",
+      "reason": "Execute 18 declared cases twice, including packet.pyc controls, ACL refusal routing and strict case registration",
+      "regenerated": true,
+      "status": "delta"
+    },
+    "r21_checks.py": {
+      "r21": "4346ece76f229d907b1f7d4f83ebec191ab5f93c2a8e02e4c5f74c89dcd503bb",
+      "r22": "fa8416e2da54b774b2013be03002e19f3d0186a2b65f6471353c263c34bc9d64",
+      "reason": "Structural prologue order; explicitly register packet.pyc and ACL cases; require direct registration of every *_case",
+      "status": "delta"
+    },
+    "receipts.jsonl": {
+      "r21": "2494e1ae27ba023f4f974f96648df859a48166d477a6e3ae3ad9e302f630f39b",
+      "r22": null,
+      "reason": "Do not inherit runtime stream; bind and extract the predecessor readiness evidence instead",
+      "status": "removed"
+    },
+    "recovery.py": {
+      "r21": "ab3c50a53cb4207d10ac6233a19e50cd2bc8bc818b5f116adc1bfcb2d49eddaf",
+      "r22": "e5863da315d55ee71d4b272edc7e82b0ba23ad0178788e71e14cd2d811ede3d2",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "rehearsal-results.json": {
+      "r21": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "r22": "f6e0a363a7bb3095f8660cd0f53d023491229c45972e0d0124562b50a03ab227",
+      "reason": "Execute inherited host gate-script rehearsals again; never live authority",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "relay_checks.py": {
+      "r21": "56f1aad442b3e89fb585d8a17201423befae404150ce2819ce3f3b3360a499b9",
+      "r22": "f5817ef46360b92f7cb84080642f58d5507b41ccf0777be9aa3a0f9b105c24ab",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "sdk.py": {
+      "r21": "45760629b2c41efb029ae1dd16bf667469a51693cf0607728b7026392271f364",
+      "r22": "00087b8a9635fdcc78944b3e8b398197f5d5a733fec0d38403bd779c0d4578c9",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "session-results.json": {
+      "r21": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "r22": "0f7e31e5ea91a15263db854b4819f67fe8d9242e3d9bb455cf95b94607ba0c69",
+      "reason": "Execute the entire inherited session catalog again",
+      "regenerated": true,
+      "status": "carried"
+    },
+    "session_checks.py": {
+      "r21": "c268b0c2a7bdabcb5ae49619a0cfdc75836316653a22d3b1684681d9bb9253e2",
+      "r22": "fd941b1ce6bf94c12bec0ae4cecd5fb48350ffc05266edce8cb68a63ba4de0b0",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "snapshot.sh": {
+      "r21": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "r22": "684145a82fd2168000d1c84088cbbf4cc9abc9462850b67246fa7b62fd258c0d",
+      "status": "carried"
+    },
+    "stage-status-install.json": {
+      "r21": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "r22": "be77d4940030944e8939ca223f66d253864c980de919e0ad6d5a2b8d35794042",
+      "status": "carried"
+    },
+    "stage.sh": {
+      "r21": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "r22": "64d56ef7d1abda08e6dbfefaead9b0c9f016e960d1cf831f59bb3e9a75974bd0",
+      "status": "carried"
+    },
+    "stage_common.py": {
+      "r21": "5caddcaa98ee43f04c9dbfd2193a46e8fddd164527f44cddd4c5682b726c1f4d",
+      "r22": "83e709b880cd008f23383689695d6d58ce761dd289434f5f9ec555cd6c5178d6",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "stage_lib.py": {
+      "r21": "c180c7483c5b4561fb0a1c1e3b5cd463045e5c91cf678d544113a79776da5f34",
+      "r22": "f43d89e52c5f78e6923efeaa64cf9912e47ecf68801b1aa3d1b311a3864f3a63",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "stage_session.py": {
+      "r21": "ed0252f91a6d5bdecef4e45f5a28e276c81e80b83950c8d1382bc115e05ec814",
+      "r22": "01fdd28c7c1730f54333eb9264ad65020a9ae91eccf0fe6bff51c738d6bd4b89",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "stage_transport.py": {
+      "r21": "cad9e3b53dd4fb4941cf481d337f352c566bc6a01024ebf0b4817a1380c5caf4",
+      "r22": "2ca0662236beddde1ca47a99443affb4ad6fd62b1ff71a587df966a21ea69fa6",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "tidy.py": {
+      "r21": "1928c0c6b652f521e8494e923cfc5295ca113cdd2ad54322f3488c69bc1390e8",
+      "r22": "4a715e89f386bb9a16ddccb9d59c37b25969c93313513d27622e98f653794c13",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    },
+    "trial.py": {
+      "r21": "d2e1ff5d2de29d018349f89d2e8da9a9d7c77e56523728e9b49d8fb00c140523",
+      "r22": "73850ca27949455f3a4fe454a61470c95d9e350420e8275ae57afb91ab7b3107",
+      "reason": "Stdlib-only fresh cache prefix before the first local import; reuse once packet is loaded",
+      "status": "delta"
+    }
+  },
+  "generated_metadata": {
+    "offline-results.json": {
+      "r21": "a73e1223810f1df6c5d1d83d9459537ea689c3744934db93eee5f8e7125cd19c",
+      "r22_digest_source": "seal.json entry",
+      "reason": "Record r22 suites, pinned zero-warning builds and zero-TV boundary",
+      "status": "regenerated"
+    },
+    "port-from-r15.json": {
+      "r21": "06a55834edb31a9ff2a41ea67359e6bc8ff3a2bab7fb12c0cff8321d1abcfb5a",
+      "r22_digest_source": "seal.json entry",
+      "reason": "Regenerate exhaustive r21 -> r22 ledger; digest lives in seal.json",
+      "status": "regenerated"
+    },
+    "seal.json": {
+      "r21": "07c92d93ebeb60c491107f991df7017fbd51d3c42836a752c445c31bcc449f89",
+      "r22_digest_source": "external seal digest",
+      "reason": "Generate exact r22 manifest; report external SHA-256 (no self-hash)",
+      "status": "regenerated"
+    }
+  },
+  "predecessor": "qn90b-uep-l4-deploy-20261121-r21",
+  "predecessor_seal_sha256": "07c92d93ebeb60c491107f991df7017fbd51d3c42836a752c445c31bcc449f89",
+  "regenerated": {
+    "build/DenialRunner.deps.json": "Unsealed compiler auxiliary; never a live input",
+    "build/DenialRunner.dll": "Rebuild unchanged denial helper with SDK 3.1.426",
+    "build/DenialRunner.runtimeconfig.dev.json": "Unsealed compiler auxiliary; never a live input",
+    "build/DenialRunner.runtimeconfig.json": "Regenerate denial helper netcoreapp3.1 runtimeconfig",
+    "build/SamsungTvRootAgent.deps.json": "Unsealed compiler auxiliary; never a live input",
+    "build/SamsungTvRootAgent.dll": "Rebuild unchanged regression-only agent with SDK 3.1.426",
+    "build/SamsungTvRootAgent.runtimeconfig.dev.json": "Unsealed compiler auxiliary; never a live input",
+    "build/SamsungTvRootAgent.runtimeconfig.json": "Regenerate inherited regression agent runtimeconfig",
+    "mutation-results.json": "Execute full catalog including bootstrap and refusal-route mutants; count distinct transformations separately",
+    "offline-results.json": "Record r22 suites, pinned zero-warning builds and zero-TV boundary",
+    "port-from-r15.json": "Regenerate exhaustive r21 -> r22 ledger; digest lives in seal.json",
+    "r16-results.json": "Execute all inherited regressions with r22 receipt labels",
+    "r21-results.json": "Execute 18 declared cases twice, including packet.pyc controls, ACL refusal routing and strict case registration",
+    "rehearsal-results.json": "Execute inherited host gate-script rehearsals again; never live authority",
+    "seal.json": "Generate exact r22 manifest; report external SHA-256 (no self-hash)",
+    "session-results.json": "Execute the entire inherited session catalog again"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "id": "uep-gate",
+  "name": "UEP boot gate (root context)",
+  "version": "5.19.0",
+  "description": "Re-applies the fingerprint-checked UEP enforcement clear after boot-root, from the root module runner. Reads /opt/usr/share/selfroot/uep-off.conf: absent means no device state is touched, read-only means one fingerprint read, active means the guarded compare-before-write clear.",
+  "author": "levkropp",
+  "scripts": { "boot": "boot.sh" },
+  "minAgent": "4"
+}
