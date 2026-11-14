@@ -1,8 +1,8 @@
 # Certification harness contract
 
-Status: accepted by the owner on 2026-11-13, recorded as memhub decision 51
-(durable after `memhub review accept`). Binding on r29 and every later packet
-that claims the L4 denial certification.
+Status: accepted by the owner on 2026-11-13, recorded as memhub decision 55.
+Binding on r29 and every later packet that claims the L4 denial
+certification.
 
 This document replaces the r28 `PLAN.md` fit criterion (a') and its clauses
 (i)-(v), which it amends. It does not modify the accepted denial certification
