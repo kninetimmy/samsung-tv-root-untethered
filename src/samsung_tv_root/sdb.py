@@ -136,6 +136,31 @@ class CaptureResult:
     transport_returncode: int
 
 
+class _RelayState:
+    """Collects the first terminal event while still waking the relay."""
+
+    def __init__(self) -> None:
+        self.finished = threading.Event()
+        self._terminal: BaseException | bool | None = None
+        self._lock = threading.Lock()
+
+    def clean_end(self) -> None:
+        with self._lock:
+            if self._terminal is None:
+                self._terminal = True
+
+    def fail(self, error: BaseException) -> None:
+        with self._lock:
+            if self._terminal is None:
+                self._terminal = error
+
+    def first_error(self) -> BaseException | None:
+        with self._lock:
+            if isinstance(self._terminal, BaseException):
+                return self._terminal
+            return None
+
+
 class SdbBridgeProxy:
     def __init__(
         self,
@@ -153,6 +178,8 @@ class SdbBridgeProxy:
         self._listener: socket.socket | None = None
         self._thread: threading.Thread | None = None
         self._stopping = threading.Event()
+        self._error_lock = threading.Lock()
+        self._errors: list[BaseException] = []
 
     @property
     def serial(self) -> str:
@@ -185,6 +212,18 @@ class SdbBridgeProxy:
             self._thread.join(timeout=1.0)
             self._thread = None
 
+    def _record_error(self, error: BaseException) -> None:
+        with self._error_lock:
+            if not self._errors:
+                self._errors.append(error)
+
+    def check(self) -> None:
+        """Raise the first transport failure instead of reporting success."""
+        with self._error_lock:
+            error = self._errors[0] if self._errors else None
+        if error is not None:
+            raise SdbError(f"SDB bridge transport failed: {error}") from error
+
     def _accept_connections(self) -> None:
         listener = self._listener
         if listener is None:
@@ -194,8 +233,12 @@ class SdbBridgeProxy:
                 client, _ = listener.accept()
             except socket.timeout:
                 continue
-            except OSError:
-                return
+            except OSError as error:
+                if self._stopping.is_set():
+                    return
+                failure = SdbError(f"SDB bridge listener failed: {error}")
+                self._record_error(failure)
+                raise failure from error
             threading.Thread(
                 target=self._relay,
                 args=(client,),
@@ -206,26 +249,35 @@ class SdbBridgeProxy:
     def _relay(self, client: socket.socket) -> None:
         remote: socket.socket | None = None
         try:
-            remote = socket.create_connection(
-                (self.tv_host, self.bridge_port), timeout=5.0
-            )
-            remote.settimeout(None)
-            remote.sendall(self.token)
-            client.settimeout(None)
-            finished = threading.Event()
-            threading.Thread(
-                target=self._pump,
-                args=(client, remote, finished),
-                daemon=True,
-            ).start()
-            threading.Thread(
-                target=self._pump,
-                args=(remote, client, finished),
-                daemon=True,
-            ).start()
-            finished.wait()
-        except OSError:
-            pass
+            try:
+                remote = socket.create_connection(
+                    (self.tv_host, self.bridge_port), timeout=5.0
+                )
+                remote.settimeout(None)
+                remote.sendall(self.token)
+                client.settimeout(None)
+                state = _RelayState()
+                threading.Thread(
+                    target=self._pump,
+                    args=(client, remote, state),
+                    daemon=True,
+                ).start()
+                threading.Thread(
+                    target=self._pump,
+                    args=(remote, client, state),
+                    daemon=True,
+                ).start()
+                state.finished.wait()
+                error = state.first_error()
+                if error is not None:
+                    raise SdbError(
+                        f"SDB bridge transport failed: {error}"
+                    ) from error
+            except OSError as error:
+                raise SdbError(f"SDB bridge connection failed: {error}") from error
+        except BaseException as error:
+            self._record_error(error)
+            raise
         finally:
             try:
                 client.shutdown(socket.SHUT_RDWR)
@@ -243,21 +295,27 @@ class SdbBridgeProxy:
     def _pump(
         source: socket.socket,
         destination: socket.socket,
-        finished: threading.Event,
+        state: _RelayState,
     ) -> None:
         try:
             while True:
                 readable, _, exceptional = select.select([source], [], [source])
-                if exceptional or not readable:
+                if exceptional:
+                    raise SdbError(
+                        "SDB bridge socket reported an exceptional condition"
+                    )
+                if not readable:
+                    state.clean_end()
                     return
                 payload = source.recv(65536)
                 if not payload:
+                    state.clean_end()
                     return
                 destination.sendall(payload)
-        except OSError:
-            return
+        except BaseException as error:
+            state.fail(error)
         finally:
-            finished.set()
+            state.finished.set()
 
 
 class SdbClient:
@@ -557,6 +615,8 @@ class SdbClient:
             raise SdbError(
                 f"sdb command timed out after {effective_timeout:g}s"
             ) from error
+        if self._bridge_proxy is not None:
+            self._bridge_proxy.check()
         if check and result.returncode != 0:
             raise SdbError(command_failure("sdb", result))
         return result
