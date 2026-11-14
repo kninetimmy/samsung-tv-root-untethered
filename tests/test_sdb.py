@@ -291,3 +291,64 @@ def test_capture_timeout_surfaces_injection_failure(monkeypatch) -> None:
             bind_host="127.0.0.1",
             timeout=0.01,
         )
+
+
+def test_pump_records_first_transport_failure(monkeypatch) -> None:
+    state = sdb_module._RelayState()
+
+    class FailingSource:
+        def recv(self, size: int) -> bytes:
+            raise OSError("pump read failed")
+
+    class UnusedDestination:
+        def sendall(self, payload: bytes) -> None:
+            raise AssertionError("destination must not be used after a read failure")
+
+    monkeypatch.setattr(
+        sdb_module.select,
+        "select",
+        lambda readers, writers, errors: ([object()], [], []),
+    )
+    sdb_module.SdbBridgeProxy._pump(FailingSource(), UnusedDestination(), state)
+
+    assert state.finished.is_set()
+    error = state.first_error()
+    assert isinstance(error, OSError)
+    assert "pump read failed" in str(error)
+
+
+def test_pump_treats_clean_end_as_success(monkeypatch) -> None:
+    state = sdb_module._RelayState()
+
+    class ClosedSource:
+        def recv(self, size: int) -> bytes:
+            return b""
+
+    class UnusedDestination:
+        def sendall(self, payload: bytes) -> None:
+            raise AssertionError("destination must not be used after EOF")
+
+    monkeypatch.setattr(
+        sdb_module.select,
+        "select",
+        lambda readers, writers, errors: ([object()], [], []),
+    )
+    sdb_module.SdbBridgeProxy._pump(ClosedSource(), UnusedDestination(), state)
+
+    assert state.finished.is_set()
+    assert state.first_error() is None
+
+
+def test_sdb_client_run_surfaces_bridge_transport_failure(monkeypatch) -> None:
+    client = SdbClient(Path("sdb"), "192.0.2.50")
+    proxy = SdbBridgeProxy("192.0.2.50", 26103, "a1" * 16)
+    proxy._record_error(OSError("pump read failed"))
+    client._bridge_proxy = proxy
+    monkeypatch.setattr(
+        sdb_module.subprocess,
+        "run",
+        lambda *args, **kwargs: subprocess.CompletedProcess(args[0], 0, "", ""),
+    )
+
+    with pytest.raises(SdbError, match="SDB bridge transport failed"):
+        client.run(("devices",), check=False)
