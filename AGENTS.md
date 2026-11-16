@@ -2,6 +2,16 @@
 
 Samsung TV root tooling. Use standalone Codex; Orch is disabled.
 
+## Writing style
+
+Plain language is the default for everything written to the owner: chat
+answers, handoffs, STATUS and review prose. Short sentences, no unexplained
+jargon, no piled-up acronyms. Keep a technical term when it is the precise
+one or when plain wording would lose meaning, and define it the first time
+it appears. Lead with the outcome; put hashes, paths and counts after the
+sentence that says what they mean. Code, identifiers and evidence files are
+exempt.
+
 ## Session continuity
 
 Memhub at `.memhub/project.sqlite` is the source of truth.
