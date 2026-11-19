@@ -28,6 +28,61 @@ robustness against a deliberately hostile channel (section 5).
 A mechanism earns credit only by executing. Prose, names, comments and
 self-attestation are never evidence and never gate.
 
+### 1.1 Bounded offline trusted-recipe execution (proposed 2026-11-18 amendment)
+
+For the frozen, trusted five-operation recipes and their immutable input and
+toolchain universe, certification may claim execution within a qualified
+less-privileged AppContainer (LPAC) with no network capabilities, a
+creation-time non-breakaway kill-on-close job, enforced static native image
+authorization, supervisor single-use root bindings and a measured closed-world
+descendant inventory. This claim applies only after the complete composition
+has been qualified on the pinned host and policy bytes and the owner has
+accepted its evidence. It is not a claim that the current draft is qualified.
+
+No network, including loopback and brokered network access; filesystem writes
+only in exact assigned private roots; and process-tree containment and
+termination remain preventive requirements. Complete zero-member teardown,
+independent controller-loss recovery evidence, single-use root tokens, actual
+caller/source/input bindings, genuine raw channels and parent verification
+remain mandatory. Missing, incomplete, contradictory or unavailable required
+evidence is EVIDENCE_FAILURE, with precedence over a completion marker, zero
+exit or expected refusal. An incomplete trace never becomes an accepted run.
+
+Static native image authorization is preventive only for images outside the
+effective enforced native allow set. That set is machine-wide and also permits
+reviewed Windows and controller images; those allowances are not automatically
+inaccessible to fixtures. The reachable allow set and native hash semantics
+must be disclosed and qualified. Native Authenticode/PE hashes are not raw
+whole-file SHA-256 pins, and static authorization does not certify a new
+per-descendant raw-image-object admission decision.
+
+For images inside that allow set, creator/parent/argv/role/edge and total
+occurrences are declared operation expectations reconciled with complete
+observed lineage, native image-policy block events and measured input/process
+inventory. An unexpected allowed-image use may execute before the run is
+refused POST-EXECUTION. This is not a pre-execution veto. This amendment does
+not certify pre-execution per-operation creator/parent/argv/edge/total-occurrence
+admission for arbitrary native descendants, an atomic total-creation budget,
+or a descendant admission barrier tied to logging health or operation sealing.
+Closing supervisor root launches does not prevent every further allowed child
+creation before job termination takes effect.
+
+Frozen recipe behavior and the pinned scripts, assemblies, build inputs,
+interpreters, Windows enforcement and external supervisor are trusted.
+Arbitrary hostile native fixture code, kernel compromise and deliberate
+administrator replacement of trusted components are outside this narrowed
+containment claim. This does not relax required network/write enforcement,
+live private-root ACLs, immutable input closure, complete observation,
+raw-channel integrity or the existing certification/oracle identity rules.
+
+The five operations remain nested Python, relay stdin, Release self-test
+build, managed self-test and the exact supervisor-owned junction operation.
+Only the eight existing task-101 obligation keys may use the bounded route;
+their exact source-bound recipes and instances must be frozen. All eight
+still require fresh task 97 executions through their actual consumers.
+No obligation is waived, and qualification checkpoints provide no obligation
+acceptance, frozen-generation credit, seal, readiness or device authority.
+
 ## 2. Boundary sites
 
 ### 2.0 Scope: the attempt path
@@ -43,7 +98,10 @@ the packet runs it. The boundary inventory proves that path.
   constructors, callback registrations and terminal accounting needed to run
   `ATTEMPT_ENTRIES`. Resolve calls conservatively across aliases, inheritance
   and callbacks. An unresolved target includes every compatible target in the
-  closed universe, or refuses the gate. An allowlist entry does not exempt that
+  closed universe, or refuses the gate. That rule defines scope and
+  reachability; it does not by itself create a consumer/reporter execution
+  obligation (see the last bullet in this section). An allowlist entry does not
+  exempt that
   module's reachable packet-owned code. Moving code or introducing indirection
   cannot remove it from scope without an executable exclusion proof.
 - A site outside the attempt path is not a certification boundary. It must be
@@ -62,6 +120,18 @@ the packet runs it. The boundary inventory proves that path.
 The claim given up is that every catch in test scaffolding is a certification
 boundary. That scaffolding remains covered by expected-code consumers, the four
 outcome kinds and the mutation oracle.
+
+- A consumer/reporter execution obligation attaches only to a call site whose
+  resolved target set is exactly the matcher or the reporter (`failure.expect`,
+  `failure.report`). A conservative resolution is scope evidence, not an
+  obligation. Such a site is recorded as an unresolved consumer/reporter alias,
+  counted per source, published with the consumer document, and capped by
+  `boundary_contract.ALIAS_DEBT_CAP`. The gate refuses when the count exceeds the
+  cap; the cap changes only by an owner-approved amendment. An alias is never
+  proof and never counts as an accepted control, and a site that later resolves
+  exactly acquires its obligation immediately. This amendment (2026-11-16)
+  narrows the obligation only: attempt-path scope, boundary-site classes, catch
+  dispositions, integration obligations and the mutation oracle are unchanged.
 
 ### 2.1 Classes
 
@@ -222,6 +292,13 @@ every member, the supervisor decodes evidence produced during the run, and
 verification covers the interval from seal to use. Accidental corruption,
 truncation, overwrite and provenance mismatch are in scope. Deliberate
 replacement of the trusted baseline is out of scope (section 5).
+
+The consumer document publishes the unresolved consumer/reporter alias debt with
+its count and cap, and the gate records that count outside its issue list. The
+debt is a disclosed limitation, not a waiver: a matcher or reporter call
+reachable only through an unresolved alias is not covered by per-site execution,
+and the packet does not claim otherwise. The static audit that produces the
+alias list is itself part of the packet.
 
 ## 5. Trust boundary
 
