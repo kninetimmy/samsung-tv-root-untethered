@@ -1,3 +1,5 @@
+import ctypes as c
+from ctypes import wintypes as w
 import json
 import multiprocessing
 import os
@@ -19,7 +21,8 @@ def workspace(tmp_path):
 
 @pytest.mark.skipif(os.name != "nt", reason="Windows native owner/DACL evidence")
 def test_windows_native_descendant_privacy_probe(tmp_path):
-    # No Batch fixture: preserve the native rejection even when Batch cannot start.
+    # Inherited DACLs do not override an elevated token's default owner.
+    # Inspect the actual owner before choosing the required accept/refuse assertion.
     root = tmp_path / "native-private"
     try:
         win.make_private(root)
@@ -27,8 +30,45 @@ def test_windows_native_descendant_privacy_probe(tmp_path):
         child.mkdir()
         file = child / "inherited-file"
         file.write_bytes(b"private probe")
-        for path in (root, child, file):
-            win.private_acl(path)
+        win.private_acl(root)
+        kernel, security = win.libraries()
+        security.GetNamedSecurityInfoW.argtypes = [
+            w.LPWSTR,
+            w.DWORD,
+            w.DWORD,
+            c.POINTER(c.c_void_p),
+            c.c_void_p,
+            c.c_void_p,
+            c.c_void_p,
+            c.POINTER(c.c_void_p),
+        ]
+        current = win.owner_sid()
+        for path in (child, file):
+            owner, descriptor = c.c_void_p(), c.c_void_p()
+            code = security.GetNamedSecurityInfoW(
+                str(path), 1, 1, c.byref(owner), None, None, None, c.byref(descriptor)
+            )
+            if code:
+                raise c.WinError(code)
+            try:
+                actual = win.sid_text(owner)
+            finally:
+                kernel.LocalFree(descriptor)
+            if actual == current:
+                win.private_acl(path)
+            else:
+                with pytest.raises(ValueError, match="owner mismatch") as caught:
+                    win.private_acl(path)
+                evidence = json.loads(str(caught.value).split("; security=", 1)[1])
+                assert evidence["actual_owner_sid"] == actual != current
+                assert evidence["token_default_owner_sid"] == actual
+                assert evidence["expected_user_sid"] == current
+                assert evidence["dacl"] == "present" and evidence["ace_count"] == 2
+                assert {ace["sid"] for ace in evidence["aces"]} == {current, "S-1-5-18"}
+                assert all(
+                    ace["type"] == 0 and ace["mask"] == 0x1F01FF
+                    for ace in evidence["aces"]
+                )
     except (OSError, ValueError) as error:
         pytest.fail(f"native descendant privacy probe: {error}", pytrace=False)
 
@@ -219,7 +259,7 @@ def test_windows_private_creation_and_preexisting_refusal(tmp_path):
     win.make_private(path)
     win.private_acl(path)
     child = path / "child"
-    child.mkdir()
+    win.make_private(child)
     win.private_acl(child)
     # An unrelated system directory does not qualify and is not rewritten.
     with pytest.raises(ValueError, match="private|access"):
