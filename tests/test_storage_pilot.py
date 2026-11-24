@@ -69,6 +69,102 @@ def fake_run(batch, worker, label, command, env, scratch):
     return b""
 
 
+def test_restore_and_build_disable_automatic_response_files(setup, monkeypatch):
+    batch, root, dotnet, cache = setup
+    checked = []
+
+    def command(*args):
+        if args[2] in {"restore", "build"}:
+            assert "-noAutoResponse" in args[3]
+            checked.append(args[2])
+        return fake_run(*args)
+
+    monkeypatch.setattr(pilot, "run_command", command)
+    monkeypatch.setattr(pilot, "cached_references", lambda *a: None)
+    pilot.execute_pilot(batch, root, dotnet, cache)
+    assert checked == ["restore", "build"]
+
+
+@pytest.mark.parametrize("component", [";tag=one", ",tag=one", "%20", "@(tag)"])
+def test_cli_refuses_msbuild_workspace_ancestor_before_batch(
+    tmp_path, monkeypatch, capsys, component
+):
+    ancestor = tmp_path / component
+    ew.make_private(ancestor)
+    workspace = ancestor / "selected workspace"
+    ew.make_private(workspace)
+    # Native workspace checks are covered separately; exercise the CLI boundary.
+    monkeypatch.setattr(pilot, "validate_workspace", lambda *a: workspace)
+
+    def forbidden(*args):
+        pytest.fail("unsafe MSBuild path reached batch creation")
+
+    monkeypatch.setattr(pilot, "Batch", forbidden)
+    assert (
+        pilot.main(
+            ["--workspace", str(workspace), "--batch", "test", "--budget-gib", "20"]
+        )
+        == 2
+    )
+    assert "unsupported MSBuild path syntax" in capsys.readouterr().err
+    assert not list(workspace.iterdir())
+
+
+@pytest.mark.parametrize("component", [";tag=one", ",tag=one", "%20", "@(tag)"])
+@pytest.mark.parametrize("location", ["workspace", "cache"])
+def test_execute_refuses_msbuild_paths_before_children(
+    setup, monkeypatch, component, location
+):
+    batch, root, dotnet, cache = setup
+    if location == "workspace":
+        ancestor = batch.root.parent / component
+        ew.make_private(ancestor)
+        workspace = ancestor / "selected workspace"
+        ew.make_private(workspace)
+        batch = ew.Batch(workspace, "test", 20 * ew.GIB)
+    else:
+        cache = cache / component / "packages"
+
+    def forbidden(*args):
+        pytest.fail("unsafe MSBuild path launched a child")
+
+    monkeypatch.setattr(pilot, "git_identity", forbidden)
+    monkeypatch.setattr(pilot, "run_command", forbidden)
+    with pytest.raises(ew.WorkspaceError, match="unsupported MSBuild path syntax"):
+        pilot.execute_pilot(batch, root, dotnet, cache)
+    assert batch.report()["workers"] == {}
+
+
+@pytest.mark.parametrize("character", "%$@'();?,*")
+def test_msbuild_reserved_path_characters_are_explicitly_unsupported(character):
+    with pytest.raises(ew.WorkspaceError, match="unsupported MSBuild path syntax"):
+        pilot.validate_msbuild_path(Path("cache") / character / "packages")
+
+
+def test_msbuild_paths_keep_spaces_and_equals(setup, monkeypatch):
+    batch, root, dotnet, cache = setup
+    workspace = batch.root.parent / "selected space=one"
+    ew.make_private(workspace)
+    batch = ew.Batch(workspace, "test", 20 * ew.GIB)
+    cache = cache / "cached space=one"
+    checked = []
+
+    def command(*args):
+        if args[2] in {"restore", "build"}:
+            directory = batch.root / args[1]
+            assert f"-p:BaseIntermediateOutputPath={directory / 'obj'}/" in args[3]
+            assert f"-p:MSBuildProjectExtensionsPath={directory / 'obj'}/" in args[3]
+            assert f"-p:OutputPath={directory / 'out'}/" in args[3]
+            assert f"-p:NetCoreTargetingPackRoot={cache}" in args[3]
+            checked.append(args[2])
+        return fake_run(*args)
+
+    monkeypatch.setattr(pilot, "run_command", command)
+    monkeypatch.setattr(pilot, "cached_references", lambda *a: None)
+    pilot.execute_pilot(batch, root, dotnet, cache)
+    assert checked == ["restore", "build"]
+
+
 @pytest.mark.skipif(os.name != "nt", reason="Windows default-owner admission")
 @pytest.mark.parametrize("failure", ["mismatch", "unreadable", "unknown"])
 def test_cli_refuses_default_owner_before_any_child_and_retains_evidence(
@@ -204,7 +300,7 @@ def test_native_call_report_must_be_explicit_zero(setup, monkeypatch, result):
     )
 
 
-@pytest.mark.parametrize("workspace", ["", "C:/not-allowed", "E:/missing-workspace"])
+@pytest.mark.parametrize("workspace", ["", "C:/not-allowed"])
 def test_refuses_invalid_workspace_before_build(workspace, monkeypatch):
     calls = []
     monkeypatch.setattr(pilot, "execute_pilot", lambda *args: calls.append(args))
@@ -213,6 +309,38 @@ def test_refuses_invalid_workspace_before_build(workspace, monkeypatch):
         == 2
     )
     assert not calls
+
+
+@pytest.mark.skipif(os.name != "nt", reason="Windows workspace trust boundary")
+def test_missing_workspace_refused_before_batch(tmp_path, monkeypatch, capsys):
+    missing = tmp_path / "missing-workspace"
+    assert not missing.exists()
+    inspected = []
+
+    def physical(path):
+        # Model an admitted volume; inspect a real test-owned missing directory.
+        assert path == missing
+        inspected.append(path)
+        path.lstat()
+
+    def forbidden(*args):
+        pytest.fail("missing workspace reached batch creation or a build")
+
+    monkeypatch.setattr(ew.windows, "physical_path", physical)
+    monkeypatch.setattr(pilot, "Batch", forbidden)
+    monkeypatch.setattr(pilot, "execute_pilot", forbidden)
+    assert (
+        pilot.main(
+            ["--workspace", str(missing), "--batch", "test", "--budget-gib", "20"]
+        )
+        == 2
+    )
+    result = json.loads(capsys.readouterr().err)
+    assert result["status"] == "incomplete" and result["batch"] is None
+    assert repr(str(missing)) in result["reason"]
+    assert "[WinError 2]" in result["reason"]
+    assert inspected == [missing]
+    assert not missing.exists()
 
 
 @pytest.mark.skipif(os.name != "nt", reason="Windows workspace trust boundary")

@@ -51,6 +51,12 @@ def source_identity(root):
     return {name: digest(root / name) for name in SOURCES}
 
 
+def validate_msbuild_path(path):
+    # No MSBuild escaping layer: reject its reserved characters and property separators.
+    if any(character in str(path) for character in "%$@'();?,*"):
+        raise WorkspaceError(f"unsupported MSBuild path syntax: {path}")
+
+
 def environment(worker, dotnet):
     # No inherited package sources, proxy, MSBuild overrides, or user-profile output.
     env = {
@@ -241,6 +247,8 @@ def check_creation_token(batch, worker):
 
 
 def execute_pilot(batch, root, dotnet, cache):
+    validate_msbuild_path(batch.root)
+    validate_msbuild_path(cache)
     scratch = CheckoutScratch(root)
     worker = batch.admit(RESERVATION)
     directory = batch.root / worker
@@ -356,6 +364,7 @@ def execute_pilot(batch, root, dotnet, cache):
                 str(dotnet),
                 "restore",
                 project,
+                "-noAutoResponse",
                 "--configfile",
                 str(directory / "NuGet.Config"),
                 "--source",
@@ -374,6 +383,7 @@ def execute_pilot(batch, root, dotnet, cache):
                 str(dotnet),
                 "build",
                 project,
+                "-noAutoResponse",
                 "--no-restore",
                 "--disable-build-servers",
                 "--configuration",
@@ -441,6 +451,7 @@ def main(argv=None):
     batch = None
     try:
         workspace = validate_workspace(args.workspace, ROOT)
+        validate_msbuild_path(workspace)
         batch = Batch(workspace, args.batch, args.budget_gib * GIB)
         dotnet = shutil.which("dotnet")
         if not dotnet:
