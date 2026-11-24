@@ -27,6 +27,7 @@ from tools.evidence_workspace import (
     validate_workspace,
 )
 from tools.workspace_windows import ProcessJob
+from tools.workspace_git import git_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = "tools/reboot-helper/selftest/PowerGateSelfTest.csproj"
@@ -131,16 +132,20 @@ def run_command(batch, worker, label, command, env, scratch):
             errors.append(error)
 
     try:
-        process = subprocess.Popen(
-            command,
-            cwd=directory,
-            env=env,
-            stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-        )
-        if os.name == "nt":
-            job = ProcessJob(process)
+        with batch.launch():
+            scratch.check()
+            if os.name == "nt":
+                job = ProcessJob()
+                process = job.spawn(command, cwd=directory, env=env)
+            else:
+                process = subprocess.Popen(
+                    command,
+                    cwd=directory,
+                    env=env,
+                    stdin=subprocess.DEVNULL,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                )
         for name in ("stdout", "stderr"):
             thread = threading.Thread(
                 target=capture, args=(getattr(process, name), name)
@@ -158,13 +163,18 @@ def run_command(batch, worker, label, command, env, scratch):
             except subprocess.TimeoutExpired:
                 continue
     finally:
-        if job:
-            job.close()
-        if process and process.poll() is None:
-            process.kill()
-            process.wait()
-        for thread in threads:
-            thread.join()
+        try:
+            if job:
+                job.close()
+        finally:
+            if process:
+                if process.poll() is None:
+                    process.kill()
+                    process.wait()
+                for thread in threads:
+                    thread.join()
+                for pipe in (process.stdout, process.stderr):
+                    pipe.close()
     if errors:
         raise WorkspaceError(f"raw output could not be retained: {errors[0]}")
     batch.check()
@@ -224,20 +234,8 @@ def execute_pilot(batch, root, dotnet, cache):
             make_private(directory / "source" / subdir)
         for name in SOURCES:
             batch.write(worker, "source/" + name, (root / name).read_bytes())
-        head = (
-            subprocess.run(
-                ["git", "-C", str(root), "rev-parse", "HEAD"],
-                check=True,
-                capture_output=True,
-            )
-            .stdout.decode()
-            .strip()
-        )
-        dirty = subprocess.run(
-            ["git", "-C", str(root), "status", "--porcelain"],
-            check=True,
-            capture_output=True,
-        ).stdout.decode()
+        env = environment(directory, dotnet)
+        head, dirty = git_identity(batch, worker, root, env, scratch, run_command)
         batch.write(
             worker,
             "identity.json",
@@ -256,13 +254,13 @@ def execute_pilot(batch, root, dotnet, cache):
                             "evidence_workspace.py",
                             "workspace_windows.py",
                             "run_storage_pilot.py",
+                            "workspace_git.py",
                         )
                     },
                 },
                 indent=2,
             ).encode(),
         )
-        env = environment(directory, dotnet)
         version = (
             run_command(
                 batch, worker, "sdk-version", [str(dotnet), "--version"], env, scratch

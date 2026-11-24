@@ -45,6 +45,18 @@ Restore has only an empty local filesystem feed, package downloads disabled,
 and NuGet auditing disabled; build uses `--no-restore`. No package signature
 verification or security policy is disabled: no packages are unpacked.
 
+Git identity collection also uses the monitored, job-contained command path.
+Its environment does not inherit Git overrides, tracing, user/system config
+or attributes. A metadata-only `rev-parse` reads the assigned checkout's
+HEAD and administrative locations with optional locks and fsmonitor disabled.
+Status uses an E: administrative view containing copies of its index, shared
+indexes and repository-local ignore/attribute files, with read-only access
+to the original objects. It never loads the original repository's executable
+filters or fsmonitor settings. Optional index writes are disabled there too.
+Dirty status deliberately excludes submodule inspection and user/global
+ignore settings; it describes the main checkout, not arbitrary nested repos.
+Unsupported metadata or failed inspection makes the pilot incomplete.
+
 ## Shared budget and failure behavior
 
 One batch is the pair **workspace root + batch name**. Every cooperating
@@ -70,10 +82,22 @@ with a different budget is refused. GiB means 1,073,741,824 bytes.
   around controlled writes, during subprocess execution (with a 100 ms
   process-wait interval between scans), and after commands. Build processes
   use a Windows job that terminates descendants on exit/interruption.
+  Windows 10 / Server 2016 or newer is required: `CreateProcessW` receives
+  `PROC_THREAD_ATTRIBUTE_JOB_LIST` in `STARTUPINFOEXW`, so job membership
+  exists at creation, not after a running child is returned. The job handle
+  is not inherited; only the three standard-I/O handles are inherited.
+  Unsupported APIs or job assignment failures refuse launch without an
+  uncontained fallback. This uses the documented [job-list attribute](https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-updateprocthreadattribute)
+  and [kill-on-close job behavior](https://learn.microsoft.com/en-us/windows/win32/procthread/job-objects),
+  not host policy or a suspended-then-assigned orphan window.
 - Detected reservation/aggregate overruns, admission refusal, output
   exhaustion, inspection errors and failures latch a batch stop. No more
   work launches, active workers stop at their next check, and completion
   is refused. The ledger retains the sampled peak and stop reason.
+  The final stop check and native process creation hold the same ledger
+  lock as every stop writer. A stop already recorded by another worker
+  therefore cannot race a later launch. A controlled write also raises
+  when its final scan records a stop, while preserving the written bytes.
 
 This is a **trusted-runner guard, not an OS quota**. Uncontrolled build
 output can overshoot before a scan notices; short-lived files between
@@ -87,6 +111,10 @@ The pilot scans all checkout paths without following redirects or ignoring
 read errors. Any limit violation or inspection error is incomplete. A
 successful run also requires the final checkout inventory to equal the
 initial inventory: the fixed build must produce no checkout output.
+Linked-worktree indexes and common Git administration live outside that
+checkout inventory. Zero measured checkout scratch does **not** prove they
+were untouched; the isolated Git view and real linked-worktree regression
+establish that boundary separately.
 
 There is no automatic cleanup, reset, or resume. Already-written stdout,
 stderr, build products and evidence survive failures and interruption.
@@ -116,30 +144,45 @@ review tied to a commit, run from a clean checkout at that full HEAD.
 
 ## Blast radius and before/after behavior
 
-No existing behavior or restriction is removed. In particular, the old
+Before review, this document said, "No existing behavior or restriction is
+removed." That remains true for pre-existing runners, not for the three
+pilot bug paths corrected below. In particular, the old
 direct `dotnet run --project tools/reboot-helper/selftest/PowerGateSelfTest.csproj`
 path used normal build/cache locations before this change; it still does
 after this change. Only the new optional pilot refuses those locations.
 
+Before the fix, "No more work launches" overstated the guarantee: a persisted
+stop could race a launch and a final write scan could return after detecting
+an overrun. After the fix, launch and stop recording share a lock, and that
+write raises while retaining evidence. Before, "Build processes use a Windows
+job" omitted a running-before-assignment interval. After, job membership is
+set atomically at creation for **every** pilot child, including Git, and
+descendants inherit containment. Real synchronized interruption tests kill
+only their own launcher and inspect their own child/descendant handles.
+
 | Structure touched or consumed | Before and after |
 | --- | --- |
-| `tools/evidence_workspace.py` | New opt-in creation, traversal, scratch measurement and shared batch ledger. It replaces no existing helper. Its reservations apply to every worker in the same batch, not one worker's private copy of the limit. |
-| `tools/workspace_windows.py` | New Windows path, ACL, data-stream and process-job adapters. They change only newly requested workspace directories and pilot child processes, not existing ACLs, installed tools or host policy. |
+| `tools/evidence_workspace.py` | New opt-in creation, traversal, scratch measurement and shared batch ledger; no existing helper replaced. Review fix replaces the launch/stop race with a locked launch guard and makes final-write detected stops raise. Reservations and launch guards apply to every worker in a batch, not independent copies of the limit. Privacy, accounting, incomplete status and retained failures still hold. |
+| `tools/workspace_windows.py` | New Windows path, ACL, data-stream and process-job adapters. Review fix replaces post-start assignment with atomic job-list creation for every pilot child; no uncontained fallback. New-directory ACL rules and stream checks still hold. Existing ACLs, installed tools and host policy are unchanged. |
+| `tools/workspace_git.py` | New narrow identity adapter. Replaces original-repository status calls with an E: administrative view, filtered environment and disabled optional writes. Original index, refs, objects and linked-worktree administration are read-only inputs; no original Git settings are rewritten. Main-checkout dirty identity intentionally omits user/global ignores and submodule inspection. |
 | `tools/run_storage_pilot.py` | New fixed entry point; cannot run an arbitrary project or command. Its private physical E: restriction applies to this pilot and the new workspace-creation entry point, not every runner in the repository. |
 | `tests/test_evidence_workspace.py` | New deterministic ledger, reservation, failure, synchronization and platform tests. Existing tests are unchanged. |
 | `tests/test_storage_pilot.py` | New fixed-runner tests and real host-process capture tests, without a .NET/network/TV dependency. Existing tests are unchanged. |
-| This usage document | New opt-in procedure, limitations and evidence interpretation; no prior instructions are deleted or superseded. |
+| `tests/test_storage_review.py` | New real linked-worktree, synchronized stop/launch, final-write and real Windows process-tree interruption/failure tests. They use only test-owned repositories, files and process handles. No .NET/network/TV dependency. |
+| This usage document | New opt-in procedure, limitations and evidence interpretation. Review corrections preserve the old claims as labeled before/after statements rather than silently deleting them. Existing direct-run instructions still hold. |
 | Four inputs: `PowerGateSelfTest.csproj`, `PowerGateSelfTest.cs`, `LinuxRebootHelper.cs`, `snapshot.sh` | Consumed read-only and copied unchanged; target framework, startup object, embedded resource and existing native-call guards retain their behavior. The fake-native guarantee belongs specifically to `PowerGateSelfTest.Main`, **not** `LinuxRebootHelper.Main`, every helper, or every self-test. |
 | Installed SDK/runtime and cached reference pack | Read-only prerequisite inputs before and after. No install, cache repair or download is added. |
-| Checkout, existing evidence, packets and archives | Read-only inputs/inspection only. No migration or packet-runner integration; all existing seal gates and certification status remain unchanged. `ordinary` rejects redirects/hardlinks and unaccounted streams for **every** traversed file/directory, not merely the named workspace root. |
+| Checkout and linked/common Git administration | Before review the claim was "Read-only inputs/inspection only," but Git status could refresh an index outside scratch measurement. After the fix, checkout bytes are inspected and original Git administration is read only; possible Git administrative output is isolated on E:. Zero checkout scratch alone never proved administrative non-writes. `ordinary` still rejects redirects/hardlinks and unaccounted streams for **every** traversed file/directory, not merely the workspace root. |
+| Existing evidence, packets and archives | No migration, rewriting or packet-runner integration before or after the review fix. Existing seal gates and certification status are unchanged. |
 | CI, package dependencies, release audit and existing CLI | Unchanged. CI's existing pytest/Ruff discovery includes the new tests/tools, but does not run the live E: pilot or Ruff format check. |
 
 ## Checks
 
 ```powershell
 python -B -m pytest tests/test_evidence_workspace.py tests/test_storage_pilot.py
-python -B -m ruff check tools/evidence_workspace.py tools/workspace_windows.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py
-python -B -m ruff format --check tools/evidence_workspace.py tools/workspace_windows.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py
+python -B -m pytest tests/test_storage_review.py
+python -B -m ruff check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py
+python -B -m ruff format --check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py
 python -B tools/audit_release.py
 ```
 

@@ -23,16 +23,14 @@ def setup(tmp_path, monkeypatch):
         "evidence_workspace.py",
         "run_storage_pilot.py",
         "workspace_windows.py",
+        "workspace_git.py",
     ):
         (root / "tools" / name).write_bytes(name.encode())
     dotnet = tmp_path / "dotnet"
     dotnet.write_bytes(b"installed SDK")
 
-    # Fake Git identity; fixed-runner tests replace .NET at run_command.
-    class Git:
-        stdout = b"a" * 40
-
-    monkeypatch.setattr(pilot.subprocess, "run", lambda *a, **kw: Git())
+    # Real linked-worktree Git regressions live in test_storage_review.py.
+    monkeypatch.setattr(pilot, "git_identity", lambda *a: ("a" * 40, ""))
     return ew.Batch(workspace, "test", 20 * ew.GIB), root, dotnet, tmp_path / "cache"
 
 

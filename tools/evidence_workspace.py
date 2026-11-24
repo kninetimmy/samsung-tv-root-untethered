@@ -344,10 +344,17 @@ class Batch:
             return name
 
     def check(self):
+        with self.launch():
+            pass
+
+    @contextmanager
+    def launch(self):
+        """Serialize a final stop check and process creation with every stop writer."""
         with self.transaction() as state:
             self._refresh(state)
             if state["stop"]:
                 raise WorkspaceError(state["stop"])
+            yield
 
     def write(self, worker: str, relative: str, data: bytes, *, append=False):
         target = self.root / worker / relative
@@ -385,6 +392,8 @@ class Batch:
                 file.flush()
                 os.fsync(file.fileno())
             self._refresh(state)
+            if state["stop"]:
+                raise WorkspaceError(state["stop"])
 
     def finish(self, worker: str, *, success: bool, reason: str):
         with self.transaction() as state:

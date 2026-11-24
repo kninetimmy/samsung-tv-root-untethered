@@ -6,6 +6,8 @@ import ctypes as c
 from ctypes import wintypes as w
 from pathlib import Path, PureWindowsPath
 import re
+import os
+import subprocess
 
 
 def libraries():
@@ -203,9 +205,9 @@ def make_private(path: Path):
 
 
 class ProcessJob:
-    """Kill the build's descendants too, including when the pilot is killed."""
+    """Atomically contain children at creation; kill them when the owner exits."""
 
-    def __init__(self, process):
+    def __init__(self):
         kernel, _ = libraries()
         self.kernel = kernel
         kernel.CreateJobObjectW.argtypes = [c.c_void_p, w.LPCWSTR]
@@ -216,7 +218,6 @@ class ProcessJob:
             c.c_void_p,
             w.DWORD,
         ]
-        kernel.AssignProcessToJobObject.argtypes = [w.HANDLE, w.HANDLE]
         kernel.TerminateJobObject.argtypes = [w.HANDLE, w.UINT]
         kernel.CloseHandle.argtypes = [w.HANDLE]
         self.handle = kernel.CreateJobObjectW(None, None)
@@ -254,15 +255,197 @@ class ProcessJob:
                     self.handle, 9, c.byref(limits), c.sizeof(limits)
                 )
             )
-            checked(
-                kernel.AssignProcessToJobObject(self.handle, w.HANDLE(process._handle))
-            )
         except BaseException:
             self.close()
             raise
 
+    def spawn(self, command, *, cwd, env):
+        """CreateProcessW + PROC_THREAD_ATTRIBUTE_JOB_LIST (Windows 10+)."""
+        import msvcrt
+
+        kernel = self.kernel
+
+        class Startup(c.Structure):
+            _fields_ = [
+                ("cb", w.DWORD),
+                ("reserved", w.LPWSTR),
+                ("desktop", w.LPWSTR),
+                ("title", w.LPWSTR),
+                ("x", w.DWORD),
+                ("y", w.DWORD),
+                ("xsize", w.DWORD),
+                ("ysize", w.DWORD),
+                ("xchars", w.DWORD),
+                ("ychars", w.DWORD),
+                ("fill", w.DWORD),
+                ("flags", w.DWORD),
+                ("show", w.WORD),
+                ("reserved_size", w.WORD),
+                ("reserved_data", c.c_void_p),
+                ("stdin", w.HANDLE),
+                ("stdout", w.HANDLE),
+                ("stderr", w.HANDLE),
+            ]
+
+        class ExtendedStartup(c.Structure):
+            _fields_ = [("startup", Startup), ("attributes", c.c_void_p)]
+
+        class ProcessInfo(c.Structure):
+            _fields_ = [
+                ("process", w.HANDLE),
+                ("thread", w.HANDLE),
+                ("pid", w.DWORD),
+                ("tid", w.DWORD),
+            ]
+
+        kernel.InitializeProcThreadAttributeList.argtypes = [
+            c.c_void_p,
+            w.DWORD,
+            w.DWORD,
+            c.POINTER(c.c_size_t),
+        ]
+        kernel.UpdateProcThreadAttribute.argtypes = [
+            c.c_void_p,
+            w.DWORD,
+            c.c_size_t,
+            c.c_void_p,
+            c.c_size_t,
+            c.c_void_p,
+            c.c_void_p,
+        ]
+        kernel.DeleteProcThreadAttributeList.argtypes = [c.c_void_p]
+        kernel.CreateProcessW.argtypes = [
+            w.LPCWSTR,
+            w.LPWSTR,
+            c.c_void_p,
+            c.c_void_p,
+            w.BOOL,
+            w.DWORD,
+            c.c_void_p,
+            w.LPCWSTR,
+            c.POINTER(ExtendedStartup),
+            c.POINTER(ProcessInfo),
+        ]
+        size = c.c_size_t()
+        kernel.InitializeProcThreadAttributeList(None, 2, 0, c.byref(size))
+        if not size.value:
+            raise c.WinError(c.get_last_error())
+        attributes = c.create_string_buffer(size.value)
+        checked(
+            kernel.InitializeProcThreadAttributeList(attributes, 2, 0, c.byref(size))
+        )
+        fds = []
+        info = ProcessInfo()
+        try:
+            stdin = os.open(os.devnull, os.O_RDONLY)
+            fds.append(stdin)
+            out_read, out_write = os.pipe()
+            fds.extend((out_read, out_write))
+            err_read, err_write = os.pipe()
+            fds.extend((err_read, err_write))
+            handles = (w.HANDLE * 3)(
+                *(msvcrt.get_osfhandle(fd) for fd in (stdin, out_write, err_write))
+            )
+            for handle in handles:
+                os.set_handle_inheritable(handle, True)
+            jobs = (w.HANDLE * 1)(self.handle)
+            # HANDLE_LIST limits inheritance; the non-inheritable job handle
+            # must remain owned solely by the pilot for KILL_ON_JOB_CLOSE.
+            checked(
+                kernel.UpdateProcThreadAttribute(
+                    attributes, 0, 0x20002, handles, c.sizeof(handles), None, None
+                )
+            )
+            checked(
+                kernel.UpdateProcThreadAttribute(
+                    attributes, 0, 0x2000D, jobs, c.sizeof(jobs), None, None
+                )
+            )
+            startup = ExtendedStartup()
+            startup.startup.cb = c.sizeof(startup)
+            startup.startup.flags = 0x100  # STARTF_USESTDHANDLES
+            startup.startup.stdin, startup.startup.stdout, startup.startup.stderr = (
+                handles
+            )
+            startup.attributes = c.addressof(attributes)
+            if any("\0" in key + value or "=" in key for key, value in env.items()):
+                raise ValueError("invalid child environment")
+            block = c.create_unicode_buffer(
+                "\0".join(f"{key}={env[key]}" for key in sorted(env, key=str.casefold))
+                + "\0\0"
+            )
+            checked(
+                kernel.CreateProcessW(
+                    str(command[0]),
+                    c.create_unicode_buffer(subprocess.list2cmdline(command)),
+                    None,
+                    None,
+                    True,
+                    0x80000 | 0x400,  # extended startup + Unicode env
+                    block,
+                    str(cwd),
+                    c.byref(startup),
+                    c.byref(info),
+                )
+            )
+            process = JobProcess(kernel, info.process, info.pid)
+            process.stdout = os.fdopen(out_read, "rb")
+            fds.remove(out_read)
+            process.stderr = os.fdopen(err_read, "rb")
+            fds.remove(err_read)
+            info.process = None
+            return process
+        finally:
+            kernel.DeleteProcThreadAttributeList(attributes)
+            for fd in fds:
+                os.close(fd)
+            if info.thread:
+                kernel.CloseHandle(info.thread)
+            if info.process:
+                kernel.CloseHandle(info.process)
+
     def close(self):
         if self.handle:
-            self.kernel.TerminateJobObject(self.handle, 1)
-            self.kernel.CloseHandle(self.handle)
-            self.handle = None
+            try:
+                checked(self.kernel.TerminateJobObject(self.handle, 1))
+            finally:
+                self.kernel.CloseHandle(self.handle)
+                self.handle = None
+
+
+class JobProcess:
+    """The small wait/kill/pipe surface used by the fixed runner."""
+
+    def __init__(self, kernel, handle, pid):
+        self.kernel, self.handle, self.pid = kernel, handle, pid
+        self.returncode = None
+        kernel.WaitForSingleObject.argtypes = [w.HANDLE, w.DWORD]
+        kernel.GetExitCodeProcess.argtypes = [w.HANDLE, c.POINTER(w.DWORD)]
+        kernel.TerminateProcess.argtypes = [w.HANDLE, w.UINT]
+
+    def wait(self, timeout=None):
+        if self.returncode is not None:
+            return self.returncode
+        status = self.kernel.WaitForSingleObject(
+            self.handle, 0xFFFFFFFF if timeout is None else max(0, int(timeout * 1000))
+        )
+        if status == 258:
+            raise subprocess.TimeoutExpired(str(self.pid), timeout)
+        if status != 0:
+            raise c.WinError(c.get_last_error())
+        code = w.DWORD()
+        checked(self.kernel.GetExitCodeProcess(self.handle, c.byref(code)))
+        self.returncode = code.value
+        self.kernel.CloseHandle(self.handle)
+        self.handle = None
+        return self.returncode
+
+    def poll(self):
+        try:
+            return self.wait(timeout=0)
+        except subprocess.TimeoutExpired:
+            return None
+
+    def kill(self):
+        if self.poll() is None:
+            checked(self.kernel.TerminateProcess(self.handle, 1))
