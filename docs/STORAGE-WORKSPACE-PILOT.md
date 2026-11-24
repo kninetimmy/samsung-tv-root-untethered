@@ -142,6 +142,19 @@ The authoritative completion check is `batch.json`: no stop reason and
 incomplete ledger. Later admissions can change that batch snapshot. For
 review tied to a commit, run from a clean checkout at that full HEAD.
 
+Before diagnostic refinement, a native rejection said "workspace owner or
+DACL is not private" without distinguishing those states. Rejections now
+name owner mismatch, null DACL or the existing ACL violation, and attach
+bounded read-only security metadata: expected token-user and actual-owner
+SIDs, DACL presence, up to 16 ACE types/masks/flags and standard allow/deny
+SIDs, token default owner and elevation. Other ACE layouts are not guessed;
+truncation or metadata-query errors are explicit. No object contents, secrets
+or environment dump are logged. Successful checks remain quiet.
+A native descendant probe runs before Batch fixtures and preserves the full
+rejection in pytest failure output. It does not repair ownership or ACLs;
+these diagnostics do not relax any refusal or identify a remote host cause
+until that host actually reports its native state.
+
 ## Blast radius and before/after behavior
 
 Before review, this document said, "No existing behavior or restriction is
@@ -164,11 +177,12 @@ only their own launcher and inspect their own child/descendant handles.
 | --- | --- |
 | `tools/evidence_workspace.py` | New opt-in creation, traversal, scratch measurement and shared batch ledger; no existing helper replaced. Review fix replaces the launch/stop race with a locked launch guard and makes final-write detected stops raise. Reservations and launch guards apply to every worker in a batch, not independent copies of the limit. Privacy, accounting, incomplete status and retained failures still hold. |
 | `tools/workspace_windows.py` | New Windows path, ACL, data-stream and process-job adapters. Review fix replaces post-start assignment with atomic job-list creation for every pilot child; no uncontained fallback. New-directory ACL rules and stream checks still hold. Existing ACLs, installed tools and host policy are unchanged. |
+| `tools/workspace_acl_diagnostics.py` | New failure-only, bounded native security metadata. Replaces no security rule and grants no access; precise rejection errors replace the old conflated wording described above. No ownership, token or ACL changes. |
 | `tools/workspace_git.py` | New narrow identity adapter. Replaces original-repository status calls with an E: administrative view, filtered environment and disabled optional writes. Original index, refs, objects and linked-worktree administration are read-only inputs; no original Git settings are rewritten. Main-checkout dirty identity intentionally omits user/global ignores and submodule inspection. |
 | `tools/run_storage_pilot.py` | New fixed entry point; cannot run an arbitrary project or command. Its private physical E: restriction applies to this pilot and the new workspace-creation entry point, not every runner in the repository. |
-| `tests/test_evidence_workspace.py` | New deterministic ledger, reservation, failure, synchronization and platform tests. Existing tests are unchanged. |
+| `tests/test_evidence_workspace.py` | New deterministic ledger, reservation, failure, synchronization and platform tests. Existing assertions remain; a pre-Batch native descendant probe adds failure evidence without accepting unsafe objects. |
 | `tests/test_storage_pilot.py` | New fixed-runner tests and real host-process capture tests, without a .NET/network/TV dependency. Existing tests are unchanged. |
-| `tests/test_storage_review.py` | New real linked-worktree, synchronized stop/launch, final-write and real Windows process-tree interruption/failure tests. They use only test-owned repositories, files and process handles. No .NET/network/TV dependency. |
+| `tests/test_storage_review.py` | New real linked-worktree, synchronized stop/launch, final-write and real Windows process-tree interruption/failure tests. Portable fixtures resolve the physical interpreter and create private output; no production restriction is relaxed. Diagnostic-unit injections test error distinction, not the GitHub cause. Only test-owned resources; no .NET/network/TV dependency. |
 | This usage document | New opt-in procedure, limitations and evidence interpretation. Review corrections preserve the old claims as labeled before/after statements rather than silently deleting them. Existing direct-run instructions still hold. |
 | Four inputs: `PowerGateSelfTest.csproj`, `PowerGateSelfTest.cs`, `LinuxRebootHelper.cs`, `snapshot.sh` | Consumed read-only and copied unchanged; target framework, startup object, embedded resource and existing native-call guards retain their behavior. The fake-native guarantee belongs specifically to `PowerGateSelfTest.Main`, **not** `LinuxRebootHelper.Main`, every helper, or every self-test. |
 | Installed SDK/runtime and cached reference pack | Read-only prerequisite inputs before and after. No install, cache repair or download is added. |
@@ -181,8 +195,8 @@ only their own launcher and inspect their own child/descendant handles.
 ```powershell
 python -B -m pytest tests/test_evidence_workspace.py tests/test_storage_pilot.py
 python -B -m pytest tests/test_storage_review.py
-python -B -m ruff check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py
-python -B -m ruff format --check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py
+python -B -m ruff check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_acl_diagnostics.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py
+python -B -m ruff format --check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_acl_diagnostics.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py
 python -B tools/audit_release.py
 ```
 

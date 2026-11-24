@@ -142,8 +142,17 @@ def private_acl(path: Path):
         raise c.WinError(result)
     try:
         current = owner_sid()
-        if sid_text(owner) != current or not acl:
-            raise ValueError(f"workspace owner or DACL is not private: {path}")
+        actual = sid_text(owner) if owner else None
+
+        def reject(reason):
+            from tools.workspace_acl_diagnostics import private_acl_error
+
+            return private_acl_error(path, reason, current, actual, acl)
+
+        if actual != current:
+            raise reject("workspace owner is not private (owner mismatch)")
+        if not acl:
+            raise reject("workspace DACL is null (not private)")
         # ACL header: revision, reserved, size, ACE count, reserved.
         count = c.c_ushort.from_address(acl.value + 4).value
         security.GetAce.argtypes = [c.c_void_p, w.DWORD, c.POINTER(c.c_void_p)]
@@ -160,10 +169,10 @@ def private_acl(path: Path):
                 or flags & 8  # Inherit-only grants do not protect this object.
                 or mask != 0x1F01FF
             ):
-                raise ValueError(f"non-private workspace ACL: {path}")
+                raise reject("non-private workspace ACL")
             allowed.add(principal)
         if allowed != {current, "S-1-5-18"}:
-            raise ValueError(f"missing owner/SYSTEM access: {path}")
+            raise reject("missing owner/SYSTEM access")
     finally:
         kernel.LocalFree(descriptor)
 

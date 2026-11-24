@@ -24,6 +24,7 @@ def setup(tmp_path, monkeypatch):
         "run_storage_pilot.py",
         "workspace_windows.py",
         "workspace_git.py",
+        "workspace_acl_diagnostics.py",
     ):
         (root / "tools" / name).write_bytes(name.encode())
     dotnet = tmp_path / "dotnet"

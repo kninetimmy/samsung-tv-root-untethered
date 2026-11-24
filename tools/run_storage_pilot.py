@@ -255,6 +255,7 @@ def execute_pilot(batch, root, dotnet, cache):
                             "workspace_windows.py",
                             "run_storage_pilot.py",
                             "workspace_git.py",
+                            "workspace_acl_diagnostics.py",
                         )
                     },
                 },

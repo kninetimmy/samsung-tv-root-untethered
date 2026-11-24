@@ -26,6 +26,55 @@ def child_environment():
     }
 
 
+@pytest.mark.skipif(os.name != "nt", reason="Windows rejection diagnostics")
+@pytest.mark.parametrize("failure", ["owner", "null-dacl"])
+def test_private_acl_rejection_distinguishes_native_metadata(
+    tmp_path, monkeypatch, failure
+):
+    # Diagnostic-unit seams only; neither injection proves the GitHub cause.
+    path = tmp_path / "private"
+    win.make_private(path)
+    actual_user = win.owner_sid()
+    if failure == "owner":
+        monkeypatch.setattr(win, "owner_sid", lambda: "S-1-5-18")
+        reason = "owner mismatch"
+    else:
+        kernel, native = win.libraries()
+        get_named = native.GetNamedSecurityInfoW
+
+        def null_dacl(*args):
+            result = get_named(*args)
+            if result == 0:
+                c.cast(args[5], c.POINTER(c.c_void_p))[0] = None
+            return result
+
+        class Security:
+            GetNamedSecurityInfoW = staticmethod(null_dacl)
+
+            def __getattr__(self, name):
+                return getattr(native, name)
+
+        monkeypatch.setattr(win, "libraries", lambda: (kernel, Security()))
+        reason = "DACL is null"
+    with pytest.raises(ValueError, match=reason) as caught:
+        win.private_acl(path)
+    details = json.loads(str(caught.value).split("; security=", 1)[1])
+    assert details["actual_owner_sid"] == actual_user
+    assert details["expected_user_sid"] == (
+        "S-1-5-18" if failure == "owner" else actual_user
+    )
+    assert details["dacl"] == ("present" if failure == "owner" else "null")
+    assert details["token_default_owner_sid"].startswith("S-")
+    assert type(details["token_elevated"]) is bool
+    if failure == "owner":
+        assert {ace["sid"] for ace in details["aces"]} == {actual_user, "S-1-5-18"}
+        assert all(
+            ace["type"] == 0 and ace["mask"] == 0x1F01FF for ace in details["aces"]
+        )
+    else:
+        assert details["aces"] == []
+
+
 @pytest.fixture
 def case(tmp_path):
     workspace = tmp_path / "workspace"
@@ -73,6 +122,7 @@ def test_real_linked_worktree_identity_never_writes_git_admin(
                 "evidence_workspace.py",
                 "workspace_windows.py",
                 "workspace_git.py",
+                "workspace_acl_diagnostics.py",
             )
         ),
     ):
@@ -113,7 +163,12 @@ def test_real_linked_worktree_identity_never_writes_git_admin(
 
     monkeypatch.setattr(pilot, "run_command", until_dotnet)
     with pytest.raises(ew.WorkspaceError, match="identity captured"):
-        pilot.execute_pilot(batch, root, Path(sys.executable), root.parent / "cache")
+        pilot.execute_pilot(
+            batch,
+            root,
+            Path(sys.executable).resolve(strict=True),
+            root.parent / "cache",
+        )
     assert not canary.exists(), "inherited Git tracing wrote outside the workspace"
     assert index.read_bytes() == index_before, "Git refreshed the linked-worktree index"
     assert ew.snapshot(admin, directories=True) == before
@@ -136,7 +191,15 @@ def test_detected_stop_between_evidence_and_launch_prevents_real_process(
     def overrun():
         try:
             assert ready.wait(10)
-            (batch.root / second / "tool-output").write_bytes(b"x" * 101)
+            with os.fdopen(
+                os.open(
+                    batch.root / second / "tool-output",
+                    os.O_CREAT | os.O_EXCL | os.O_WRONLY,
+                    0o600,
+                ),
+                "wb",
+            ) as output:
+                output.write(b"x" * 101)
             with pytest.raises(ew.WorkspaceError, match="overrun"):
                 ew.Batch(batch.root.parent, "review", batch.budget).check()
         except BaseException as error:
@@ -214,7 +277,15 @@ def test_final_write_scan_raises_and_preserves_detected_stop(case, monkeypatch):
         nonlocal calls
         calls += 1
         if calls == 2:
-            (batch.root / second / "tool-output").write_bytes(b"x" * 101)
+            with os.fdopen(
+                os.open(
+                    batch.root / second / "tool-output",
+                    os.O_CREAT | os.O_EXCL | os.O_WRONLY,
+                    0o600,
+                ),
+                "wb",
+            ) as output:
+                output.write(b"x" * 101)
         return refresh(state)
 
     monkeypatch.setattr(batch, "_refresh", concurrent_output)

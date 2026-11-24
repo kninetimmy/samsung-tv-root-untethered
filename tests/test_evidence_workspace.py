@@ -17,6 +17,22 @@ def workspace(tmp_path):
     return root
 
 
+@pytest.mark.skipif(os.name != "nt", reason="Windows native owner/DACL evidence")
+def test_windows_native_descendant_privacy_probe(tmp_path):
+    # No Batch fixture: preserve the native rejection even when Batch cannot start.
+    root = tmp_path / "native-private"
+    try:
+        win.make_private(root)
+        child = root / "inherited-directory"
+        child.mkdir()
+        file = child / "inherited-file"
+        file.write_bytes(b"private probe")
+        for path in (root, child, file):
+            win.private_acl(path)
+    except (OSError, ValueError) as error:
+        pytest.fail(f"native descendant privacy probe: {error}", pytrace=False)
+
+
 def test_success_and_control_reserve(workspace):
     batch = ew.Batch(workspace, "test", 1024**2)
     worker = batch.admit(10000)
