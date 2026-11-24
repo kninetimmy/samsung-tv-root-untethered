@@ -351,6 +351,7 @@ def execute_pilot(batch, root, dotnet, cache):
             "-p:UseSharedCompilation=false",
             "-p:ImportDirectoryBuildProps=false",
             "-p:ImportDirectoryBuildTargets=false",
+            "-p:ImportDirectoryPackagesProps=false",
             "-p:EnableNETAnalyzers=false",
             "-p:CheckEolTargetFramework=false",
             "-p:TargetLatestRuntimePatch=false",

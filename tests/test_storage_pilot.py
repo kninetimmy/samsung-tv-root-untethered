@@ -85,6 +85,21 @@ def test_restore_and_build_disable_automatic_response_files(setup, monkeypatch):
     assert checked == ["restore", "build"]
 
 
+@pytest.mark.parametrize("label", ["restore", "build"])
+def test_fixed_command_disables_ancestor_package_props(setup, monkeypatch, label):
+    batch, root, dotnet, cache = setup
+    commands = {}
+
+    def command(*args):
+        commands[args[2]] = args[3]
+        return fake_run(*args)
+
+    monkeypatch.setattr(pilot, "run_command", command)
+    monkeypatch.setattr(pilot, "cached_references", lambda *a: None)
+    pilot.execute_pilot(batch, root, dotnet, cache)
+    assert "-p:ImportDirectoryPackagesProps=false" in commands[label]
+
+
 @pytest.mark.parametrize("component", [";tag=one", ",tag=one", "%20", "@(tag)"])
 def test_cli_refuses_msbuild_workspace_ancestor_before_batch(
     tmp_path, monkeypatch, capsys, component
