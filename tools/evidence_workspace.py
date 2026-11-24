@@ -58,6 +58,25 @@ def make_private(path: Path):
     private(path)
 
 
+def create_private_file(path: Path):
+    """Create one exclusive read/write file in an inspected private parent."""
+    ordinary(path.parent)
+    private(path.parent)
+    if os.name == "nt":
+        from tools.workspace_creation import create_file
+
+        fd = create_file(path)
+    else:
+        fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+    try:
+        ordinary(path)
+        private(path)
+    except BaseException:
+        os.close(fd)
+        raise
+    return fd
+
+
 def validate_workspace(raw: str, checkout: Path) -> Path:
     if not raw or os.name != "nt":
         raise WorkspaceError(
@@ -168,9 +187,10 @@ class Batch:
         self.budget = budget
         self.control = self.root / "batch.json"
         try:
-            fd = os.open(self.control, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+            fd = create_private_file(self.control)
         except FileExistsError:
             ordinary(self.control)
+            private(self.control)
             fd = os.open(self.control, os.O_RDWR)
         with os.fdopen(fd, "r+b", buffering=0) as file, locked(file):
             ordinary(self.control)
@@ -380,14 +400,17 @@ class Batch:
                 state["stop"] = "controlled evidence reservation exhausted"
                 raise WorkspaceError(state["stop"])
             # Worker-owned files only; never overwrite retained evidence.
-            if append and target.exists():
+            existing = append and target.exists()
+            if existing:
                 ordinary(target)
                 private(target)
             slot["evidence_bytes"] += len(data)
-            flags = os.O_WRONLY | os.O_CREAT | (os.O_APPEND if append else os.O_EXCL)
-            with os.fdopen(
-                os.open(target, flags, 0o600), "ab" if append else "wb"
-            ) as file:
+            fd = (
+                os.open(target, os.O_WRONLY | os.O_APPEND)
+                if existing
+                else create_private_file(target)
+            )
+            with os.fdopen(fd, "ab" if append else "wb") as file:
                 file.write(data)
                 file.flush()
                 os.fsync(file.fileno())

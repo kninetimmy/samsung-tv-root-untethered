@@ -16,6 +16,7 @@ import pytest
 from tools import evidence_workspace as ew
 from tools import run_storage_pilot as pilot
 from tools import workspace_windows as win
+from tools.workspace_git import git_identity
 
 
 def child_environment():
@@ -123,6 +124,7 @@ def test_real_linked_worktree_identity_never_writes_git_admin(
                 "workspace_windows.py",
                 "workspace_git.py",
                 "workspace_acl_diagnostics.py",
+                "workspace_creation.py",
             )
         ),
     ):
@@ -154,29 +156,25 @@ def test_real_linked_worktree_identity_never_writes_git_admin(
         monkeypatch.setenv("GIT_CONFIG_COUNT", "1")
         monkeypatch.setenv("GIT_CONFIG_KEY_0", "core.fsmonitor")
         monkeypatch.setenv("GIT_CONFIG_VALUE_0", "untrusted-monitor")
-    original = pilot.run_command
-
-    def until_dotnet(*args):
-        if args[2] == "sdk-version":
-            raise ew.WorkspaceError("identity captured")
-        return original(*args)
-
-    monkeypatch.setattr(pilot, "run_command", until_dotnet)
-    with pytest.raises(ew.WorkspaceError, match="identity captured"):
-        pilot.execute_pilot(
-            batch,
-            root,
-            Path(sys.executable).resolve(strict=True),
-            root.parent / "cache",
-        )
+    # This is the read-only Git primitive, not the guarded .NET pilot route.
+    worker = batch.admit(pilot.RESERVATION)
+    directory = batch.root / worker
+    for name in ("home", "temp"):
+        ew.make_private(directory / name)
+    head, dirty = git_identity(
+        batch,
+        worker,
+        root,
+        pilot.environment(directory, Path(sys.executable).resolve(strict=True)),
+        ew.CheckoutScratch(root),
+        pilot.run_command,
+    )
     assert not canary.exists(), "inherited Git tracing wrote outside the workspace"
     assert index.read_bytes() == index_before, "Git refreshed the linked-worktree index"
     assert ew.snapshot(admin, directories=True) == before
     assert ew.snapshot(repo / ".git", directories=True) == common_before
-    worker = next(iter(batch.report()["workers"]))
-    identity = json.loads((batch.root / worker / "identity.json").read_bytes())
-    assert identity["head"] == git("rev-parse", "HEAD")
-    assert identity["git_status"] == ""
+    assert head == git("rev-parse", "HEAD")
+    assert dirty == ""
 
 
 def test_detected_stop_between_evidence_and_launch_prevents_real_process(
@@ -192,12 +190,7 @@ def test_detected_stop_between_evidence_and_launch_prevents_real_process(
         try:
             assert ready.wait(10)
             with os.fdopen(
-                os.open(
-                    batch.root / second / "tool-output",
-                    os.O_CREAT | os.O_EXCL | os.O_WRONLY,
-                    0o600,
-                ),
-                "wb",
+                ew.create_private_file(batch.root / second / "tool-output"), "wb"
             ) as output:
                 output.write(b"x" * 101)
             with pytest.raises(ew.WorkspaceError, match="overrun"):
@@ -278,12 +271,7 @@ def test_final_write_scan_raises_and_preserves_detected_stop(case, monkeypatch):
         calls += 1
         if calls == 2:
             with os.fdopen(
-                os.open(
-                    batch.root / second / "tool-output",
-                    os.O_CREAT | os.O_EXCL | os.O_WRONLY,
-                    0o600,
-                ),
-                "wb",
+                ew.create_private_file(batch.root / second / "tool-output"), "wb"
             ) as output:
                 output.write(b"x" * 101)
         return refresh(state)
@@ -326,7 +314,10 @@ def _interrupted_launcher(workspace, checkout, created, release, pids, event_nam
     child = (
         "import ctypes as c, subprocess, sys; from pathlib import Path; "
         f"p=subprocess.Popen([sys.executable,'-B','-c',{grandchild!r}]); "
-        "Path('grandchild.pid').write_text(str(p.pid)); "
+        f"sys.path.insert(0,{str(pilot.ROOT)!r}); "
+        "from tools.evidence_workspace import create_private_file; import os; "
+        "fd=create_private_file(Path('grandchild.pid')); "
+        "os.write(fd,str(p.pid).encode()); os.close(fd); "
         "k=c.WinDLL('kernel32',use_last_error=True); "
         "k.OpenEventW.argtypes=[c.c_uint32,c.c_int,c.c_wchar_p]; "
         "k.OpenEventW.restype=c.c_void_p; k.SetEvent.argtypes=[c.c_void_p]; "

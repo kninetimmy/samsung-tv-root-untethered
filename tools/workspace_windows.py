@@ -179,37 +179,12 @@ def private_acl(path: Path):
 
 def make_private(path: Path):
     """Create exactly one new directory with its private ACL at creation."""
-    kernel, security = libraries()
-    descriptor = c.c_void_p()
-    security.ConvertStringSecurityDescriptorToSecurityDescriptorW.argtypes = [
-        w.LPCWSTR,
-        w.DWORD,
-        c.POINTER(c.c_void_p),
-        c.c_void_p,
-    ]
-    sid = owner_sid()
-    checked(
-        security.ConvertStringSecurityDescriptorToSecurityDescriptorW(
-            f"O:{sid}D:P(A;OICI;FA;;;{sid})(A;OICI;FA;;;SY)",
-            1,
-            c.byref(descriptor),
-            None,
-        )
-    )
+    from tools.workspace_creation import private_attributes
 
-    class Attributes(c.Structure):
-        _fields_ = [
-            ("length", w.DWORD),
-            ("descriptor", c.c_void_p),
-            ("inherit", w.BOOL),
-        ]
-
-    attributes = Attributes(c.sizeof(Attributes), descriptor, False)
-    kernel.CreateDirectoryW.argtypes = [w.LPCWSTR, c.POINTER(Attributes)]
-    try:
+    kernel, _ = libraries()
+    kernel.CreateDirectoryW.argtypes = [w.LPCWSTR, c.c_void_p]
+    with private_attributes() as attributes:
         checked(kernel.CreateDirectoryW(str(path), c.byref(attributes)))
-    finally:
-        kernel.LocalFree(descriptor)
     private_acl(path)
 
 

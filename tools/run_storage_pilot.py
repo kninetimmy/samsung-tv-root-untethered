@@ -28,6 +28,7 @@ from tools.evidence_workspace import (
 )
 from tools.workspace_windows import ProcessJob
 from tools.workspace_git import git_identity
+from tools.workspace_creation import token_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 PROJECT = "tools/reboot-helper/selftest/PowerGateSelfTest.csproj"
@@ -209,6 +210,36 @@ def cached_references(batch, worker, cache):
     )
 
 
+def check_creation_token(batch, worker):
+    if os.name != "nt":
+        return  # Only direct primitive tests run outside the Windows CLI.
+    token, reason = {}, None
+    try:
+        token = token_identity()
+        if not isinstance(token, dict) or not all(
+            isinstance(token.get(key), str) and token[key].startswith("S-")
+            for key in ("user_sid", "default_owner_sid")
+        ):
+            raise ValueError("unknown token ownership")
+        if token["user_sid"] != token["default_owner_sid"]:
+            reason = "external pilot commands refused: token default owner differs from token user"
+    except (OSError, ValueError) as error:
+        reason = f"token ownership inspection failed: {error}"
+    batch.write(
+        worker,
+        "creation-token.json",
+        json.dumps(
+            {
+                "status": "incomplete" if reason else "supported",
+                "token": token,
+                "reason": reason,
+            }
+        ).encode(),
+    )
+    if reason:
+        raise WorkspaceError(reason)
+
+
 def execute_pilot(batch, root, dotnet, cache):
     scratch = CheckoutScratch(root)
     worker = batch.admit(RESERVATION)
@@ -216,6 +247,7 @@ def execute_pilot(batch, root, dotnet, cache):
     success = False
     reason = "worker interrupted; no complete result"
     try:
+        check_creation_token(batch, worker)
         identity = source_identity(root)
         for name in (
             "home",
@@ -256,6 +288,7 @@ def execute_pilot(batch, root, dotnet, cache):
                             "run_storage_pilot.py",
                             "workspace_git.py",
                             "workspace_acl_diagnostics.py",
+                            "workspace_creation.py",
                         )
                     },
                 },

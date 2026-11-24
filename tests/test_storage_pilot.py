@@ -25,6 +25,7 @@ def setup(tmp_path, monkeypatch):
         "workspace_windows.py",
         "workspace_git.py",
         "workspace_acl_diagnostics.py",
+        "workspace_creation.py",
     ):
         (root / "tools" / name).write_bytes(name.encode())
     dotnet = tmp_path / "dotnet"
@@ -32,6 +33,16 @@ def setup(tmp_path, monkeypatch):
 
     # Real linked-worktree Git regressions live in test_storage_review.py.
     monkeypatch.setattr(pilot, "git_identity", lambda *a: ("a" * 40, ""))
+    # These tests fake .NET and exercise the supported-token route, not elevated builds.
+    monkeypatch.setattr(
+        pilot,
+        "token_identity",
+        lambda: {
+            "user_sid": "S-1-5-21-1",
+            "default_owner_sid": "S-1-5-21-1",
+            "elevated": False,
+        },
+    )
     return ew.Batch(workspace, "test", 20 * ew.GIB), root, dotnet, tmp_path / "cache"
 
 
@@ -58,9 +69,73 @@ def fake_run(batch, worker, label, command, env, scratch):
     return b""
 
 
-def test_success_preserves_sources_and_routes_all_output(setup, monkeypatch):
+@pytest.mark.skipif(os.name != "nt", reason="Windows default-owner admission")
+@pytest.mark.parametrize("failure", ["mismatch", "unreadable", "unknown"])
+def test_cli_refuses_default_owner_before_any_child_and_retains_evidence(
+    setup, monkeypatch, failure, capsys
+):
+    batch, root, dotnet, _ = setup
+    calls = []
+
+    def token():
+        if failure == "unreadable":
+            raise PermissionError("token query denied")
+        return {
+            "user_sid": "S-1-5-21-1",
+            "default_owner_sid": "S-1-5-32-544" if failure == "mismatch" else None,
+            "elevated": True,
+        }
+
+    def command(*args):
+        calls.append(args[2])
+        return fake_run(*args)
+
+    monkeypatch.setattr(pilot, "ROOT", root)
+    monkeypatch.setattr(pilot, "token_identity", token)
+    monkeypatch.setattr(pilot, "validate_workspace", lambda *a: batch.root.parent)
+    monkeypatch.setattr(pilot.shutil, "which", lambda *a: str(dotnet))
+    monkeypatch.setattr(pilot, "run_command", command)
+    monkeypatch.setattr(pilot, "cached_references", lambda *a: None)
+    monkeypatch.setattr(
+        pilot, "git_identity", lambda *a: calls.append("git-identity") or ("a" * 40, "")
+    )
+    assert (
+        pilot.main(
+            [
+                "--workspace",
+                str(batch.root.parent),
+                "--batch",
+                "test",
+                "--budget-gib",
+                "20",
+            ]
+        )
+        == 2
+    )
+    assert not calls
+    assert "incomplete" in capsys.readouterr().err
+    state = batch.report()
+    worker, slot = next(iter(state["workers"].items()))
+    assert state["stop"] and slot["status"] == "incomplete"
+    evidence = json.loads((batch.root / worker / "creation-token.json").read_bytes())
+    assert evidence["status"] == "incomplete"
+    assert not (batch.root / worker / "result.json").exists()
+    assert not (batch.root / worker / "commands.jsonl").exists()
+
+
+@pytest.mark.parametrize("elevated", [False, True])
+def test_success_preserves_sources_and_routes_all_output(setup, monkeypatch, elevated):
     batch, root, dotnet, cache = setup
     before = ew.snapshot(root)
+    monkeypatch.setattr(
+        pilot,
+        "token_identity",
+        lambda: {
+            "user_sid": "S-1-5-21-1",
+            "default_owner_sid": "S-1-5-21-1",
+            "elevated": elevated,
+        },
+    )
     monkeypatch.setattr(pilot, "run_command", fake_run)
     monkeypatch.setattr(pilot, "cached_references", lambda *args: None)
     worker = pilot.execute_pilot(batch, root, dotnet, cache)

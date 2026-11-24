@@ -34,6 +34,41 @@ drives, junctions, reparse points, hardlinked files, named data streams,
 and inspection failures are refused. These checks do not defend against
 an administrator or the current owner deliberately racing the runner.
 
+### Ownership and supported creators
+
+Before the ownership fix, ordinary `os.open` creation of batch control and
+evidence files inherited an elevated token's Administrators default owner.
+The DACL could still contain exactly user+SYSTEM, but the owner was wrong
+and correctly refused. Raw `mkdir`/file creation inherits permissions, not
+necessarily ownership; the old test assumption that both always inherit
+was incorrect. The native probe now inspects the actual owner and proves
+that incorrectly owned raw descendants are refused, not made acceptable.
+
+After the fix, controlled files use exclusive [CreateFileW(CREATE_NEW)](https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew) with
+an explicit current-user owner and protected user+SYSTEM-only DACL, just as
+new directories use explicit security at `CreateDirectoryW`. Existing
+objects are inspected and refused if unsuitable; ownership is never repaired.
+This covers batch metadata, evidence, copied inputs, and the Git view.
+
+External .NET/MSBuild tools create their own outputs. The fixed CLI `main`
+calls `execute_pilot`, which checks the process token user/default owner
+before **any** external command, including Git. A mismatch or unreadable or
+unknown identity produces an incomplete worker/batch and retained
+`creation-token.json`, without launching that unsupported route. Normal
+non-elevated execution remains the supported end-to-end pilot. The guard
+compares owners; it does not simply ban an elevation flag or modify tokens.
+No impersonation, privilege grant, host-policy change or after-the-fact
+builder-output ownership rewriting is performed.
+
+`Batch`, `create_private_file`, directory creation and the workspace-creation
+CLI do not need this default-owner guard: they explicitly set ownership.
+The lower-level `run_command`, `ProcessJob.spawn` and `git_identity` do not
+apply the fixed-pilot admission policy. Regression tests call those primitives
+for raw process capture, read-only Git and containment, with any task-owned
+fixture files created explicitly. They do not claim an elevated external
+build is supported. Other repository runners and direct dotnet calls retain
+their prior behavior.
+
 The four project/source/resource inputs are copied byte-for-byte into the
 worker's E: tree. Original bytes are hashed before and after execution.
 The copy is built with explicit E: intermediate/final paths, a fresh E:
@@ -129,6 +164,9 @@ execution exits 2 and prints its reason. Within `WORKSPACE/BATCH/WORKER/`:
 
 - `identity.json` records full Git HEAD, dirty status, Python identity,
   dotnet executable hash, runner hashes, and the four original input hashes.
+- `creation-token.json` records the read-only token identity/admission result.
+  A supported identity is not a batch completion claim. A refused worker may
+  have only this evidence and its incomplete ledger, with no Git/tool output.
 - `commands.jsonl` records argument arrays, working directory, filtered
   environment and exit codes. `sdk-version`, `toolchain`, `runtimes`,
   `restore`, `build` and `selftest` each retain raw `.stdout`/`.stderr`.
@@ -175,14 +213,16 @@ only their own launcher and inspect their own child/descendant handles.
 
 | Structure touched or consumed | Before and after |
 | --- | --- |
-| `tools/evidence_workspace.py` | New opt-in creation, traversal, scratch measurement and shared batch ledger; no existing helper replaced. Review fix replaces the launch/stop race with a locked launch guard and makes final-write detected stops raise. Reservations and launch guards apply to every worker in a batch, not independent copies of the limit. Privacy, accounting, incomplete status and retained failures still hold. |
+| `tools/evidence_workspace.py` | New opt-in creation, traversal, scratch measurement and shared batch ledger. Controlled file creation now explicitly sets ownership instead of inheriting token defaults; existing-file validation is retained. The shared launch/stop lock, final-write refusal, reservations, privacy checks and retained failures still hold for every worker in a batch. |
 | `tools/workspace_windows.py` | New Windows path, ACL, data-stream and process-job adapters. Review fix replaces post-start assignment with atomic job-list creation for every pilot child; no uncontained fallback. New-directory ACL rules and stream checks still hold. Existing ACLs, installed tools and host policy are unchanged. |
 | `tools/workspace_acl_diagnostics.py` | New failure-only, bounded native security metadata. Replaces no security rule and grants no access; precise rejection errors replace the old conflated wording described above. No ownership, token or ACL changes. |
+| `tools/workspace_creation.py` | New narrow Windows explicit-owner creation attributes, exclusive file creator and read-only token query. Shared directory/file creation sets current-user+SYSTEM access at creation, never rewrites existing objects or changes a token. No previous helper outside this opt-in pilot is replaced. |
 | `tools/workspace_git.py` | New narrow identity adapter. Replaces original-repository status calls with an E: administrative view, filtered environment and disabled optional writes. Original index, refs, objects and linked-worktree administration are read-only inputs; no original Git settings are rewritten. Main-checkout dirty identity intentionally omits user/global ignores and submodule inspection. |
-| `tools/run_storage_pilot.py` | New fixed entry point; cannot run an arbitrary project or command. Its private physical E: restriction applies to this pilot and the new workspace-creation entry point, not every runner in the repository. |
-| `tests/test_evidence_workspace.py` | New deterministic ledger, reservation, failure, synchronization and platform tests. Existing assertions remain; a pre-Batch native descendant probe adds failure evidence without accepting unsafe objects. |
+| `tools/run_storage_pilot.py` | Fixed project/offline behavior remains. `main` via `execute_pilot` now refuses incompatible/unknown process default owners before Git or .NET children, retaining incomplete evidence. Lower-level process/Git primitives do not enforce that route admission. The E: restriction remains scoped to this pilot and workspace creator, not all repository runners. |
+| `tests/test_evidence_workspace.py` | Ledger, reservation, synchronization and refusal assertions remain. Corrects only the false ownership-inheritance assumption: explicit directories must pass; raw descendants with measured wrong ownership must fail. Overrun fixtures use genuinely private initial objects. |
 | `tests/test_storage_pilot.py` | New fixed-runner tests and real host-process capture tests, without a .NET/network/TV dependency. Existing tests are unchanged. |
 | `tests/test_storage_review.py` | New real linked-worktree, synchronized stop/launch, final-write and real Windows process-tree interruption/failure tests. Portable fixtures resolve the physical interpreter and create private output; no production restriction is relaxed. Diagnostic-unit injections test error distinction, not the GitHub cause. Only test-owned resources; no .NET/network/TV dependency. |
+| `tests/test_workspace_creation.py` | New explicit file/control/evidence ownership, exclusive preservation, unchanged existing-object refusal and actual native admission tests. Both supported and incompatible native identities are asserted by measured state, not skipped or accepted indiscriminately. No token reconfiguration. |
 | This usage document | New opt-in procedure, limitations and evidence interpretation. Review corrections preserve the old claims as labeled before/after statements rather than silently deleting them. Existing direct-run instructions still hold. |
 | Four inputs: `PowerGateSelfTest.csproj`, `PowerGateSelfTest.cs`, `LinuxRebootHelper.cs`, `snapshot.sh` | Consumed read-only and copied unchanged; target framework, startup object, embedded resource and existing native-call guards retain their behavior. The fake-native guarantee belongs specifically to `PowerGateSelfTest.Main`, **not** `LinuxRebootHelper.Main`, every helper, or every self-test. |
 | Installed SDK/runtime and cached reference pack | Read-only prerequisite inputs before and after. No install, cache repair or download is added. |
@@ -194,9 +234,9 @@ only their own launcher and inspect their own child/descendant handles.
 
 ```powershell
 python -B -m pytest tests/test_evidence_workspace.py tests/test_storage_pilot.py
-python -B -m pytest tests/test_storage_review.py
-python -B -m ruff check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_acl_diagnostics.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py
-python -B -m ruff format --check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_acl_diagnostics.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py
+python -B -m pytest tests/test_storage_review.py tests/test_workspace_creation.py
+python -B -m ruff check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_creation.py tools/workspace_acl_diagnostics.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py tests/test_workspace_creation.py
+python -B -m ruff format --check tools/evidence_workspace.py tools/workspace_windows.py tools/workspace_creation.py tools/workspace_acl_diagnostics.py tools/workspace_git.py tools/run_storage_pilot.py tests/test_evidence_workspace.py tests/test_storage_pilot.py tests/test_storage_review.py tests/test_workspace_creation.py
 python -B tools/audit_release.py
 ```
 

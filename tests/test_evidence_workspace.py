@@ -119,7 +119,7 @@ def test_uncontrolled_overrun_latches_batch_and_retains_peak(workspace):
     batch = ew.Batch(workspace, "test", ew.CONTROL_BYTES + 100)
     worker = batch.admit(100)
     path = batch.root / worker / "build.output"
-    fd = os.open(path, os.O_CREAT | os.O_WRONLY, 0o600)
+    fd = ew.create_private_file(path)
     with os.fdopen(fd, "wb") as file:
         file.write(b"x" * 101)
     with pytest.raises(ew.WorkspaceError, match="overrun"):
