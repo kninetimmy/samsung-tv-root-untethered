@@ -1,12 +1,14 @@
 # Certification harness contract
 
-Status: revision 3, accepted by the owner on 2026-11-13 and recorded in memhub.
+Status: revision 4, owner-approved on 2026-11-26 and recorded in memhub.
 Revision 2 narrowed the boundary inventory to the attempt path (section 2.0) and
 unified terminal escrows (section 2.5). Revision 3 adds lifecycle reachability,
 the `(handler, call-site binding)` model and per-caller integration controls.
-The identity rules, C1-C8, runtime protocol, evidence and trust boundary are
-unchanged. Binding on r29 and every later packet that claims the L4 denial
-certification.
+Revision 4 replaces the 2026-11-18 section 1.1 bounded-execution claim with a
+narrowed offline claim and excludes the process-blocked obligation keys from the
+certificate. Everything else in revision 3 stands. The identity rules, C1-C8,
+runtime protocol, evidence and trust boundary are unchanged. Binding on r29 and
+every later packet under this contract.
 
 This document replaces the r28 `PLAN.md` fit criterion (a') and its clauses
 (i)-(v), which it amends. It does not modify the accepted denial certification
@@ -28,60 +30,51 @@ robustness against a deliberately hostile channel (section 5).
 A mechanism earns credit only by executing. Prose, names, comments and
 self-attestation are never evidence and never gate.
 
-### 1.1 Bounded offline trusted-recipe execution (proposed 2026-11-18 amendment)
+### 1.1 Offline claim without native descendant execution (2026-11-26 amendment)
 
-For the frozen, trusted five-operation recipes and their immutable input and
-toolchain universe, certification may claim execution within a qualified
-less-privileged AppContainer (LPAC) with no network capabilities, a
-creation-time non-breakaway kill-on-close job, enforced static native image
-authorization, supervisor single-use root bindings and a measured closed-world
-descendant inventory. This claim applies only after the complete composition
-has been qualified on the pinned host and policy bytes and the owner has
-accepted its evidence. It is not a claim that the current draft is qualified.
+This amendment withdraws the 2026-11-18 §1.1 bounded-execution claim. The
+qualified LPAC, the kill-on-close job, enforced static native image
+authorization, supervisor single-use root bindings and the measured
+closed-world descendant inventory are not provisioned, not qualified and are
+not claimed. No other section may be read as asserting them.
 
-No network, including loopback and brokered network access; filesystem writes
-only in exact assigned private roots; and process-tree containment and
-termination remain preventive requirements. Complete zero-member teardown,
-independent controller-loss recovery evidence, single-use root tokens, actual
-caller/source/input bindings, genuine raw channels and parent verification
-remain mandatory. Missing, incomplete, contradictory or unavailable required
-evidence is EVIDENCE_FAILURE, with precedence over a completion marker, zero
-exit or expected refusal. An incomplete trace never becomes an accepted run.
+r29 certifies only work that completes without launching a nested native
+process: the attempt-path boundary inventory, site classes, gating fields and
+identity rules (section 2); escrows on the shared handler (section 2.5); the
+runtime protocol, the four outcome kinds and the coverage rules (section 3);
+C1-C8 controls and consumer behaviour for every consumer, reporter and site
+whose handler executes in-process; and the evidence, provenance and
+trust-boundary rules (sections 4 and 5).
 
-Static native image authorization is preventive only for images outside the
-effective enforced native allow set. That set is machine-wide and also permits
-reviewed Windows and controller images; those allowances are not automatically
-inaccessible to fixtures. The reachable allow set and native hash semantics
-must be disclosed and qualified. Native Authenticode/PE hashes are not raw
-whole-file SHA-256 pins, and static authorization does not certify a new
-per-descendant raw-image-object admission decision.
+Explicitly outside the claim:
 
-For images inside that allow set, creator/parent/argv/role/edge and total
-occurrences are declared operation expectations reconciled with complete
-observed lineage, native image-policy block events and measured input/process
-inventory. An unexpected allowed-image use may execute before the run is
-refused POST-EXECUTION. This is not a pre-execution veto. This amendment does
-not certify pre-execution per-operation creator/parent/argv/edge/total-occurrence
-admission for arbitrary native descendants, an atomic total-creation budget,
-or a descendant admission barrier tied to logging health or operation sealing.
-Closing supervisor root launches does not prevent every further allowed child
-creation before job termination takes effect.
+- the five operations as process launches: nested Python, relay stdin shell,
+  the Release self-test build, managed self-test execution and the
+  supervisor-owned junction creation;
+- every obligation key that requires one of those launches;
+- any statement about a launched process's descendants, image authorization,
+  network isolation, filesystem containment or execution context.
 
-Frozen recipe behavior and the pinned scripts, assemblies, build inputs,
-interpreters, Windows enforcement and external supervisor are trusted.
-Arbitrary hostile native fixture code, kernel compromise and deliberate
-administrator replacement of trusted components are outside this narrowed
-containment claim. This does not relax required network/write enforcement,
-live private-root ACLs, immutable input closure, complete observation,
-raw-channel integrity or the existing certification/oracle identity rules.
+Process launches continue to refuse under the retained supervisor gate and the
+unconditional consume denial. A refusal is evidence that the launch was
+refused. It is never evidence of the operation's behaviour, and it never earns
+C8 credit for that key.
 
-The five operations remain nested Python, relay stdin, Release self-test
-build, managed self-test and the exact supervisor-owned junction operation.
-Only the eight existing task-101 obligation keys may use the bounded route;
-their exact source-bound recipes and instances must be frozen. All eight
-still require fresh task 97 executions through their actual consumers.
-No obligation is waived, and qualification checkpoints provide no obligation
-acceptance, frozen-generation credit, seal, readiness or device authority.
+This amendment does not waive, accept or retire the blocked keys. They are
+recorded once, by exact key, as unresolved obligations with their refusal
+evidence and the reason they were not executed. No gate total, completion
+marker, exit code or empty issue list may count them as passed, and no
+certificate may imply their coverage.
+
+Everything that does execute still needs real caller, source and input
+bindings, genuine raw channels, any teardown its path requires, a recorded
+root, and parent verification. Missing, incomplete, contradictory or
+unavailable required evidence is EVIDENCE_FAILURE with the same precedence as
+before.
+
+This amendment certifies no device behaviour, makes no readiness or arming
+claim and authorizes no readiness probe. It narrows the claim and hands the
+process route to a later packet.
 
 ## 2. Boundary sites
 
@@ -363,6 +356,9 @@ r29 must:
 7. Seal `CONTRACT.md` through the actual manifest and bind it to this approved
    text.
 8. Pass independent review by a different model before any readiness probe.
+9. Record every obligation key blocked by §1.1 as unresolved, with its refusal
+   evidence, and exclude it from the certificate. Do not present the packet as
+   a complete L4 denial certification.
 
 Approval of this document settles scope only. It is not a fitness verdict, not
 authorization for a readiness probe, and not authorization to arm or touch the
